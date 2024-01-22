@@ -1,0 +1,16 @@
+Les seuls user-storys sont "en tant que médecin". 
+
+L'idée du truc ça se mettrait sous forme de tableur. On choisirait la substance active et ça interrogerait la bdd, tout en récupérant l'info sur l'API, et on détecterait des contradictions.
+On détecterait aussi les conflits entre médicaments sélectionnés. Il faut une case commentaire pour que le médecin rajoute ce qu'il veut, comme la fréquence, le temps de prise.
+
+Au niveau de notre bdd, on stockerait dans une table patient toutes les infos nécessaires sur un patient. On aurait accés à ses antécédents médicaux, ses contre-indications, allergies etc...
+
+On gérerait les droits d'accés aux infos patients : il faut être authentifier pour voir les données.
+
+Se renseigner sur le domaine métier. Interroger Abdelhak sur ce qu'il pense d'améliorable dans ce domaine et avoir son pdv de "client".
+
+Se renseigner sur les RGPD.
+
+Faire de très bonnes specs bien propre et clair et se renseigner sur le cahier des charges pour en faire un bon.
+
+Formaliser des users-storys, des uses-cases.
