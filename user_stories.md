@@ -7,8 +7,6 @@ Un medecin peut :
 - consulter un dossier patient
 - supprimer un dossier patient
 - modifier un dossier patient ( marque dans l'historique )
-- rediger des ordonnances : - prescription medicament
-                            - remarques sur le traitement
-                            - fréquence
+- rediger des ordonnances : - prescription medicament , remarques sur le traitement , fréquence
 
     
