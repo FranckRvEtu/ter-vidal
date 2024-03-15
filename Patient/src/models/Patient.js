@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const patientSchema = new mongoose.Schema({
     IdP : {type: String, required: true , unique: true},
@@ -15,4 +15,5 @@ const patientSchema = new mongoose.Schema({
     listIDvisite : [{type: String}]
 });
 
-module.exports = mongoose.model('Patient', patientSchema);
+const Patient = mongoose.model('Patient', patientSchema);
+export default Patient;
