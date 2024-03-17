@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 //import Patient from '../models/Patient.js'; 
 
-const MONGODB_URI = 'mongodb://localhost:27017/patient'; // fait belek francky, c'est pas bon ça
+const MONGODB_URI = "mongodb+srv://franckreveille:dBcp0SCvEnXYb5kA@vidal.yti6o8s.mongodb.net/?retryWrites=true&w=majority&appName=vidal"; // fait belek francky, c'est pas bon ça
 
 
 
