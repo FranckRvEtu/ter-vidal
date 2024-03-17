@@ -32,6 +32,9 @@ const addPatient = async (req, res) => {
             weight,
             BloodType,
             medicalHistory,
+            listIDOrdo: [],
+            listIDrdv: [],
+            listIDvisite: []
             // je sais pas comment initialiser les listIDOrdo, listIDrdv et listIDvisite
         });
 
