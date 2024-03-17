@@ -16,3 +16,27 @@ const getPatient = async (req, res) => {
         console.error(error);
     }
 }
+
+// cette fonction verifie pas si le patient existe déjà
+const addPatient = async (req, res) => {
+    // on prend les infos de req.body et on les stock
+    const { name, firstname, birthdate, sexe, height, weight, BloodType, medicalHistory } = req.body;
+    try {
+        // Créer le patient dans la base de données
+        const newPatient = await Patient.create({
+            name,
+            firstname,
+            birthdate,
+            sexe,
+            height,
+            weight,
+            BloodType,
+            medicalHistory,
+            // je sais pas comment initialiser les listIDOrdo, listIDrdv et listIDvisite
+        });
+
+        res.status(201).json({ id: newPatient.id });
+    } catch (error) {
+        console.error(error);
+    }
+};
