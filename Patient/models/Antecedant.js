@@ -5,3 +5,6 @@ const antecedantSchema = new mongoos.Schema({
     date: {type: Date, required: true},
     description: {type: String, required: true}
 });
+
+const Antecedant = mongoos.model('Antecedant', antecedantSchema);
+export default Antecedant;
