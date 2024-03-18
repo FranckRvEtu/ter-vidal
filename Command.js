@@ -1,7 +1,6 @@
-import mongoose from 'mongoose';
-const MONGODB_URI = "mongodb://127.0.0.1:27017/vidal"; // fait belek francky, c'est pas bon ça
+const MONGODB_URI = "mongodb+srv://franckreveille:dBcp0SCvEnXYb5kA@vidal.yti6o8s.mongodb.net/?retryWrites=true&w=majority&appName=vidal"; // fait belek francky, c'est pas bon ça
 
-const PORT = process.env.PORT || 3000 || 5000 || 8080 || 8100;
+const PORT = process.env.PORT || 3000;
 
 
 const connectDB = async () => {
