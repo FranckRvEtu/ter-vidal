@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
-const ordonnanceSchema = new mongoose.Schema({
+const visiteSchema = new mongoose.Schema({
     date: {type: Date, required: true},
     idDoctor: {type: mongoose.Schema.Types.ObjectId, required: true}, 
     idPatient: {type: mongoose.Schema.Types.ObjectId, required: true},
-    Prescription : [{ type: mongoose.Schema.Types.ObjectId}]
+    idOrdonnance: {type: mongoose.Schema.Types.ObjectId, required: true}
 });
 
-const Ordonnance = mongoose.model('Ordonnance', ordonnanceSchema);
-export default Ordonnance;
+const Visite = mongoose.model('Visite', visiteSchema);
+export default Visite;
