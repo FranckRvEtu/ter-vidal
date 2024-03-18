@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
-//import Patient from '../models/Patient.js'; 
+import Patient from '../models/Patient.js'; 
+import Antecedant from '../models/Antecedant.js';
+const MONGODB_URI = "mongodb://127.0.0.1:27017/vidal"; // fait belek francky, c'est pas bon ça
 
-const MONGODB_URI = "mongodb+srv://franckreveille:dBcp0SCvEnXYb5kA@vidal.yti6o8s.mongodb.net/?retryWrites=true&w=majority&appName=vidal"; // fait belek francky, c'est pas bon ça
 
 
-
-/*const patientTestData = {
+const patientTestData = {
     IdP: '12345',
     name: 'Test',
     firstname: 'Patient',
@@ -24,29 +24,24 @@ const MONGODB_URI = "mongodb+srv://franckreveille:dBcp0SCvEnXYb5kA@vidal.yti6o8s
     listIDvisite: []
 };
 
+const antecedantTestData = {
+    diagnostic: 'Test',
+    date: new Date(),
+    description: 'Test'
+};
 
 const addPatientToDB = async () => {
     const newPatient = new Patient(patientTestData);
+    const newAntecedant = new Antecedant(antecedantTestData);
     try {
-        const savedPatient = await newPatient.save();
-        console.log('Patient ajouté avec succès:', savedPatient);
+        await newAntecedant.save();
+        await newPatient.save();
+        console.log('Patient ajouté avec succès');
+        console.log('Antécédant ajouté avec succès');
     } catch (err) {
         console.error('Erreur lors de l\'ajout du patient:', err);
     }
 };
-*/
-const connectDB = async () => {
-    try {
-        console.log('Connecting to MongoDB...');
-        await mongoose.connect(MONGODB_URI);
-        console.log('MongoDB Connected...');
-         // await addPatientToDB(); // pour tester la connexion, à retirer par la suite
-
-    } catch (err) {
-        console.error('Failed to connect to MongoDB', err);
-        process.exit(1);
-    }
-};
 
 
-export default connectDB;
+export default addPatientToDB;
