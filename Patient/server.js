@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import connectDB from './config/database.js';
+import connectDB from '../../command.js';
 
 const app = express();
 
