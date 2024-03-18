@@ -1,5 +1,7 @@
 const MONGODB_URI = "mongodb+srv://franckreveille:dBcp0SCvEnXYb5kA@vidal.yti6o8s.mongodb.net/?retryWrites=true&w=majority&appName=vidal"; // fait belek francky, c'est pas bon ça
 
+const PORT = process.env.PORT || 3000;
+
 
 const connectDB = async () => {
     try {
