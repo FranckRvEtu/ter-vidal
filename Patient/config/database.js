@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import Patient from '../models/Patient.js'; 
 import Antecedant from '../models/Antecedant.js';
-const MONGODB_URI = "mongodb://127.0.0.1:27017/vidal"; // fait belek francky, c'est pas bon ça
 
 
 
