@@ -1,6 +1,6 @@
-const MONGODB_URI = "mongodb+srv://franckreveille:dBcp0SCvEnXYb5kA@vidal.yti6o8s.mongodb.net/?retryWrites=true&w=majority&appName=vidal"; // fait belek francky, c'est pas bon ça
+const MONGODB_URI = "mongodb+srv://franckreveille:dBcp0SCvEnXYb5kA@vidal.yti6o8s.mongodb.net/Vidal"; // fait belek francky, c'est pas bon ça
+import mongoose from "mongoose";
 
-const PORT = process.env.PORT || 3000;
 
 
 const connectDB = async () => {
@@ -18,4 +18,4 @@ const connectDB = async () => {
 
 ;
 
-export default connectDB; // exporte la fonction connectDB pour l'utiliser dans server.js
+export default connectDB; // exporte la fonction connectDB pour l'utiliser dans server.s
