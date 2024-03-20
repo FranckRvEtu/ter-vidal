@@ -1,6 +1,6 @@
 import Patient from "../models/patient.js";
 
-const getPatient = async (req, res) => {
+export const getPatient = async (req, res) => {
     try {
         // Recherche du patient par son ID (remarquez que req.params.id est utilisé ici)
         console.log(req.params.id);
@@ -20,12 +20,13 @@ const getPatient = async (req, res) => {
 }
 
 // cette fonction verifie pas si le patient existe déjà
-/*const addPatient = async (req, res) => {
+export const addPatient = async (req, res) => {
     // on prend les infos de req.body et on les stock
-    const { name, firstname, birthdate, sexe, height, weight, BloodType, medicalHistory } = req.body;
+    const { name, firstname, birthdate, sexe, height, weight, BloodType,
+        antecedants,listIDOrdo,listIDrdv,listIDvisite} = req.body;
     try {
         // Créer le patient dans la base de données
-        const newPatient = await Patient.create({
+        const newPatient = await Patient.save({ // on utilise la méthode save car elle est plus flexible que create
             name,
             firstname,
             birthdate,
@@ -33,17 +34,15 @@ const getPatient = async (req, res) => {
             height,
             weight,
             BloodType,
-            medicalHistory,
-            listIDOrdo: [],
-            listIDrdv: [],
-            listIDvisite: []
-            // je sais pas comment initialiser les listIDOrdo, listIDrdv et listIDvisite
+            antecedants: antecedants || [],
+            listIDOrdo: listIDOrdo || [],
+            listIDrdv: listIDrdv || [],
+            listIDvisite: listIDvisite || []
         });
 
         res.status(201).json({ id: newPatient.id });
     } catch (error) {
         console.error(error);
     }
-};*/
+}
 
-export default getPatient; // exporte la fonction getPatient pour l'utiliser dans server.js
