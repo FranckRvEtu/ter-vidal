@@ -5,7 +5,6 @@ import Antecedant from '../models/Antecedant.js';
 
 
 const patientTestData = {
-    IdP: '12345',
     name: 'Test',
     firstname: 'Patient',
     birthdate: new Date('1990-01-01'),
@@ -13,11 +12,7 @@ const patientTestData = {
     height: 170,
     weight: 65,
     BloodType: 'A+',
-    medicalHistory: [{
-        condition: 'Aucune condition',
-        date: new Date(),
-        description: 'Rien à signaler'
-    }],
+    antecedant: [],
     listIDOrdo: [],
     listIDrdv: [],
     listIDvisite: []
@@ -25,7 +20,7 @@ const patientTestData = {
 
 const antecedantTestData = {
     diagnostic: 'Test',
-    date: new Date(),
+    date: new Date('2021-01-01'),
     description: 'Test'
 };
 
