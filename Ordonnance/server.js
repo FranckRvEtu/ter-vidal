@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import connectDB from '../Command.js';
-import mongoose from "mongoose";
 import addOrdonnanceToDB from './config/database.js';
 
 const app = express();
