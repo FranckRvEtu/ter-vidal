@@ -1,8 +1,9 @@
-const Patient = require('../models/Patient.js');
+import Patient from "../models/patient.js";
 
 const getPatient = async (req, res) => {
     try {
         // Recherche du patient par son ID (remarquez que req.params.id est utilisé ici)
+        console.log(req.params.id);
         const patient = await Patient.findById(req.params.id);
         
         // Si le patient n'est pas trouvé, renvoyez un code 404
@@ -11,6 +12,7 @@ const getPatient = async (req, res) => {
         }
 
         // Si le patient est trouvé, renvoyez les données du patient
+        console.log(patient);
         res.json(patient);
     } catch (error) {
         console.error(error);
@@ -18,7 +20,7 @@ const getPatient = async (req, res) => {
 }
 
 // cette fonction verifie pas si le patient existe déjà
-const addPatient = async (req, res) => {
+/*const addPatient = async (req, res) => {
     // on prend les infos de req.body et on les stock
     const { name, firstname, birthdate, sexe, height, weight, BloodType, medicalHistory } = req.body;
     try {
@@ -42,4 +44,6 @@ const addPatient = async (req, res) => {
     } catch (error) {
         console.error(error);
     }
-};
+};*/
+
+export default getPatient; // exporte la fonction getPatient pour l'utiliser dans server.js

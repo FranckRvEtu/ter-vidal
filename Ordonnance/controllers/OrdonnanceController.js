@@ -1,4 +1,3 @@
-
 import Ordonnance from '../models/Ordonnance.js'; // Ajustez le chemin selon votre structure de projet
 
 const getOrdonnance = async (req, res) => {
@@ -14,6 +13,8 @@ const getOrdonnance = async (req, res) => {
 
         // Si le patient est trouvé, console.log l'ordonnance 
         console.log(ordonnance);
+        res.json(patient);
+
     } catch (error) {
         console.error(error);
     }
