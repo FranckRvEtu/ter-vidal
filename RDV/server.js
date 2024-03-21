@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import connectDB from "../Command.js";
-import addRDVToDB from "./config/database.js";
+//import addRDVToDB from "./config/database.js";
 
 
 const app = express();
@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5500;
 connectDB().then(() => {
     app.listen(PORT, () => {
         console.log(`Server listening on port ${PORT}`);
-        (async () => {
+        /*(async () => {
             try {
                 await addRDVToDB();
                 
@@ -25,6 +25,6 @@ connectDB().then(() => {
                 console.error('Erreur lors de l\'ajout de l\'ordonnance:', err);
 
             }
-        })();
+        })();*/
     });
 });

@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import Patient from "../models/Patient.js";
+import getPatient from "../controllers/PatientController.js";
 
-const patientTestData = {
+/*const patientTestData = {
     name: 'Test',
     firstname: 'Test',
     birthdate: new Date(),
@@ -25,4 +26,4 @@ const addPatientToDB = async () => {
     }
 };
 
-export default addPatientToDB;
+export default addPatientToDB;*/

@@ -2,7 +2,7 @@ import mongoose  from "mongoose";
 import Visite from "../models/Visite.js";
 
 
-const visiteTestData = {
+/*const visiteTestData = {
     date: new Date(),
     idPatient: new mongoose.Types.ObjectId(),
     idOrdonnance: new mongoose.Types.ObjectId()
@@ -18,4 +18,4 @@ const addVisiteToDB = async () => {
     }
 };
 
-export default addVisiteToDB;
+export default addVisiteToDB;*/

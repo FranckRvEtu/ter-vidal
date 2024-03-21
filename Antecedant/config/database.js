@@ -2,7 +2,7 @@ import mongoose  from "mongoose";
 import Antecedant from "../models/Antecedant.js";
 
 
-const antecedantTestData = {
+/*const antecedantTestData = {
     diagnostic: 'Test',
     date: new Date(),
     description: 'Test'
@@ -18,4 +18,4 @@ const addAntecedantToDB = async () => {
     }
 };
 
-export default addAntecedantToDB;
+export default addAntecedantToDB;*/

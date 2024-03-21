@@ -16,13 +16,13 @@ const PORT = process.env.PORT || 7000;
 connectDB().then(() => {
     app.listen(PORT, () => {
         console.log(`Server listening on port ${PORT}`);
-        (async () => {
+        /*(async () => {
             try {
                 await addPatientToDB();
             } catch (err) {
                 console.error('Erreur lors de l\'ajout de l\'ordonnance:', err);
             }
-        })();
+        })();*/
     });
 });
 

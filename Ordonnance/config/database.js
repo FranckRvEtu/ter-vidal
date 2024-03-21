@@ -3,7 +3,7 @@ import Ordonnance from '../models/Ordonnance.js';
 import getOrdonnance  from '../controllers/OrdonnanceController.js';
 
 
-const ordonnanceTestData = {
+/*const ordonnanceTestData = {
     date: new Date(),
     idPatient: new mongoose.Types.ObjectId(),
     Prescription: []
@@ -29,4 +29,4 @@ const addOrdonnanceToDB = async () => {
 };
 
 
-export default addOrdonnanceToDB;
+export default addOrdonnanceToDB;*/

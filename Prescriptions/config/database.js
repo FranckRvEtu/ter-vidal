@@ -4,7 +4,7 @@ import Prescription from '../models/Prescription.js';
 
 
 
-const prescriptionTestData = {
+/*const prescriptionTestData = {
     Medicament: '12345',
     Posologie: 'Test',
     Remarque: 'Test'
@@ -21,4 +21,4 @@ const addPrescriptionToDB = async () => {
 };
 
 
-export default addPrescriptionToDB;
+export default addPrescriptionToDB;*/

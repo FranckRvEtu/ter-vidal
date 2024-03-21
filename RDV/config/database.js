@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 import RDV from "../models/RDV.js";
-import e from "express";
 
 
-const rdvTestData = {
+/*const rdvTestData = {
     date: new Date(),
     idPatient: new mongoose.Types.ObjectId(),
     lieu: 'Test'
@@ -19,4 +18,4 @@ const addRDVToDB = async () => {
     }
 };
 
-export default addRDVToDB;
+export default addRDVToDB;*/
