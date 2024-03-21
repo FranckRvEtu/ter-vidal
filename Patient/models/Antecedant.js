@@ -6,7 +6,5 @@ const antecedantSchema = new mongoose.Schema({
     description: {type: String, required: true}
 });
 
-const Antecedant = mongoose.model('Antecedant', antecedantSchema);
-export default Antecedant;
-
+export default antecedantSchema;
 

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import antecedantSchema from './Antecedant.js';
 
 const patientSchema = new mongoose.Schema({
     name : {type: String, required: true}, 
@@ -9,7 +10,7 @@ const patientSchema = new mongoose.Schema({
     weight : {type: Number, required: true},
     BloodType : {type: String, required: true},
     
-    antecedant : [{ type: mongoose.Schema.Types.ObjectId, ref : 'Antecedant'}],
+    antecedant: [antecedantSchema],
     listIDOrdo : [{ type: mongoose.Schema.Types.ObjectId, ref : 'Ordonnance'}],
     listIDrdv : [{ type: mongoose.Schema.Types.ObjectId, ref : 'RendezVous'}],
     listIDvisite :[{ type: mongoose.Schema.Types.ObjectId, ref : 'Visite'}],
