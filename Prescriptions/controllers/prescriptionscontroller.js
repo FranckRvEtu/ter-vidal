@@ -1,6 +1,6 @@
 import Prescription from "../models/Prescription";
 
-const getPrescription = async (req, res) => {
+export const getPrescription = async (req, res) => {
     try {
         // Recherche de la prescription par son ID (remarquez que req.params.id est utilisé ici)
         console.log(req.params.id);
@@ -20,4 +20,20 @@ const getPrescription = async (req, res) => {
     }
 }
 
-export default getPrescription; // exporte la fonction getPrescription pour l'utiliser dans server.js
+export const addPrescription = async (req, res) => {
+    // on prend les infos de req.body et on les stock
+    const {  idOrdonnance, idMedicament, posologie} = req.body;
+    try {
+        // Créer la prescription dans la base de données
+        const newPrescription = await Prescription.save({ // on utilise la méthode save car elle est plus flexible que create
+            idOrdonnance,
+            idMedicament,
+            posologie
+                });
+
+        res.status(201).json({ id: newPrescription.id });
+    } catch (error) {
+        console.error(error);
+    }
+}
+

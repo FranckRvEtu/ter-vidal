@@ -1,6 +1,6 @@
 import RDV from '../models/RDV.js';
 
-const getRDV = async (req, res) => {
+export const getRDV = async (req, res) => {
     try {
         // Recherche du RDV par son ID (remarquez que req.params.id est utilisé ici)
         console.log(req.params.id);
@@ -20,4 +20,20 @@ const getRDV = async (req, res) => {
     }
 }
 
-export default getRDV; // exporte la fonction getRDV pour l'utiliser dans server.js
+export const addRDV = async (req, res) => {
+    // on prend les infos de req.body et on les stock
+    const { date, idPatient, lieu} = req.body;
+    try {
+        // Créer le RDV dans la base de données
+        const newRDV = await RDV.save({ // on utilise la méthode save car elle est plus flexible que create
+            date,
+            idPatient,
+            lieu 
+        });
+
+        res.status(201).json({ id: newRDV.id });
+    } catch (error) {
+        console.error(error);
+    }
+}
+

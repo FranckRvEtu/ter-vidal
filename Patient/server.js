@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import connectDB from '../Command.js';
-import addPatientToDB from './config/database.js';
+//import addPatientToDB from './config/database.js';
 
 const app = express();
 

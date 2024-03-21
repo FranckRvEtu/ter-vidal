@@ -1,6 +1,6 @@
 import Ordonnance from '../models/Ordonnance.js'; // Ajustez le chemin selon votre structure de projet
 
-const getOrdonnance = async (req, res) => {
+export const getOrdonnance = async (req, res) => {
     try {
         // Recherche du patient par son ID (remarquez que req.params.id est utilisé ici)
         console.log(req.params.id);
@@ -20,4 +20,20 @@ const getOrdonnance = async (req, res) => {
     }
 }
 
-export default getOrdonnance; // exporte la fonction getOrdonnance pour l'utiliser dans server.js
+export const addOrdonnance = async (req, res) => {
+    // on prend les infos de req.body et on les stock
+    const { date, idPatient, Prescription} = req.body;
+    try {
+        // Créer l'ordonnance dans la base de données
+        const newOrdonnance = await Ordonnance.save({ // on utilise la méthode save car elle est plus flexible que create
+            date,
+            idPatient,
+            Prescription: Prescription || []
+        });
+
+        res.status(201).json({ id: newOrdonnance.id });
+    } catch (error) {
+        console.error(error);
+    }
+}
+

@@ -20,4 +20,19 @@ const getVisite = async (req, res) => {
     }
 }
 
-export default getVisite; // exporte la fonction getVisite pour l'utiliser dans server.js
+export const addVisite = async (req, res) => {
+    // on prend les infos de req.body et on les stock
+    const { date, idPatient, idOrdonnce} = req.body;
+    try {
+        // Créer la visite dans la base de données
+        const newVisite = await Visite.save({ // on utilise la méthode save car elle est plus flexible que create
+            date,
+            idPatient,
+            idOrdonnce
+        });
+
+        res.status(201).json({ id: newVisite.id });
+    } catch (error) {
+        console.error(error);
+    }
+}
