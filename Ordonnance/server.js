@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 3010 || 5000 || 8080 || 8100;
+const PORT = process.env.PORT || 3010 ;
 
 
 
