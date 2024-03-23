@@ -1,0 +1,108 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #ff8166; /* Couleur de ton choix */
+    /* Autres styles pour le header */
+  }
+  
+  .header h1 {
+    font-size: 1rem;
+    margin-left: 4.5rem;
+    color: #000000; /* Couleur de ton choix */
+    /* Autres styles pour le titre */
+  }
+  
+  .header img {
+    width: 50px;
+    height: 50px;
+    /* Autres styles pour le logo */
+  }
+  
+  .dashboard {
+    display: flex;
+    height: 100vh;
+  }
+
+
+
+.dashboard {
+    display: flex;
+    height: 100vh;
+  }
+  
+.sidebar {
+    width: 200px;
+    height: 100vh; /* Ajout de cette ligne */
+    background-color: #ffffff; /* Couleur de ton choix */
+    padding-left: 1px;
+    /* Autres styles pour la sidebar */
+}
+.dashboard-button {
+    background-color: #ffffff; /* Couleur de ton choix */
+    display: flex;
+    margin-left: 1rem; 
+    align-items: center;
+    /* Autres styles pour le bouton */
+}
+
+.dashboard-button:hover{
+    background-color: #ff7644;
+}
+
+
+.dashboard-button:hover span {
+  color: #fff; /* couleur de texte au survol */
+}
+
+.dashboard-button:hover img {
+  filter: invert(100%); /* inverse les couleurs de l'image */
+}
+.topBar { 
+  padding-left: 10px;
+
+}
+
+#topBar > * > a span {
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+
+} 
+
+#topBar > * > a {
+    display:grid;
+    grid-template-columns: 2fr 8fr;
+    border-radius:  0.5rem;
+    
+}
+#topBar > * > a img {
+    width : 25px;
+    height : 25px;
+    justify-self: center;
+    margin-left: 1rem;
+
+}
+
+
+  .content {
+    /* Styles pour le contenu principal */
+  }
+  
+  .content-section {
+    /* Styles pour les sections individuelles de contenu */
+  }
+  
+  /* Ajoute des styles supplémentaires pour les éléments spécifiques comme les boutons, les champs de formulaire, etc. */
+  
+  ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px; /* Définis cette valeur à 0 ou toute autre valeur souhaitée */
+  }
+  
