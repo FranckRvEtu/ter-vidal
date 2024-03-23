@@ -3,6 +3,10 @@ import '../Style/Dashboard.css'; // Assure-toi que ce fichier contient les style
 import iconPeople from '../Assets/iconPeople.png'
 import Calendar from '../Assets/calendar.png'
 import mySquare from '../Assets/grid.png'
+import gear from '../Assets/setting.png'
+import logout from '../Assets/logout.png'
+import help from '../Assets/square.png'
+import mic from '../Assets/microphone-black-shape.png'
 function Dashboard() {
 return (
     <div>
@@ -10,7 +14,7 @@ return (
         <h1>titre APP</h1>
     </div>
     <div className="sidebar">
-        <nav>
+        
             <ul id="topBar" style={{listStyleType: "none"}}>
                 <li>
                     <a className="dashboard-button" onClick={() => console.log("Dashboard clicked")}>
@@ -31,9 +35,37 @@ return (
                    </a>
                 </li>
             </ul>
-        </nav>
+            <a className="mic" onClick={() => console.log("mic")}>
+                <img src={mic}/>
+            </a>
+
+
+            <ul id="bottomBar" style={{listStyleType: "none"}}>
+
+                <li>
+                    <a className="setting-button" onClick={() => console.log("Settings clicked")}>
+                        <img src={gear}/>
+                        <span> Settings </span>
+                        
+                    </a>
+                </li>
+                
+                <li>
+                    <a className="setting-button" onClick={() => console.log("Help clicked")}>
+                        <img src={help}/>
+                        <span> Help Center </span>
+                    </a>
+                </li>
+                <li>
+                    <a className="setting-button" onClick={() => console.log("Logout clicked")}>
+                        <img src={logout}/>
+                        <span> Logout </span>
+                    </a>
+                </li>
+            </ul>
+         
     </div>
-    </div>
+</div>
 );
 
 

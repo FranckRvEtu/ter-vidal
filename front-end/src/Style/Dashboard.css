@@ -1,89 +1,157 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background-color: #ff8166; /* Couleur de ton choix */
-    /* Autres styles pour le header */
-  }
-  
-  .header h1 {
-    font-size: 1rem;
-    margin-left: 4.5rem;
-    color: #000000; /* Couleur de ton choix */
-    /* Autres styles pour le titre */
-  }
-  
-  .header img {
-    width: 50px;
-    height: 50px;
-    /* Autres styles pour le logo */
-  }
-  
-  .dashboard {
-    display: flex;
-    height: 100vh;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: #ff8166;
+  height: 45px;
+}
 
+.header h1 {
+  font-size: 1.5rem;
+  margin-left: 6.75rem;
+  color: #000000;
+}
 
+.header img {
+  width: 75px;
+  height: 75px;
+}
 
 .dashboard {
-    display: flex;
-    height: 100vh;
-  }
-  
+  display: flex;
+  height: 100vh;
+}
+
 .sidebar {
-    width: 200px;
-    height: 100vh; /* Ajout de cette ligne */
-    background-color: #ffffff; /* Couleur de ton choix */
-    padding-left: 1px;
-    /* Autres styles pour la sidebar */
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  width: 300px;
+  height: 100vh;
 }
+
 .dashboard-button {
-    background-color: #ffffff; /* Couleur de ton choix */
-    display: flex;
-    margin-left: 1rem; 
-    align-items: center;
-    /* Autres styles pour le bouton */
+  background-color: #ffffff;
+  display: flex;
+  margin-left: 1.5rem;
+  align-items: center;
+  width: 210px;
+  height: 45px;
 }
 
-.dashboard-button:hover{
-    background-color: #ff7644;
+.dashboard-button span {
+  color: #000000;
+  font-size: 1.05rem;
+  margin-left: 1.5rem;
 }
 
+.dashboard-button img {
+  width: 3px;
+  height: 37.5px;
+  margin-left: 1.5rem;
+}
+
+.dashboard-button:hover {
+  background-color: #ff7644;
+}
 
 .dashboard-button:hover span {
-  color: #fff; /* couleur de texte au survol */
+  color: #fff;
 }
 
 .dashboard-button:hover img {
-  filter: invert(100%); /* inverse les couleurs de l'image */
-}
-.topBar { 
-  padding-left: 10px;
-
+  filter: invert(100%);
 }
 
-#topBar > * > a span {
-    margin-left: 1rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-
-} 
-
-#topBar > * > a {
-    display:grid;
-    grid-template-columns: 2fr 8fr;
-    border-radius:  0.5rem;
-    
+.setting-button span {
+  font-size: 1.05rem;
+  margin-left: 1.5rem;
 }
-#topBar > * > a img {
-    width : 25px;
-    height : 25px;
-    justify-self: center;
-    margin-left: 1rem;
 
+.setting-button img {
+  width: 3px;
+  height: 3px;
+  margin-left: 1.5rem;
 }
+
+.topBar {
+  padding-left: 15px;
+}
+
+#bottomBar {
+  margin-top: 127.5%; /* Ajusté si nécessaire pour le positionnement */
+  width: 90%; /* Assure-toi que cela a du sens visuellement */
+}
+
+#topBar > * > a, #bottomBar > * > a {
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+  border-radius: 0.75rem;
+}
+
+#topBar > * > a span
+{
+  margin-left: 1.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+#bottomBar > * > a span {
+  margin-left: 1.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  color: grey ;
+}
+
+#topBar > * > a img
+{
+  width: 30px;
+  height: 30px;
+  justify-self: center;
+  margin-left: 0rem;
+}
+
+#bottomBar > * > a img {
+  width: 30px;
+  height: 30px;
+  justify-self: center;
+  margin-left: 3rem;
+  filter: invert(50%);
+}
+
+.mic img {
+  width: 75px;
+  height: 75px;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  margin-top: 3rem;
+  margin-bottom: 0.75rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   .content {
@@ -103,6 +171,11 @@
     margin-block-end: 1em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
-    padding-inline-start: 0px; /* Définis cette valeur à 0 ou toute autre valeur souhaitée */
+    padding-inline-start: 0px; 
+    /* Définis cette valeur à 0 ou toute autre valeur souhaitée */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
   }
+  
   
