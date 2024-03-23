@@ -19,13 +19,13 @@ return (
                    </a>
                 </li>
                 <li>
-                <a className="dashboard-button" onClick={() => console.log("Dashboard clicked")}>
+                <a className="dashboard-button" onClick={() => console.log("Calendar clicked")}>
                         <img src={Calendar}/>
                         <span> Calendar </span>
                    </a>
                 </li>
                 <li>
-                <a className="dashboard-button" onClick={() => console.log("Dashboard clicked")}>
+                <a className="dashboard-button" onClick={() => console.log("Patients clicked")}>
                         <img src={iconPeople}/> 
                         <span> Patients </span>
                    </a>
