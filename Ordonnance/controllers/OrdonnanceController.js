@@ -33,7 +33,6 @@ export const getOrdonnance = async (req, res) => {
 
         // Si le patient est trouvé, console.log l'ordonnance 
         console.log(ordonnance);
-        res.json(ordonnance);
 
     } catch (error) {
         console.error(error);
@@ -60,12 +59,10 @@ export const updateOrdonnance = async (req, res) => {
     try {
         const ordonnance = await Ordonnance.findByIdAndUpdate(id, update, { new: true });
         if (!ordonnance) {
-            return res.status(404).json({ message: "Ordonnance pas trouvé" });
+            console.log("Ordonnance pas trouvé");
         }
-        res.json(ordonnance);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Erreur lors de la mise à jour de l'ordonnance" });
     }
 };
 
@@ -84,3 +81,4 @@ export const deleteOrdonnance = async (req, res) => {
         res.status(500).json({ message: "Erreur lors de la suppression de l'ordonnance" });
     }
 };
+

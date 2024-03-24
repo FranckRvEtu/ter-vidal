@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import connectDB from '../command.js';
-//import addOrdonnanceToDB from './config/database.js';
+import addOrdonnanceToDB from './config/database.js';
 
 const app = express();
 
@@ -12,12 +12,11 @@ const PORT = process.env.PORT || 3010 ;
 
 
 
-
 // Connexion à MongoDB
 connectDB().then(() => {
     app.listen(PORT, () => {
         console.log(`Server listening on port ${PORT}`);
-        /*(async () => {
+        (async () => {
             try {
                 await addOrdonnanceToDB();
                 
@@ -25,7 +24,7 @@ connectDB().then(() => {
                 console.error('Erreur lors de l\'ajout de l\'ordonnance:', err);
 
             }
-        })();*/
+        })();
     });
 });
 
