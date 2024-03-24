@@ -13,7 +13,7 @@ export const getOrdonnance = async (req, res) => {
 
         // Si le patient est trouvé, console.log l'ordonnance 
         console.log(ordonnance);
-        res.json(patient);
+        res.json(ordonnance);
 
     } catch (error) {
         console.error(error);
