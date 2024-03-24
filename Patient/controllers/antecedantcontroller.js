@@ -23,8 +23,8 @@ export const addAntecedant = async (req, res) => {
 export const getAntecedant = async (req, res) => {
     try {
         // Recherche de l'antecedant par son ID (remarquez que req.params.id est utilisé ici)
-        console.log(req.params.id);
-        const antecedant = await Antecedant.findById(req.params.id);
+        const { id } = req.params;
+        const antecedant = await Antecedant.findById(id);
         
         // Si l'antecedant n'est pas trouvé, renvoyez un code 404
         if (!antecedant) {

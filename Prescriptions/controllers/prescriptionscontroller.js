@@ -25,8 +25,8 @@ export const addPrescription = async (req, res) => {
 export const getPrescription = async (req, res) => {
     try {
         // Recherche de la prescription par son ID (remarquez que req.params.id est utilisé ici)
-        console.log(req.params.id);
-        const prescription = await Prescription.findById(req.params.id);
+        const { id } = req.params;
+        const prescription = await Prescription.findById(id);
         
         // Si la prescription n'est pas trouvée, renvoyez un code 404
         if (!prescription) {
@@ -66,5 +66,20 @@ export const updatePrescription = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Erreur lors de la mise à jour de la prescription" });
+    }
+};
+
+export const deletePrescription = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const prescription = await Prescription.findByIdAndDelete(id);
+        if (!prescription) {
+            return res.status(404).json({ message: "Prescription pas trouvée" });
+        }
+        res.status(204).json({ message: "Prescription supprimée avec succès" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la suppression de la prescription" });
     }
 };

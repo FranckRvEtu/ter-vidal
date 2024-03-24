@@ -23,8 +23,8 @@ export const addRDV = async (req, res) => {
 export const getRDV = async (req, res) => {
     try {
         // Recherche du RDV par son ID (remarquez que req.params.id est utilisé ici)
-        console.log(req.params.id);
-        const rdv = await RDV.findById(req.params.id);
+        const { id } = req.params;
+        const rdv = await RDV.findById(id);
         
         // Si le RDV n'est pas trouvé, renvoyez un code 404
         if (!rdv) {

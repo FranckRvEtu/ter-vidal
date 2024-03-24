@@ -23,8 +23,8 @@ export const addOrdonnance = async (req, res) => {
 export const getOrdonnance = async (req, res) => {
     try {
         // Recherche du patient par son ID (remarquez que req.params.id est utilisé ici)
-        console.log(req.params.id);
-        const ordonnance = await Ordonnance.findById(req.params.id);
+        const { id } = req.params;
+        const ordonnance = await Ordonnance.findById(id);
         
         // Si le patient n'est pas trouvé, renvoyez un code 404
         if (!ordonnance) {

@@ -23,8 +23,8 @@ export const addVisite = async (req, res) => {
 export const getVisite = async (req, res) => {
     try {
         // Recherche de la visite par son ID (remarquez que req.params.id est utilisé ici)
-        console.log(req.params.id);
-        const visite = await Visite.findById(req.params.id);
+        const { id } = req.params;
+        const visite = await Visite.findById(id);
         
         // Si la visite n'est pas trouvée, renvoyez un code 404
         if (!visite) {
