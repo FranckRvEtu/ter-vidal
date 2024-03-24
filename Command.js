@@ -1,7 +1,6 @@
+
 const MONGODB_URI = "mongodb+srv://franckreveille:dBcp0SCvEnXYb5kA@vidal.yti6o8s.mongodb.net/Vidal"; // fait belek francky, c'est pas bon ça
 import mongoose from "mongoose";
-
-
 
 const connectDB = async () => {
     try {
