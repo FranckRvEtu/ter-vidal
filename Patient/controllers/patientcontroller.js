@@ -1,10 +1,43 @@
 import Patient from "../models/Patient.js";
 
+
+
+// cette fonction verifie pas si le patient existe déjà
+export const addPatient = async (req, res) => {
+    // on prend les infos de req.body et on les stock
+    const { name, firstname, birthdate, sexe, height, weight, BloodType,
+        antecedants,listIDOrdo,listIDrdv,listIDvisite} = req.body;
+    try {
+        // Créer le patient dans la base de données
+        const newPatient = new Patient({ // on utilise la méthode save car elle est plus flexible que create
+            name,
+            firstname,
+            birthdate,
+            sexe,
+            height,
+            weight,
+            BloodType,
+            antecedants: antecedants || [],
+            listIDOrdo: listIDOrdo || [],
+            listIDrdv: listIDrdv || [],
+            listIDvisite: listIDvisite || []
+        });
+
+        await newPatient.save();
+
+        res.status(201).json({ id: newPatient.id });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+
 export const getPatient = async (req, res) => {
     try {
         // Recherche du patient par son ID (remarquez que req.params.id est utilisé ici)
-        console.log(req.params.id);
-        const patient = await Patient.findById(req.params.id);
+        const { id } = req.params;
+        const patient = await Patient.findById(id);
         
         // Si le patient n'est pas trouvé, renvoyez un code 404
         if (!patient) {
@@ -19,30 +52,47 @@ export const getPatient = async (req, res) => {
     }
 }
 
-// cette fonction verifie pas si le patient existe déjà
-export const addPatient = async (req, res) => {
-    // on prend les infos de req.body et on les stock
-    const { name, firstname, birthdate, sexe, height, weight, BloodType,
-        antecedants,listIDOrdo,listIDrdv,listIDvisite} = req.body;
-    try {
-        // Créer le patient dans la base de données
-        const newPatient = await Patient.save({ // on utilise la méthode save car elle est plus flexible que create
-            name,
-            firstname,
-            birthdate,
-            sexe,
-            height,
-            weight,
-            BloodType,
-            antecedants: antecedants || [],
-            listIDOrdo: listIDOrdo || [],
-            listIDrdv: listIDrdv || [],
-            listIDvisite: listIDvisite || []
-        });
 
-        res.status(201).json({ id: newPatient.id });
+
+export const getAllPatients = async (req, res) => {
+    try {
+        const patients = await Patient.find({});
+        res.json(patients);
     } catch (error) {
         console.error(error);
+        res.status(500).json({ message: "Erreur lors de la récupération des patients" });
     }
-}
+};
 
+
+export const updatePatient = async (req, res) => {
+    const { id } = req.params;
+    const update = req.body;
+
+    try {
+        const patient = await Patient.findByIdAndUpdate(id, update, { new: true });
+        if (!patient) {
+            return res.status(404).json({ message: "Patient pas trouvé" });
+        }
+        res.json(patient);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la mise à jour du patient" });
+    }
+};
+
+
+export const deletePatient = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const patient = await Patient.findByIdAndDelete(id);
+        if (!patient) {
+            return res.status(404).json({ message: "Patient pas trouvé" });
+        }
+        res.status(204).json({ message: "Patient supprimé avec succès" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la suppression du patient" });
+    }
+};

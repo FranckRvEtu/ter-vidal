@@ -25,11 +25,13 @@ export const addPrescription = async (req, res) => {
     const {  idOrdonnance, idMedicament, posologie} = req.body;
     try {
         // Créer la prescription dans la base de données
-        const newPrescription = await Prescription.save({ // on utilise la méthode save car elle est plus flexible que create
+        const newPrescription = new Prescription({ 
             idOrdonnance,
             idMedicament,
             posologie
-                });
+        });
+
+        await newPrescription.save();
 
         res.status(201).json({ id: newPrescription.id });
     } catch (error) {

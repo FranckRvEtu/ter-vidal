@@ -25,11 +25,13 @@ export const addRDV = async (req, res) => {
     const { date, idPatient, lieu} = req.body;
     try {
         // Créer le RDV dans la base de données
-        const newRDV = await RDV.save({ // on utilise la méthode save car elle est plus flexible que create
+        const newRDV = new RDV({ 
             date,
             idPatient,
             lieu 
         });
+
+        await newRDV.save();
 
         res.status(201).json({ id: newRDV.id });
     } catch (error) {

@@ -25,11 +25,13 @@ export const addOrdonnance = async (req, res) => {
     const { date, idPatient, Prescription} = req.body;
     try {
         // Créer l'ordonnance dans la base de données
-        const newOrdonnance = await Ordonnance.save({ // on utilise la méthode save car elle est plus flexible que create
+        const newOrdonnance = new Ordonnance({ // on utilise la méthode save car elle est plus flexible que create
             date,
             idPatient,
             Prescription: Prescription || []
         });
+
+        await newOrdonnance.save();
 
         res.status(201).json({ id: newOrdonnance.id });
     } catch (error) {

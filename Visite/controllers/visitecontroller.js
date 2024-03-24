@@ -25,11 +25,13 @@ export const addVisite = async (req, res) => {
     const { date, idPatient, idOrdonnce} = req.body;
     try {
         // Créer la visite dans la base de données
-        const newVisite = await Visite.save({ // on utilise la méthode save car elle est plus flexible que create
+        const newVisite = new Visite({ // on utilise la méthode save car elle est plus flexible que create
             date,
             idPatient,
             idOrdonnce
         });
+
+        await newVisite.save();
 
         res.status(201).json({ id: newVisite.id });
     } catch (error) {
