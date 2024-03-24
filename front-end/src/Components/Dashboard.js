@@ -11,7 +11,7 @@ function Dashboard() {
 return (
     <div>
     <div className="header">
-        <h1>titre APP</h1>
+        <h1>Nom Apps</h1>
     </div>
     <div className="sidebar">
         

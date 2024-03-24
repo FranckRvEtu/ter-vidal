@@ -8,8 +8,8 @@
 }
 
 .header h1 {
-  font-size: 1.5rem;
-  margin-left: 6.75rem;
+  font-size: 2rem;
+  margin-left: 1rem;
   color: #000000;
 }
 
@@ -84,10 +84,26 @@
   width: 90%; /* Assure-toi que cela a du sens visuellement */
 }
 
-#topBar > * > a, #bottomBar > * > a {
+#topBar > * > a{
   display: grid;
   grid-template-columns: 2fr 8fr;
   border-radius: 0.75rem;
+  cursor: pointer; /* Ajoute cette ligne pour que le curseur devienne une main */
+
+}
+#bottomBar > * > a {
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+  border-radius: 0.75rem;
+  cursor: pointer; /* Ajoute cette ligne pour que le curseur devienne une main */
+  border: 1px solid transparent; /* Ajoute un bord transparent par défaut */
+  margin: 10px;
+  transition: border-color 0.1s ease-in-out; /* Ajoute une transition pour le bord */
+
+}
+
+#bottomBar > * > a:hover {
+  border-color: grey; /* Change la couleur du bord au survol */
 }
 
 #topBar > * > a span
@@ -99,7 +115,7 @@
 
 #bottomBar > * > a span {
   margin-left: 1.5rem;
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
   margin-bottom: 0.75rem;
   color: grey ;
 }
@@ -109,26 +125,39 @@
   width: 30px;
   height: 30px;
   justify-self: center;
-  margin-left: 0rem;
+  align-self: center;
 }
 
 #bottomBar > * > a img {
   width: 30px;
   height: 30px;
   justify-self: center;
-  margin-left: 3rem;
+  align-self: center;
   filter: invert(50%);
 }
+
 
 .mic img {
   width: 75px;
   height: 75px;
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
-  margin-top: 3rem;
-  margin-bottom: 0.75rem;
 }
 
+.mic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 25%;
+  background-color: #ff8166;
+  border-radius: 30px;
+  padding: 20px;
+  width: fit-content;
+  height: fit-content;
+  margin-left: 5rem;
+  transform: scale(0.8);
+  cursor: pointer; /* Ajoute cette ligne pour que le curseur devienne une main */
+
+}
 
 
 
@@ -177,5 +206,4 @@
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
   }
-  
-  
+ 
