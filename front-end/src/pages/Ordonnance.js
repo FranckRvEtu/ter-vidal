@@ -12,7 +12,11 @@ function Ordonnance() {
     setMedicaments([...medicaments, medicament]);
   };
 
- 
+  const supprimerMedicament = (index) => {
+    const nouvelleListe = medicaments.filter((_, i) => i !== index);
+    setMedicaments(nouvelleListe);
+  };
+  
 
   const validerOrdonnance = () => {
     console.log("Médicaments:", medicaments);
@@ -29,12 +33,14 @@ function Ordonnance() {
         </div>
       
         <div>
-          {medicaments.map((med, index) => (
-            <div key={index}>
-              <p>Médicament: {med.medicament}, Posologie: {med.posologie},Commentaire: {med.commentaire}</p>
-            </div>
-          ))}
-        </div>
+  {medicaments.map((med, index) => (
+    <div key={index}>
+      <p>Médicament: {med.medicament}, Posologie: {med.posologie}, Commentaire: {med.commentaire}</p>
+      <button onClick={() => supprimerMedicament(index)}>Supprimer</button>
+    </div>
+  ))}
+</div>
+
             
               <button className='listemed' onClick={() => console.log(medicaments)}>
                 Afficher la liste des médicaments
