@@ -1,7 +1,7 @@
 import Prescription from "../models/prescriptionModel";
 
 
-export const addPrescription = async (req, res) => {
+const addPrescription = async (req, res) => {
     // on prend les infos de req.body et on les stock
     const {  idOrdonnance, idMedicament, posologie} = req.body;
     try {
@@ -22,7 +22,7 @@ export const addPrescription = async (req, res) => {
 
 
 
-export const getPrescription = async (req, res) => {
+const getPrescription = async (req, res) => {
     try {
         // Recherche de la prescription par son ID (remarquez que req.params.id est utilisé ici)
         const { id } = req.params;
@@ -43,7 +43,7 @@ export const getPrescription = async (req, res) => {
 }
 
 
-export const getAllPrescriptions = async (req, res) => {
+const getAllPrescriptions = async (req, res) => {
     try {
         const prescriptions = await Prescription.find({});
         res.json(prescriptions);
@@ -53,7 +53,7 @@ export const getAllPrescriptions = async (req, res) => {
     }
 };
 
-export const updatePrescription = async (req, res) => {
+const updatePrescription = async (req, res) => {
     const { id } = req.params;
     const update = req.body;
 
@@ -69,7 +69,7 @@ export const updatePrescription = async (req, res) => {
     }
 };
 
-export const deletePrescription = async (req, res) => {
+const deletePrescription = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -82,4 +82,13 @@ export const deletePrescription = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Erreur lors de la suppression de la prescription" });
     }
+};
+
+module.exports = {
+    getPrescription,
+    addPrescription,
+    deletePrescription,
+    updatePrescription,
+    getAllPrescription,
+    // Ajoutez les a
 };
