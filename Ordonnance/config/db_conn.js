@@ -7,7 +7,7 @@ const mongo_password = process.env.MONGO_PASSWORD;
 const mongo_cluster = process.env.MONGO_CLUSTER;
 const mongo_database = process.env.MONGO_DBNAME;
 
-const mongoURI = `mongodb+srv://${mongo_username}:${mongo_password}@${mongo_cluster}/?retryWrites=true&w=majority&appname=${mongo_database}`;
+const mongoURI = `mongodb+srv://franckreveille:dBcp0SCvEnXYb5kA@vidal.yti6o8s.mongodb.net/Vidal`;
 
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })

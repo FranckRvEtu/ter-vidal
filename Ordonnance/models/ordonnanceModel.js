@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const ordonnanceSchema = new mongoose.Schema({
     date: {type: Date, required: true},
@@ -7,4 +7,4 @@ const ordonnanceSchema = new mongoose.Schema({
 });
 
 const Ordonnance = mongoose.model('Ordonnance', ordonnanceSchema);
-export default Ordonnance;
+module.exports = Ordonnance;

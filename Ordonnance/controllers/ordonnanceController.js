@@ -1,7 +1,7 @@
-import Ordonnance from '../models/ordonnanceModel.js'; // Ajustez le chemin selon votre structure de projet
+const Ordonnance = require('../models/ordonnanceModel.js'); // Ajustez le chemin selon votre structure de projet
 
 
-export const addOrdonnance = async (req, res) => {
+ const addOrdonnance = async (req, res) => {
     // on prend les infos de req.body et on les stock
     const { date, idPatient, Prescription} = req.body;
     try {
@@ -20,7 +20,7 @@ export const addOrdonnance = async (req, res) => {
     }
 }
 
-export const getOrdonnance = async (req, res) => {
+  const getOrdonnance = async (req, res) => {
     try {
         // Recherche du patient par son ID (remarquez que req.params.id est utilisé ici)
         const { id } = req.params;
@@ -28,7 +28,7 @@ export const getOrdonnance = async (req, res) => {
         
         // Si le patient n'est pas trouvé, renvoyez un code 404
         if (!ordonnance) {
-            return res.status(404).json({ message: "Or pas trouvé" });
+            console.log("error");
         }
 
         // Si le patient est trouvé, console.log l'ordonnance 
@@ -41,7 +41,7 @@ export const getOrdonnance = async (req, res) => {
 
 
 
-export const getAllOrdonnances = async (req, res) => {
+ const getAllOrdonnances = async (req, res) => {
     try {
         const ordonnances = await Ordonnance.find({});
         res.json(ordonnances);
@@ -52,7 +52,7 @@ export const getAllOrdonnances = async (req, res) => {
 };
 
 
-export const updateOrdonnance = async (req, res) => {
+ const updateOrdonnance = async (req, res) => {
     const { id } = req.params;
     const update = req.body;
 
@@ -67,7 +67,7 @@ export const updateOrdonnance = async (req, res) => {
 };
 
 
-export const deleteOrdonnance = async (req, res) => {
+ const deleteOrdonnance = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -80,5 +80,14 @@ export const deleteOrdonnance = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Erreur lors de la suppression de l'ordonnance" });
     }
+};
+
+module.exports = {
+    getOrdonnance,
+    addOrdonnance,
+    deleteOrdonnance,
+    getAllOrdonnances,
+    updateOrdonnance,
+    // Ajoutez les a
 };
 
