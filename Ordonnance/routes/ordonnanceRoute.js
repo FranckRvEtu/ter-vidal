@@ -1,11 +1,7 @@
-
 const express = require("express");
-const {getOrdonnance} = require("../controllers/OrdonnanceController");
+const {addOrdonnance}  = require("../controllers/OrdonnanceController");
+const router = express.router();
 
-const router = express.Router();
-
-module.exports = router
-
-router.post("/list_ordos", getOrdonnances);
+router.post('/addOrdonnance',addOrdonnance);
 
 module.exports = router;
