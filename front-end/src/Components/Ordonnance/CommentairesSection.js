@@ -1,9 +1,8 @@
-// CommentairesSection.js
 import React, { useState } from 'react';
-import mic from '../../Assets/microphone-black-shape.png'; // Assure-toi que le chemin vers l'icône est correct
+import mic from '../../Assets/microphone-black-shape.png';
 
-function CommentairesSection() {
-  const [isListening, setIsListening] = useState(false); // État pour suivre si la reconnaissance vocale est activée
+function CommentairesSection({ onCommentaireChange }) {
+  const [isListening, setIsListening] = useState(false); 
 
   // Fonction pour démarrer ou arrêter l'écoute vocale
   const toggleListening = () => {
@@ -15,10 +14,21 @@ function CommentairesSection() {
       setIsListening(!isListening);
   };
 
+  const [commentaire, setCommentaire] = useState('');
+
+  const handleCommentaireChange = (e) => {
+    setCommentaire(e.target.value);
+    onCommentaireChange(e.target.value);
+  };
+
   return (
     <div className="commentaires-section">
       <label>Commentaires:</label>
-      <textarea placeholder="Commentaires..."></textarea>
+      <textarea
+        placeholder="Commentaires..."
+        value={commentaire}
+        onChange={handleCommentaireChange}
+      ></textarea>
       <button onClick={toggleListening}>
         {isListening ? (
           <img src={mic} alt="Arrêter d'écouter" /> // Icône pour "Arrêter d'écouter"
