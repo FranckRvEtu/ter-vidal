@@ -1,7 +1,7 @@
 import Antecedant from "../models/Antecedant";
 
 
-export const addAntecedant = async (req, res) => {
+const addAntecedant = async (req, res) => {
 
     const { diagnostic, date, description } = req.body;
     try {
@@ -20,7 +20,7 @@ export const addAntecedant = async (req, res) => {
     }
 }
 
-export const getAntecedant = async (req, res) => {
+const getAntecedant = async (req, res) => {
     try {
         // Recherche de l'antecedant par son ID (remarquez que req.params.id est utilisé ici)
         const { id } = req.params;
@@ -41,7 +41,7 @@ export const getAntecedant = async (req, res) => {
 }
 
 
-export const getAllAntecedant = async (req, res) => {
+const getAllAntecedant = async (req, res) => {
     try {
         const antecedants = await Antecedant.find({});
         res.json(antecedants);
@@ -50,7 +50,7 @@ export const getAllAntecedant = async (req, res) => {
     }
 }
 
-export const updateAntecedant = async (req, res) => {
+const updateAntecedant = async (req, res) => {
     const { id } = req.params;
     const update = req.body;
 
@@ -67,7 +67,7 @@ export const updateAntecedant = async (req, res) => {
 };
 
 
-export const deleteAntecedant = async (req, res) => {
+const deleteAntecedant = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -80,4 +80,13 @@ export const deleteAntecedant = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Erreur lors de la suppression de l'antecedant" });
     }
+};
+
+module.exports = {
+    getAntecedant,
+    addAntecedant,
+    deleteAntecedant,
+    updateAntecedant,
+    getAllAntecedant,
+    // Ajoutez les a
 };
