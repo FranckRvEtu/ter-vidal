@@ -1,7 +1,7 @@
 import Visite from "../models/visiteModel";
 
 
-export const addVisite = async (req, res) => {
+const addVisite = async (req, res) => {
     // on prend les infos de req.body et on les stock
     const { date, idPatient, idOrdonnce} = req.body;
     try {
@@ -20,7 +20,7 @@ export const addVisite = async (req, res) => {
     }
 }
 
-export const getVisite = async (req, res) => {
+const getVisite = async (req, res) => {
     try {
         // Recherche de la visite par son ID (remarquez que req.params.id est utilisé ici)
         const { id } = req.params;
@@ -42,7 +42,7 @@ export const getVisite = async (req, res) => {
 
 
 
-export const getAllVisites = async (req, res) => {
+const getAllVisites = async (req, res) => {
     try {
         const visites = await Visite.find({});
         res.json(visites);
@@ -53,7 +53,7 @@ export const getAllVisites = async (req, res) => {
 };
 
 
-export const updateVisite = async (req, res) => {
+const updateVisite = async (req, res) => {
     const { id } = req.params;
     const update = req.body;
 
@@ -70,7 +70,7 @@ export const updateVisite = async (req, res) => {
 };
 
 
-export const deleteVisite = async (req, res) => {
+const deleteVisite = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -83,4 +83,13 @@ export const deleteVisite = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Erreur lors de la suppression de la visite" });
     }
+};
+
+module.exports = {
+    getVisite,
+    addVisite,
+    deleteVisite,
+    updateVisite,
+    getAllVisite,
+    // Ajoutez les a
 };
