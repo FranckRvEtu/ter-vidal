@@ -5,12 +5,14 @@ import mic from '../../Assets/microphone-black-shape.png'; // Importer l'icône 
 function MedicamentSection({ onAjouter }) {
     const [medicament, setMedicament] = useState('');
     const [posologie, setPosologie] = useState('');
+    const [commentaire, setCommentaire] = useState('');
   
     const handleAjouterClick = () => {
         if (medicament && posologie) {
-      onAjouter({ medicament, posologie });
+      onAjouter({ medicament, posologie,commentaire });
       setMedicament('');
       setPosologie('');
+      setCommentaire('');
     }};
   
     return (
@@ -27,6 +29,11 @@ function MedicamentSection({ onAjouter }) {
           value={posologie}
           onChange={(e) => setPosologie(e.target.value)}
         />
+        <textarea // Ajout d'un champ de texte pour les commentaires
+        placeholder="Commentaire..."
+        value={commentaire}
+        onChange={(e) => setCommentaire(e.target.value)}
+      ></textarea>
         <button onClick={handleAjouterClick}>AJOUTER</button>
       </div>
     );
