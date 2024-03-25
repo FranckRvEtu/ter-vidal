@@ -36,6 +36,7 @@ app.use(express.json());
 
         // Si le patient est trouvé, console.log l'ordonnance 
         console.log(ordonnance);
+        res.status(201).json(ordonnance);
 
     } catch (error) {
         console.error(error);
@@ -71,7 +72,7 @@ app.use(express.json());
 
 
  const deleteOrdonnance = async (req, res) => {
-    const { id } = req.params;
+    const {id} = req.params;
 
     try {
         const ordonnance = await Ordonnance.findByIdAndDelete(id);
