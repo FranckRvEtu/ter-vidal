@@ -6,8 +6,8 @@ import mySquare from '../Assets/grid.png';
 import gear from '../Assets/setting.png';
 import logout from '../Assets/logout.png';
 import help from '../Assets/square.png';
-import profil from '../Assets/profil.png';
 import mic from '../Assets/microphone-black-shape.png';
+
 
 function Dashboard() {
     const [isListening, setIsListening] = useState(false); // État pour suivre si la reconnaissance vocale est activée
@@ -40,14 +40,7 @@ function Dashboard() {
 
     return (
         <div>
-            <div className="header">
-                <h1>Nom Apps</h1>
-              
-                    <img id="img_profil" src={profil}/>
-                    <h3 id="profil-name">Dr Kawasaki</h3>
-
-                
-            </div>
+            
             <div className="sidebar">
                 <ul id="topBar" style={{listStyleType: "none"}}>
                     <li>

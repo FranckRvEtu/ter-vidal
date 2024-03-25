@@ -1,0 +1,34 @@
+.ordonnance {
+    
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 90px;
+    width: 76%;
+  }
+  
+  .ordonnance-form {
+    flex-direction: column;
+  }
+  
+  .medicament-section, .contreindications-section, .commentaires-section {
+    margin-bottom: 20px;
+  }
+  
+  .ordonnance-form input, .ordonnance-form textarea {
+    margin-bottom: 10px;
+  }
+  
+  .valider-ordonnance {
+    /* Style pour le bouton de validation de l'ordonnance */
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Ajoute plus de styles selon tes besoins */
+  
