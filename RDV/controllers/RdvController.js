@@ -1,7 +1,7 @@
 import RDV from '../models/RdvModel.js';
 
 
-export const addRDV = async (req, res) => {
+const addRDV = async (req, res) => {
     // on prend les infos de req.body et on les stock
     const { date, idPatient, lieu} = req.body;
     try {
@@ -19,8 +19,7 @@ export const addRDV = async (req, res) => {
         console.error(error);
     }
 }
-
-export const getRDV = async (req, res) => {
+const getRDV = async (req, res) => {
     try {
         // Recherche du RDV par son ID (remarquez que req.params.id est utilisé ici)
         const { id } = req.params;
@@ -40,7 +39,7 @@ export const getRDV = async (req, res) => {
     }
 }
 
-export const getAllRDVs = async (req, res) => {
+const getAllRDVs = async (req, res) => {
     try {
         const rdvs = await RDV.find({});
         res.json(rdvs);
@@ -68,7 +67,7 @@ export const updateRDV = async (req, res) => {
 };
 
 
-export const deleteRDV = async (req, res) => {
+const deleteRDV = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -81,4 +80,13 @@ export const deleteRDV = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Erreur lors de la suppression du RDV" });
     }
+};
+
+module.exports = {
+    getRDV,
+    addRDV,
+    deleteRDV,
+    updateRDV,
+    getAllRDV,
+    // Ajoutez les a
 };
