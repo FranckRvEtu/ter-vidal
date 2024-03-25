@@ -1,8 +1,11 @@
 const Ordonnance = require('../models/ordonnanceModel.js'); // Ajustez le chemin selon votre structure de projet
-
+const express = require('express');
+const app = express();
+app.use(express.json());
 
  const addOrdonnance = async (req, res) => {
     // on prend les infos de req.body et on les stock
+    console.log("Fonction lancée");
     const { date, idPatient, Prescription} = req.body;
     try {
         // Créer l'ordonnance dans la base de données

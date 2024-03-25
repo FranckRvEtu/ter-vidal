@@ -4,8 +4,16 @@ const controller = require('./controllers/ordonnanceController.js');
 const app = express();
 require('dotenv').config();
 require("./config/db_conn.js");
+
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use('/addOrdonnance',require("./routes/ordonnanceRoute.js"));
+const port = process.env.PORT || 9003;
+
+app.use('/ordonnance',require("./routes/ordonnanceRoute"));
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
 
