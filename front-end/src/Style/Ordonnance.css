@@ -13,6 +13,8 @@
   }
   
   .medicament-section, .contreindications-section, .commentaires-section {
+    display:flex;
+    justify-content: center;
     margin-bottom: 20px;
   }
   
@@ -28,6 +30,30 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+  }
+  .mic2 img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .mic2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 25%;
+    background-color: #ff8166;
+    border-radius: 30px;
+    padding: 20px;
+    width: fit-content;
+    height: fit-content;
+    margin-left: 5rem;
+    transform: scale(0.8);
+    cursor: pointer; /* Ajoute cette ligne pour que le curseur devienne une main */
+  
+  }
+  .mic2.active {
+    border: 4px solid rgb(43, 240, 43); /* Trait vert autour du bouton */
   }
   
   /* Ajoute plus de styles selon tes besoins */
