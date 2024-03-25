@@ -7,4 +7,5 @@ require("./config/db_conn.js");
 app.use(cors());
 app.use(express.json());
 
+app.use('/addOrdonnance',require("./routes/ordonnanceRoute.js"));
 

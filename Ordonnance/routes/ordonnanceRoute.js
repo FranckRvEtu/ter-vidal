@@ -1,6 +1,6 @@
 const express = require("express");
-const {addOrdonnance}  = require("../controllers/OrdonnanceController");
-const router = express.router();
+const {addOrdonnance}  = require("../controllers/ordonnanceController");
+const router = express.Router();
 
 router.post('/addOrdonnance',addOrdonnance);
 
