@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-
+const mongoose = require("mongoose");
 const prescriptionSchema = new mongoose.Schema({
     Medicament : {type: String, required: true},
     Posologie : {type: String, required: true},
@@ -7,4 +6,4 @@ const prescriptionSchema = new mongoose.Schema({
 });
 
 const Prescription = mongoose.model('Prescription', prescriptionSchema);
-export default Prescription;
+module.exports = Prescription;

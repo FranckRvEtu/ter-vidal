@@ -1,46 +1,54 @@
-import Prescription from "../models/prescriptionModel";
+const Prescription = require("../models/prescriptionModel");
 
 
+// Fonction pour ajouter une prescription
 const addPrescription = async (req, res) => {
     // on prend les infos de req.body et on les stock
-    const {  idOrdonnance, idMedicament, posologie} = req.body;
+    const { Medicament, Posologie, Remarque } = req.body;
     try {
         // Créer la prescription dans la base de données
-        const newPrescription = new Prescription({ 
-            idOrdonnance,
-            idMedicament,
-            posologie
+        const newPrescription = new Prescription({
+            Medicament,
+            Posologie,
+            Remarque
         });
 
+        // Enregistrez la nouvelle prescription dans la base de données
         await newPrescription.save();
 
-        res.status(201).json({ id: newPrescription.id });
-    } catch (error) {
-        console.error(error);
-    }
-}
+        // Une fois que la prescription est ajoutée avec succès, récupérez l'ID de la prescription
+        const newPrescriptionId = newPrescription._id;
+        console.log(newPrescriptionId);
+        // Appelez la fonction getPrescription avec l'ID de la nouvelle prescription
+        const prescription = await getPrescription(newPrescriptionId);
 
-
-
-const getPrescription = async (req, res) => {
-    try {
-        // Recherche de la prescription par son ID (remarquez que req.params.id est utilisé ici)
-        const { id } = req.params;
-        const prescription = await Prescription.findById(id);
-        
-        // Si la prescription n'est pas trouvée, renvoyez un code 404
-        if (!prescription) {
-            return res.status(404).json({ message: "Prescription pas trouvée" });
-        }
-
-        // Si la prescription est trouvée, renvoyez les données de la prescription
-        console.log(prescription);
+        // Affichez les données de la prescription sur la page
         res.json(prescription);
 
     } catch (error) {
         console.error(error);
     }
 }
+
+// Fonction pour récupérer une prescription par son ID
+const getPrescription = async (prescriptionId) => {
+    try {
+        // Recherche de la prescription par son ID
+        const prescription = await Prescription.findById(prescriptionId);
+
+        // Si la prescription n'est pas trouvée, renvoyez un code 404
+        if (!prescription) {
+            throw new Error("Prescription not found");
+        }
+
+        // Si la prescription est trouvée, renvoyez les données de la prescription
+        return prescription;
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 
 const getAllPrescriptions = async (req, res) => {
@@ -89,6 +97,6 @@ module.exports = {
     addPrescription,
     deletePrescription,
     updatePrescription,
-    getAllPrescription,
+    getAllPrescriptions,
     // Ajoutez les a
 };

@@ -1,76 +1,103 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import '../Style/Ordonnance.css'; // Assure-toi d'avoir un fichier CSS pour les styles spécifiques à Ordonnance
+import React, { useState, useEffect } from 'react';
+import '../Style/Ordonnance.css';
 import mic from '../Assets/microphone-black-shape.png';
-var ligne ="medicament"
 
 function Ordonnance() {
-
-  const [isListening, setIsListening] = useState(false); // État pour suivre si la reconnaissance vocale est activée
-  window.annyang.setLanguage('fr-FR');
+  const [isListening, setIsListening] = useState(false);
+  const [prescriptions, setPrescriptions] = useState([]);
 
   useEffect(() => {
-      if (window.annyang) {
-          // Définition des commandes vocales
-          var commands = {
-              
-            'médicament *text': function(text) {
-              ligne="medicament";
-              document.getElementById(ligne).value = document.getElementById(ligne).value + text;
-            },
-            'posologie *text': function(text) {
-              ligne="posologie";
-              document.getElementById(ligne).value = document.getElementById(ligne).value + text;
-            },
-            'commentaire *text': function(text) {
-              ligne="commentaire";
-              document.getElementById(ligne).value = document.getElementById(ligne).value + text;
-            },
-            'valider ajout': function(text) {
-              const bouton = document.getElementById("ajout-ordo");
-              bouton.click();
-            },
-          };
-
-          // Ajout des commandes vocales à Annyang
-          window.annyang.addCommands(commands);
-      }
+    if (window.annyang) {
+      window.annyang.setLanguage('fr-FR');
+      const commands = {
+        'médicament *text': function(text) {
+          document.getElementById("Medicament").value += text;
+        },
+        'posologie *text': function(text) {
+          document.getElementById("Posologie").value += text;
+        },
+        'commentaire *text': function(text) {
+          document.getElementById("Remarque").value += text;
+        },
+        'valider ajout': function() {
+          const form = document.getElementById("ordonnance-form");
+          form.dispatchEvent(new Event('submit', { cancelable: true }));
+        },
+      };
+      window.annyang.addCommands(commands);
+    }
   }, []);
 
-  // Fonction pour démarrer ou arrêter l'écoute vocale
   const toggleListening2 = () => {
-      if (isListening) {
-          window.annyang.abort();
-      } else {
-          window.annyang.start();
-      }
-      setIsListening(!isListening);
+    if (isListening) {
+      window.annyang.abort();
+    } else {
+      window.annyang.start();
+    }
+    setIsListening(!isListening);
   };
-  // Logique du composant, par exemple pour gérer les états des formulaires
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch('http://localhost:3010/addPrescription', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Medicament: event.target.Medicament.value,
+          Posologie: event.target.Posologie.value,
+          Remarque: event.target.Remarque.value,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setPrescriptions([...prescriptions, data]);
+        event.target.reset();
+      } else {
+        console.error('Failed to add prescription');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   return (
     <div className="ordonnance">
       <h2>Nom patient Concerné</h2>
-      <div className="ordonnance-form">
+      <form id="ordonnance-form" className="ordonnance-form" onSubmit={handleSubmit}>
         <div className="medicament-section">
           <label>Ajouter un médicament:</label>
-          <input id="medicament" type="text" placeholder="Médicament..." />
-          <input id="posologie" type="text" placeholder="Posologie..." />
-          <button>AJOUTER</button>
-          <a className={`mic2 ${isListening ? 'active' : ''}`} onClick={toggleListening2}>{/* Utilisez la foncion pour démarrer ou arrêter l'écoute vocale */}
-                    <img src={mic}/>
-          </a>
-        </div>
-        <div className="contreindications-section">
-          <label>Contre-indications détectées:</label>
-          {/* Mettre ici la logique pour afficher les contre-indications */}
+          <input id="Medicament" name="Medicament" type="text" placeholder="Médicament..." />
+          <input id="Posologie" name="Posologie" type="text" placeholder="Posologie..." />
         </div>
         <div className="commentaires-section">
           <label>Commentaires:</label>
-          <textarea id="commentaire" placeholder="Commentaires..."></textarea>
+          <textarea id="Remarque" name="Remarque" placeholder="Commentaires..."></textarea>
         </div>
-        <button id="ajout-ordo" className="valider-ordonnance">Valider l'ordonnance</button>
-      </div>
+        <div className="contreindications-section">
+          <label>Contre-indications détectées:</label>
+        </div>
+        <div className="prescriptions-buttons">
+          <button id="ajout-ordo" type="submit">AJOUTER</button>
+          <a className={`mic2 ${isListening ? 'active' : ''}`} onClick={toggleListening2}>
+            <img src={mic} alt="Activer l'écoute"/>
+          </a>
+        </div>
+      </form>
+      {prescriptions.length > 0 && (
+        <div className="prescription-list">
+          <h3>Prescriptions ajoutées :</h3>
+          {prescriptions.map((prescription, index) => (
+            <div key={index} className="prescription-item">
+              <p>Médicament : {prescription.Medicament}</p>
+              <p>Posologie : {prescription.Posologie}</p>
+              <p>Remarque : {prescription.Remarque}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
