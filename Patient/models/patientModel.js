@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import antecedantSchema from './Antecedant.js';
+import antecedantSchema from './antecedantModel.js';
 
 const patientSchema = new mongoose.Schema({
     name : {type: String, required: true}, 

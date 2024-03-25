@@ -1,4 +1,4 @@
-import Ordonnance from '../models/Ordonnance.js'; // Ajustez le chemin selon votre structure de projet
+import Ordonnance from '../models/ordonnanceModel.js'; // Ajustez le chemin selon votre structure de projet
 
 
 export const addOrdonnance = async (req, res) => {

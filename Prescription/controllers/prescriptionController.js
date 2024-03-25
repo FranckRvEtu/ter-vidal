@@ -1,4 +1,4 @@
-import Prescription from "../models/Prescription";
+import Prescription from "../models/prescriptionModel";
 
 
 export const addPrescription = async (req, res) => {

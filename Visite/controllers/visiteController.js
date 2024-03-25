@@ -1,4 +1,4 @@
-import Visite from "../models/Visite";
+import Visite from "../models/visiteModel";
 
 
 export const addVisite = async (req, res) => {

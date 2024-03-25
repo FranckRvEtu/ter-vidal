@@ -1,4 +1,4 @@
-import RDV from '../models/RDV.js';
+import RDV from '../models/RdvModel.js';
 
 
 export const addRDV = async (req, res) => {

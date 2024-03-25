@@ -1,5 +1,5 @@
 import mongoose  from "mongoose";
-import Visite from "../models/Visite.js";
+import Visite from "../models/visiteModel.js";
 
 
 /*const visiteTestData = {
