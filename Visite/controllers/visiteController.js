@@ -3,13 +3,13 @@ import Visite from "../models/visiteModel";
 
 const addVisite = async (req, res) => {
     // on prend les infos de req.body et on les stock
-    const { date, idPatient, idOrdonnce} = req.body;
+    const { date, idPatient, idOrdonnance} = req.body;
     try {
         // Créer la visite dans la base de données
         const newVisite = new Visite({ // on utilise la méthode save car elle est plus flexible que create
             date,
             idPatient,
-            idOrdonnce
+            idOrdonnance
         });
 
         await newVisite.save();

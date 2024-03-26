@@ -40,7 +40,7 @@ function Ordonnance() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:3010/addPrescription', {
+      const response = await fetch('http://localhost:3013/addPrescription', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +99,8 @@ function Ordonnance() {
         </div>
       )}
     </div>
+    
   );
 }
-
+  
 export default Ordonnance;

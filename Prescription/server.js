@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", require("./routes/prescriptionRoute.js"))
 
-const PORT = process.env.PORT || 3010 ;
+const PORT = process.env.PORT || 3013;
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
