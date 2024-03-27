@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import '../Style/Ordonnance.css';
 import mic from '../Assets/microphone-black-shape.png';
+import io from 'socket.io-client';
 
 function Ordonnance() {
   const [isListening, setIsListening] = useState(false);
   const [prescriptions, setPrescriptions] = useState([]);
-
   useEffect(() => {
+    const socket = io('http://localhost:5000');
+
+    socket.on('transcribedText', (text) => {
+      console.log(text);
+  
+      if (/(médicament|médicaments|Médicament|Médicaments)/gi.test(text)) {
+          const modifiedString = text.replace(/(médicament|médicaments|Médicament|Médicaments)/gi, '');
+          console.log("medoc:"+ modifiedString);
+          document.getElementById("Medicament").value += modifiedString;
+      }
+  });
+
     if (window.annyang) {
       window.annyang.setLanguage('fr-FR');
       const commands = {
