@@ -70,7 +70,11 @@ export default function PersistentDrawerLeft() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar 
+        position="fixed"
+        open={open}
+        sx={{ bgcolor: '#ff7644', zIndex: (theme) => theme.zIndex.drawer + 1}}
+        >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -109,6 +113,7 @@ export default function PersistentDrawerLeft() {
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
+            marginTop: '64px',
           },
         }}
         variant="persistent"
@@ -120,6 +125,8 @@ export default function PersistentDrawerLeft() {
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
+        <Box sx={{ overflowY: 'auto' }}>
+
         <Divider />
         <List>
             {[
@@ -128,7 +135,19 @@ export default function PersistentDrawerLeft() {
               { text: 'Agenda', iconPath: '/Assets/calendar.png' },
             ].map((item) => ( // Utilise item ici pour accéder aux propriétés de chaque objet
               <ListItem key={item.text} disablePadding>
-                <ListItemButton onClick={(event) => handleListItemClick(event, item.text)}>
+                <ListItemButton 
+                  sx={{
+                    borderRadius: '10px', // More rounded corners
+                    color: 'black', // Initial text color
+                    padding: '6px 12px', // Adjust padding to control the size
+                    marginLeft: '10px', // Add some margin to the left
+                    marginRight: '10px', // Add some margin to the right
+                    ':hover': {
+                      backgroundColor: '#ff7644', // Background color on hover
+                      color: 'white', // Text color on hover to inverse the color scheme
+                    },
+                  }}                        
+                  onClick={(event) => handleListItemClick(event, item.text)}>
                   <ListItemIcon>
                     {/* Assure-toi d'utiliser item.iconPath pour obtenir la valeur dynamique */}
                     <img src={item.iconPath} alt={item.text} style={{ maxWidth: 24, maxHeight: 24 }} />
@@ -138,20 +157,41 @@ export default function PersistentDrawerLeft() {
               </ListItem>
             ))}
           </List>
+          </Box>
 
         <Divider />
+        <Box sx={{ width: '100%', marginTop: 'Auto' }}>
+
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+            {[
+              { text: 'Parametres', iconPath: '/Assets/setting.png' },
+              { text: 'Aide', iconPath: '/Assets/help.png' },
+              { text: 'Deconnexion', iconPath: '/Assets/logout.png' },
+            ].map((item) => ( // Utilise item ici pour accéder aux propriétés de chaque objet
+              <ListItem key={item.text} disablePadding>
+                <ListItemButton 
+                  sx={{
+                    borderRadius: '10px', // More rounded corners
+                    color: 'grey', // Initial text color
+                    padding: '6px 12px', // Adjust padding to control the size
+                    marginLeft: '10px', // Add some margin to the left
+                    marginRight: '10px', // Add some margin to the right
+                    ':hover': {
+                      backgroundColor: '#ff7644', // Background color on hover
+                      color: 'white', // Text color on hover to inverse the color scheme
+                    },
+                  }}                        
+                  onClick={(event) => handleListItemClick(event, item.text)}>
+                  <ListItemIcon>
+                    {/* Assure-toi d'utiliser item.iconPath pour obtenir la valeur dynamique */}
+                    <img src={item.iconPath} alt={item.text} style={{ maxWidth: 24, maxHeight: 24 }} />
+                  </ListItemIcon>
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+          </Box>
       </Drawer>
       
     </Box>
