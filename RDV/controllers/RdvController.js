@@ -39,9 +39,19 @@ const getRDV = async (req, res) => {
     }
 }
 
-const getAllRDVs = async (req, res) => {
+const getWeekRDV = async (req, res) => {
     try {
-        const rdvs = await RDV.find({});
+        const now = new Date();
+        const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+        const lastDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay() + 6));
+
+        const rdvs = await RDV.find({
+            date: {
+                $gte: firstDayOfWeek,
+                $lte: lastDayOfWeek
+            }
+        });
+
         res.json(rdvs);
     } catch (error) {
         console.error(error);
@@ -87,6 +97,6 @@ module.exports = {
     addRDV,
     deleteRDV,
     updateRDV,
-    getAllRDV,
+    getWeekRDV,
     // Ajoutez les a
 };
