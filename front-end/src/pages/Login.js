@@ -101,6 +101,7 @@ return (
                     width: '100%', // Prend toute la largeur
                     marginTop: 0, // Supprime la marge supérieure
                     textAlign: 'center', // Centrer le texte
+                    
                 }}
                 >
                 <Typography component="h1" variant="h5" sx={{ color: 'white', width: '100%' }}>
