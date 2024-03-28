@@ -8,6 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/", require("./routes/patientRoute.js"))
+app.use("/", require("./routes/antecedantRoute.js"))
 
 const PORT = process.env.PORT || 3100;
 

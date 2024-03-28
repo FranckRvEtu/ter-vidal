@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-
+const mongoose = require('mongoose');
 const visiteSchema = new mongoose.Schema({
     date: {type: Date, required: true},
     idPatient: {type: mongoose.Schema.Types.ObjectId, required: true},
@@ -7,4 +6,4 @@ const visiteSchema = new mongoose.Schema({
 });
 
 const Visite = mongoose.model('Visite', visiteSchema);
-export default Visite;
+module.exports = Visite;

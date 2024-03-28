@@ -30,7 +30,7 @@ const theme = createTheme({
   });
 
   
-export default function DossierPatient({patient,ordonnances=[],rdvs=[],antecedants=[]}) {
+export default function DossierPatient({patient,ordonnances=[],rdvs=[],antecedants=[],visites=[]}) {
 
     const handleOrdonnanceClick = (id) => {
         // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
@@ -38,6 +38,11 @@ export default function DossierPatient({patient,ordonnances=[],rdvs=[],antecedan
         // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
       };
 
+      const handleVisiteClick = (id) => {
+        // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
+        console.log(`Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`);
+        // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
+      }
       const handleRDVClick = (id) => {
         // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
         console.log(`Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`);
@@ -144,6 +149,26 @@ return (
 </List>
 
     </Paper>
+
+    <Paper sx={{ margin: 2, padding: 2 }}>
+  <Typography variant="h6" component="h2">Visites</Typography>
+  <List>
+    {visites && visites.map(visite => (
+      <ListItem 
+        key={visite._id} 
+        sx={{ marginBottom: 1 }}
+        button 
+        onClick={() => handleVisiteClick(visite._id)} 
+      >
+        <ListItemText 
+          primary={`Visite le ${format(new Date(visite.date), 'dd/MM/yyyy à HH:mm')}`} 
+        
+        />
+      </ListItem>
+    ))}
+  </List>
+</Paper>
+
     </Paper>
     
     );

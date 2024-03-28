@@ -7,6 +7,7 @@ import Dashboard from './Components/Dashboard';
 import Header from './Components/Header';
 import Drawer from './Components/Drawer';
 import DossierPatient from './pages/DossierPatient';
+import AddPatient from './pages/AddPatient';
 import './App.css';
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/ordonnance" element={<Ordonnance />} />
-          {/* Autres routes */}
+          <Route path="/addPatient" element={<AddPatient />} />
           <Route path="/dossierPatient/:patientId" element={<DossierPatientWrapper />} />
         </Routes>
       </div>
