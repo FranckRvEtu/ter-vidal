@@ -5,8 +5,9 @@ const Patient= require("../models/patientModel.js");
 // cette fonction verifie pas si le patient existe déjà
  const addPatient = async (req, res) => {
     // on prend les infos de req.body et on les stock
+    console.log(req.body.patient);
     const { name, firstname, birthdate, sexe, height, weight, BloodType,
-        antecedants,listIDOrdo,listIDrdv,listIDvisite} = req.body;
+        antecedants,listIDOrdo,listIDrdv,listIDvisite} = req.body.patient;
     try {
         // Créer le patient dans la base de données
         const newPatient = new Patient({ // on utilise la méthode save car elle est plus flexible que create
@@ -28,6 +29,7 @@ const Patient= require("../models/patientModel.js");
         res.status(201).json({ id: newPatient.id });
     } catch (error) {
         console.error(error);
+        res.status(500).json({ message: "Erreur lors de la création du patient" });
     }
 }
 
