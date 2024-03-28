@@ -1,6 +1,7 @@
 import './App.css';
 import Header from './Components/Header';
 import Connection from './Components/Connection';
+import Qrcode from './Components/Qrcode';
 function App() {
   return (
     <div className="App">
@@ -8,7 +9,8 @@ function App() {
     <div style={{ display: 'flex', flexDirection: 'grid' }}>
       <Connection />
     </div>
-    
+    <Qrcode/>
+
     </div>
   );
 }
