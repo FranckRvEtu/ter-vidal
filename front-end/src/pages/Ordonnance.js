@@ -1,3 +1,4 @@
+
 // Ordonnance.js
 import React, { useState } from 'react';
 
@@ -26,6 +27,8 @@ function Ordonnance() {
   return (
     <div className="ordonnance">
       <h2>Nom patient Concerné</h2>
+
+
       <div className="ordonnance-form">
         <MedicamentSection onAjouter={ajouterMedicament} />
         <ContreIndicationsSection />
@@ -47,7 +50,8 @@ function Ordonnance() {
               </button>
                 
     </div>
+    
   );
 }
-
+  
 export default Ordonnance;

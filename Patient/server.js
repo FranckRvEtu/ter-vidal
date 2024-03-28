@@ -7,7 +7,13 @@ require("./config/db_conn.js");
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 3010 ;
+app.use("/", require("./routes/patientRoute.js"))
+
+const PORT = process.env.PORT || 3100;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
 
 
 

@@ -1,8 +1,11 @@
 const Ordonnance = require('../models/ordonnanceModel.js'); // Ajustez le chemin selon votre structure de projet
-
+const express = require('express');
+const app = express();
+app.use(express.json());
 
  const addOrdonnance = async (req, res) => {
     // on prend les infos de req.body et on les stock
+    console.log("Fonction lancée");
     const { date, idPatient, Prescription} = req.body;
     try {
         // Créer l'ordonnance dans la base de données
@@ -33,6 +36,7 @@ const Ordonnance = require('../models/ordonnanceModel.js'); // Ajustez le chemin
 
         // Si le patient est trouvé, console.log l'ordonnance 
         console.log(ordonnance);
+        res.status(201).json(ordonnance);
 
     } catch (error) {
         console.error(error);
@@ -68,7 +72,7 @@ const Ordonnance = require('../models/ordonnanceModel.js'); // Ajustez le chemin
 
 
  const deleteOrdonnance = async (req, res) => {
-    const { id } = req.params;
+    const {id} = req.params;
 
     try {
         const ordonnance = await Ordonnance.findByIdAndDelete(id);

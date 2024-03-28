@@ -1,9 +1,9 @@
-import Patient from "../models/patientModel.js";
+const Patient= require("../models/patientModel.js");
 
 
 
 // cette fonction verifie pas si le patient existe déjà
-export const addPatient = async (req, res) => {
+ const addPatient = async (req, res) => {
     // on prend les infos de req.body et on les stock
     const { name, firstname, birthdate, sexe, height, weight, BloodType,
         antecedants,listIDOrdo,listIDrdv,listIDvisite} = req.body;
@@ -33,7 +33,7 @@ export const addPatient = async (req, res) => {
 
 
 
-export const getPatient = async (req, res) => {
+ const getPatient = async (req, res) => {
     try {
         // Recherche du patient par son ID (remarquez que req.params.id est utilisé ici)
         const { id } = req.params;
@@ -54,7 +54,7 @@ export const getPatient = async (req, res) => {
 
 
 
-export const getAllPatients = async (req, res) => {
+ const getAllPatients = async (req, res) => {
     try {
         const patients = await Patient.find({});
         res.json(patients);
@@ -65,7 +65,7 @@ export const getAllPatients = async (req, res) => {
 };
 
 
-export const updatePatient = async (req, res) => {
+ const updatePatient = async (req, res) => {
     const { id } = req.params;
     const update = req.body;
 
@@ -82,7 +82,7 @@ export const updatePatient = async (req, res) => {
 };
 
 
-export const deletePatient = async (req, res) => {
+ const deletePatient = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -95,4 +95,14 @@ export const deletePatient = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Erreur lors de la suppression du patient" });
     }
+};
+
+
+module.exports = {
+    getPatient,
+    addPatient,
+    deletePatient,
+    getAllPatients,
+    updatePatient,
+    // Ajoutez les a
 };

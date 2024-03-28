@@ -1,21 +1,18 @@
-import mongoose  from "mongoose";
-import Visite from "../models/visiteModel.js";
+const mongoose = require('mongoose');
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
+
+const mongo_username = process.env.MONGO_USERNAME;
+const mongo_password = process.env.MONGO_PASSWORD;
+const mongo_cluster = process.env.MONGO_CLUSTER;
+const mongo_database = process.env.MONGO_DBNAME;
+
+const mongoURI = `mongodb+srv://franckreveille:dBcp0SCvEnXYb5kA@vidal.yti6o8s.mongodb.net/Vidal`;
 
 
-/*const visiteTestData = {
-    date: new Date(),
-    idPatient: new mongoose.Types.ObjectId(),
-    idOrdonnance: new mongoose.Types.ObjectId()
-};
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => console.log(`Connected to: ${mongoose.connection.name}`))
+.catch(err => console.log(err));
 
-const addVisiteToDB = async () => {
-    const newVisite = new Visite(visiteTestData);
-    try {
-        const visite = await newVisite.save(); // Attendre la sauvegarde de la visite
-        console.log('Visite ajoutée avec succès');
-    } catch (error) {
-        console.error('Erreur lors de l\'ajout de la visite:', error);
-    }
-};
 
-export default addVisiteToDB;*/
+module.exports = mongoose;
