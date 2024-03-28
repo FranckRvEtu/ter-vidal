@@ -71,23 +71,26 @@ return (
 
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography>
-          Nom: {patient.nom}<br />
-          Prénom:{patient.prenom}
+          Nom: {patient.name}<br />
+          Prénom:{patient.firstname}
         </Typography>
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography>
           sexe: {patient.sexe} <br />
-          taille: {patient.taille} <br />
-          poids:{patient.poids}
+          taille: {patient.height} <br />
+          poids:{patient.weight}
         </Typography>
         </Box> 
 
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography>
-          Date de naissance: {patient.dateNaissance} <br />
-          groupe sanguin: {patient.groupeSanguin}
+        <>
+            Date de naissance: {format(new Date(patient.birthdate), 'dd/MM/yyyy')}
+            <br />
+        </>
+          groupe sanguin: {patient.BloodType}
         </Typography>
       </Box>
       
