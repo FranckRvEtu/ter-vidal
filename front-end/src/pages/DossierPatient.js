@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { styled, useTheme, createTheme } from '@mui/material/styles';
-import {Box, Avatar,Paper,Typography,List,ListItem,ListItemText } from '@mui/material'; 
+import {Button,Box, Avatar,Paper,Typography,List,ListItem,ListItemText } from '@mui/material'; 
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 
 const theme = createTheme({
@@ -31,7 +32,7 @@ const theme = createTheme({
 
   
 export default function DossierPatient({patient,ordonnances=[],rdvs=[],antecedants=[],visites=[]}) {
-
+    const navigate = useNavigate();
     const handleOrdonnanceClick = (id) => {
         // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
         console.log(`Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`);
@@ -168,7 +169,14 @@ return (
     ))}
   </List>
 </Paper>
-
+      <Button
+        variant="contained"
+        color="primary"
+        sx={{ mt: 2 }}
+        onClick={() => navigate(`/ordonnance/${patient._id}`)}
+      >
+        Accéder à Ordonnance
+      </Button>
     </Paper>
     
     );

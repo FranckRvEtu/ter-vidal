@@ -20,7 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         <Route path="/addPatient" element={<AddPatient /> }/>
-        <Route path="/ordonnance" element={<Ordonnance />} />
+        <Route path="/ordonnance/:patientId" element={<Ordonnance />} />
         <Route path="/addPatient" element={<AddPatient />} />
         <Route path="/dossierPatient/:patientId" element={<DossierPatientWrapper />} />
         <Route path="/listePatient" element={<ListePatientsWrapper />} />
