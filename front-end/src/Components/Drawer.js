@@ -135,7 +135,7 @@ export default function PersistentDrawerLeft() {
         <List>
             {[
               { text: 'Dashboard', iconPath: '/Assets/grid.png', path: '/Login' },
-              { text: 'Patients', iconPath: '/Assets/iconPeople.png', path: '/patients' },
+              { text: 'Patients', iconPath: '/Assets/iconPeople.png', path: '/listePatient' },
               { text: 'Agenda', iconPath: '/Assets/calendar.png', path: '/agenda' },
             ]
             .map((item) => ( // Utilise item ici pour accéder aux propriétés de chaque objet

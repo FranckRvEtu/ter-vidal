@@ -8,7 +8,7 @@ import AddPatient from './pages/AddPatient';
 import './App.css';
 import  Drawer from './Components/Drawer'; 
 import ListePatient from './pages/ListePatient';
-
+import ListePatientsWrapper from './Wrapper/ListePatientsWrapper';
 function App() {
   return (
     
@@ -22,6 +22,7 @@ function App() {
         <Route path="/ordonnance" element={<Ordonnance />} />
         <Route path="/addPatient" element={<AddPatient />} />
         <Route path="/dossierPatient/:patientId" element={<DossierPatientWrapper />} />
+        <Route path="/listePatient" element={<ListePatientsWrapper />} />
       
       </Routes>
     </Router>
