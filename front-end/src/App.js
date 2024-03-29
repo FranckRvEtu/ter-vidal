@@ -1,30 +1,29 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import DossierPatientWrapper from './Wrapper/DossierPatientWrapper'; // Assurez-vous que le chemin est correct
+import DossierPatientWrapper from './Wrapper/DossierPatientWrapper';
 import Ordonnance from './pages/Ordonnance';
 import Login from './pages/Login';
 import Dashboard from './Components/Dashboard';
-import Header from './Components/Header';
-import Drawer from './Components/Drawer';
-import DossierPatient from './pages/DossierPatient';
 import AddPatient from './pages/AddPatient';
 import './App.css';
+import  Drawer from './Components/Drawer'; 
+import ListePatient from './pages/ListePatient';
 
 function App() {
-  // Ici, vous pouvez définir les états et les fonctions nécessaires pour votre application
-
   return (
+    
     <Router>
-      <div className="App">
-        {/* Ici, vous pouvez placer des composants qui doivent être affichés sur toutes les pages, comme <Header /> */}
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/ordonnance" element={<Ordonnance />} />
-          <Route path="/addPatient" element={<AddPatient />} />
-          <Route path="/dossierPatient/:patientId" element={<DossierPatientWrapper />} />
-        </Routes>
-      </div>
+      <Drawer />
+      <Routes>
+        
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/" element={<ListePatient />} />
+        <Route path="/ordonnance" element={<Ordonnance />} />
+        <Route path="/addPatient" element={<AddPatient />} />
+        <Route path="/dossierPatient/:patientId" element={<DossierPatientWrapper />} />
+      
+      </Routes>
     </Router>
   );
 }

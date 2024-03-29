@@ -19,6 +19,8 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { Avatar } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
 
 const drawerWidth = 240;
 
@@ -50,15 +52,17 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-function handleListItemClick(event, itemText) {
-  console.log("Item clicked:", itemText);
-  // Ici, tu peux ajouter la logique pour traiter le clic, comme la navigation
-}
+
+
 
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
 
+  function handleListItemClick(event, path) {
+    navigate(path);
+  }
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -130,10 +134,11 @@ export default function PersistentDrawerLeft() {
         <Divider />
         <List>
             {[
-              { text: 'Dashboard', iconPath: '/Assets/grid.png' },
-              { text: 'Patients', iconPath: '/Assets/iconPeople.png' },
-              { text: 'Agenda', iconPath: '/Assets/calendar.png' },
-            ].map((item) => ( // Utilise item ici pour accéder aux propriétés de chaque objet
+              { text: 'Dashboard', iconPath: '/Assets/grid.png', path: '/Login' },
+              { text: 'Patients', iconPath: '/Assets/iconPeople.png', path: '/patients' },
+              { text: 'Agenda', iconPath: '/Assets/calendar.png', path: '/agenda' },
+            ]
+            .map((item) => ( // Utilise item ici pour accéder aux propriétés de chaque objet
               <ListItem key={item.text} disablePadding>
                 <ListItemButton 
                   sx={{
@@ -147,7 +152,7 @@ export default function PersistentDrawerLeft() {
                       color: 'white', // Text color on hover to inverse the color scheme
                     },
                   }}                        
-                  onClick={(event) => handleListItemClick(event, item.text)}>
+                  onClick={(event) => handleListItemClick(event, item.path)}>
                   <ListItemIcon>
                     {/* Assure-toi d'utiliser item.iconPath pour obtenir la valeur dynamique */}
                     <img src={item.iconPath} alt={item.text} style={{ maxWidth: 24, maxHeight: 24 }} />
