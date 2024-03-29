@@ -71,7 +71,7 @@ export default function AddPatient() {
 }
   return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="md">
+            <Container component="main" maxWidth="md" sx={{mt: 20}} >
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 
               <LocalizationProvider dateAdapter= {AdapterDayjs}>

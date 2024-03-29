@@ -134,7 +134,7 @@ export default function PersistentDrawerLeft() {
         <Divider />
         <List>
             {[
-              { text: 'Dashboard', iconPath: '/Assets/grid.png', path: '/Login' },
+              { text: 'Dashboard', iconPath: '/Assets/grid.png', path: '/addPatient' },
               { text: 'Patients', iconPath: '/Assets/iconPeople.png', path: '/listePatient' },
               { text: 'Agenda', iconPath: '/Assets/calendar.png', path: '/agenda' },
             ]

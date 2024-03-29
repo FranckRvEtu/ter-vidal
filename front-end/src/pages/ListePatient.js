@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import {
   Avatar,
   Button,
@@ -20,6 +22,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export default function ListePatient({ patientsInitiaux = []}) {
+  const navigate = useNavigate();
   const [recherche, setRecherche] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const [triOptions, setTriOptions] = useState([
@@ -31,7 +34,7 @@ export default function ListePatient({ patientsInitiaux = []}) {
 
   useEffect(() => {
     let resultats = [...patientsInitiaux];
-
+    
     // Filtrage
     if (recherche) {
       resultats = resultats.filter(patient =>
@@ -107,9 +110,15 @@ export default function ListePatient({ patientsInitiaux = []}) {
               <Avatar src={patient.imageUrl} sx={{ width: 80, height: 80, mb: 2 }} />
               <Typography>{`${patient.firstname} ${patient.name}`}</Typography>
               <Grid container spacing={1} sx={{ mt: 2 }}>
-                <Grid item>
-                  <IconButton color="primary" onClick={() => console.log("Voir", patient._id)}><VisibilityIcon /></IconButton>
+              <Grid item>
+                <IconButton 
+                    color="primary" 
+                    onClick={() => navigate(`/dossierPatient/${patient._id}`)}
+                >
+                    <VisibilityIcon />
+                </IconButton>
                 </Grid>
+
                 <Grid item>
                   <IconButton color="secondary" onClick={() => console.log("Modifier", patient._id)}><EditIcon /></IconButton>
                 </Grid>
@@ -121,6 +130,14 @@ export default function ListePatient({ patientsInitiaux = []}) {
           </Grid>
         ))}
       </Grid>
+      <Button
+        variant="contained"
+        color="primary"
+        sx={{ mt: 2 }}
+        onClick={() => navigate('/addPatient')}
+      >
+        Ajouter un Patient
+      </Button>
     </Container>
   );
 }

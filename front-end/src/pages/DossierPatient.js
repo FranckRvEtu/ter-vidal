@@ -56,8 +56,8 @@ export default function DossierPatient({patient,ordonnances=[],rdvs=[],antecedan
       };
 
 return (
-    <Paper>
-        Dossier Patient
+    <Paper sx={{ mt : 10}}>
+        
         <Paper
       sx={{
         m: 2,
