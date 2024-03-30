@@ -78,7 +78,7 @@ export default function ListePatient({ patientsInitiaux = []}) {
           <TextField
             fullWidth
             label="Rechercher un patient"
-            variant="outlined"
+            variant="standard"
             value={recherche}
             onChange={(e) => setRecherche(e.target.value)}
             InputProps={{
@@ -103,15 +103,34 @@ export default function ListePatient({ patientsInitiaux = []}) {
           </Menu>
         </Grid>
       </Grid>
-      <Grid container spacing={4} sx={{ mt: 2 }}>
+      <Paper sx={{ maxHeight: 700, overflow: 'auto', mt: 2, padding: 2 ,
+    
+    '&::-webkit-scrollbar': {
+      width: '10px',
+    },
+    '&::-webkit-scrollbar-track': {
+      backgroundColor: '#f1f1f1',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: '#888',
+      borderRadius: '2px',
+      '&:hover': {
+        backgroundColor: '#555',
+      },
+    }
+    
+    
+    }}>
+      <Grid container spacing={1} sx={{ mt: 2 }}>
         {patientsAffiches.map((patient, index) => (
           <Grid item xs={12} sm={6} md={4} key={patient._id || index}>
             <Paper elevation={3} sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Avatar src={patient.imageUrl} sx={{ width: 80, height: 80, mb: 2 }} />
               <Typography>{`${patient.firstname} ${patient.name}`}</Typography>
-              <Grid container spacing={1} sx={{ mt: 2 }}>
+              <Grid container spacing={1} sx={{ mt: 2, justifyContent: 'center' }}>
               <Grid item>
                 <IconButton 
+                    
                     color="primary" 
                     onClick={() => navigate(`/dossierPatient/${patient._id}`)}
                 >
@@ -130,6 +149,7 @@ export default function ListePatient({ patientsInitiaux = []}) {
           </Grid>
         ))}
       </Grid>
+      </Paper>
       <Button
         variant="contained"
         color="primary"
