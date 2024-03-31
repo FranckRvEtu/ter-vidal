@@ -16,10 +16,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import MicIcon from '@mui/icons-material/Mic';
+import MicOffIcon from '@mui/icons-material/MicOff';
 import { Avatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import  { useState, useEffect } from 'react';
+
 
 
 const drawerWidth = 240;
@@ -58,7 +60,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const [isListening, setIsListening] = useState(false);
 
   function handleListItemClick(event, path) {
     navigate(path);
@@ -69,6 +72,42 @@ export default function PersistentDrawerLeft() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  useEffect(() => {
+    if (window.annyang) {
+
+      // Définition de la langue pour la reconnaissance vocale
+      window.annyang.setLanguage('fr-FR');
+      // Modification des commandes vocales pour utiliser navigate
+      var commands = {
+        'dashboard': () => navigate('/'),
+        'calendar': () => navigate('/calendar'),
+        'patients': () => navigate('/ListePatient'),
+        'test': () => alert('test'),
+        // Ajoutez d'autres commandes vocales ici
+      };
+
+      // Ajout des commandes vocales à Annyang
+      window.annyang.addCommands(commands);
+
+      // Optionnel: Démarrer l'écoute au chargement du composant
+      // window.annyang.start();
+    }
+
+    return () => {
+      // Assurez-vous d'arrêter Annyang lorsque le composant est démonté
+      if (window.annyang) window.annyang.abort();
+    };
+  }, [navigate]);
+
+  const toggleListening = () => {
+    if (isListening) {
+      window.annyang.abort();
+    } else {
+      window.annyang.start({ autoRestart: true, continuous: false });
+    }
+    setIsListening(!isListening);
   };
 
   return (
@@ -128,12 +167,12 @@ export default function PersistentDrawerLeft() {
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
-        <Box sx={{ overflowY: 'auto' }}>
+        <Box sx={{}}>
 
         <Divider />
         <List>
             {[
-              { text: 'Dashboard', iconPath: '/Assets/grid.png', path: '/addPatient' },
+              { text: 'Dashboard', iconPath: '/Assets/grid.png', path: '/' },
               { text: 'Patients', iconPath: '/Assets/iconPeople.png', path: '/listePatient' },
               { text: 'Agenda', iconPath: '/Assets/calendar.png', path: '/agenda' },
             ]
@@ -164,6 +203,34 @@ export default function PersistentDrawerLeft() {
           </Box>
 
         <Divider />
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'center', // Centre horizontalement
+          alignItems: 'center', // Centre verticalement
+          height: '100%', // Prend toute la hauteur disponible
+        }}>
+     <IconButton 
+  onClick={toggleListening} 
+  color="inherit" 
+  sx={{
+    backgroundColor: '#ff7644', // Fond orange
+    '&:hover': {
+      backgroundColor: '#ff9933', // Fond plus clair au survol
+    },
+    color: 'white', // Couleur de l'icône
+    borderRadius: '20%', // Rend le fond complètement rond
+    padding: '10px', // Espace entre l'icône et le bord du bouton
+  }}
+>
+  {isListening ? (
+    <MicIcon sx={{ fontSize: '2rem' }} /> // Icône du micro active avec une taille plus grande
+  ) : (
+    <MicOffIcon sx={{ fontSize: '2rem' }} /> // Icône du micro éteint avec une taille plus grande
+  )}
+</IconButton>
+
+
+        </Box>
         <Box sx={{ width: '100%', marginTop: 'Auto' }}>
 
         <List>
