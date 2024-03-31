@@ -10,33 +10,8 @@ import mic from '../Assets/microphone-black-shape.png';
 
 
 function Dashboard() {
-    const [isListening, setIsListening] = useState(false); // État pour suivre si la reconnaissance vocale est activée
+    const [isListening, setIsListening] = useState(false); // État pour suivre si la reconnaissance vocale est activée ou désactivée
 
-    useEffect(() => {
-        if (window.annyang) {
-            // Définition des commandes vocales
-            var commands = {
-                'dashboard': () => console.log('Dashboard clicked'),
-                'calendar': () => console.log('Calendar clicked'),
-                'patients': () => console.log('Patients clicked'),
-                'test': () => alert('test'),
-                // Ajoutez d'autres commandes vocales ici
-            };
-
-            // Ajout des commandes vocales à Annyang
-            window.annyang.addCommands(commands);
-        }
-    }, []);
-
-    // Fonction pour démarrer ou arrêter l'écoute vocale
-    const toggleListening = () => {
-        if (isListening) {
-            window.annyang.abort();
-        } else {
-            window.annyang.start();
-        }
-        setIsListening(!isListening);
-    };
 
     return (
         <div>
@@ -50,7 +25,7 @@ function Dashboard() {
                         </a>
                     </li>
                     <li>
-                        <a className="dashboard-button" onClick={() => console.log("Calendar clicked")}>
+                        <a className="dashboard-button" onClick={() => console.log("Dashboard clicked")}>
                             <img src={Calendar}/>
                             <span> Calendar </span>
                         </a>
@@ -62,7 +37,7 @@ function Dashboard() {
                         </a>
                     </li>
                 </ul>
-                <a className={`mic ${isListening ? 'active' : ''}`} onClick={toggleListening}> {/* Utilisez la fonction pour démarrer ou arrêter l'écoute vocale */}
+                <a className={`mic ${isListening ? 'active' : ''}`} onClick={() => console.log("Dashboard clicked")}> {/* Utilisez la fonction pour démarrer ou arrêter l'écoute vocale */}
                     <img src={mic}/>
                 </a>
                 <ul id="bottomBar" style={{listStyleType: "none"}}>

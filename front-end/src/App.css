@@ -38,3 +38,16 @@
     transform: rotate(360deg);
   }
 }
+
+.fc-header-toolbar .fc-button {
+  background-color: transparent;
+  color: #282c34; /* Remplacez par la couleur de votre choix */
+}
+
+.fc-header-toolbar .fc-button:hover {
+  background-color:#fa7d57; /* Remplacez par la couleur de votre choix lors du survol */
+}
+
+.fc-header-toolbar .fc-button:active {
+  background-color:#fa7d57; /* Remplacez par la couleur de votre choix lors du clic */
+}

@@ -1,4 +1,4 @@
-import RDV from '../models/RdvModel.js';
+const RDV = require('../models/RdvModel.js');
 
 
 const addRDV = async (req, res) => {
@@ -60,7 +60,7 @@ const getWeekRDV = async (req, res) => {
 };
 
 
-export const updateRDV = async (req, res) => {
+const updateRDV = async (req, res) => {
     const { id } = req.params;
     const update = req.body;
 

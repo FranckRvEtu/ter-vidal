@@ -1,5 +1,4 @@
-import Visite from "../models/visiteModel";
-
+const Visite = require("../models/visiteModel");
 
 const addVisite = async (req, res) => {
     // on prend les infos de req.body et on les stock
@@ -90,6 +89,6 @@ module.exports = {
     addVisite,
     deleteVisite,
     updateVisite,
-    getAllVisite,
+    getAllVisites,
     // Ajoutez les a
 };

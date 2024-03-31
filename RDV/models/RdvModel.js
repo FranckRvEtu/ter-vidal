@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const rdvSchema = new mongoose.Schema({
     date: {type: Date, required: true},
@@ -7,4 +7,4 @@ const rdvSchema = new mongoose.Schema({
 });
 
 const RDV = mongoose.model('RDV', rdvSchema);
-export default RDV;
+module.exports = RDV;
