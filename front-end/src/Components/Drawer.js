@@ -21,6 +21,7 @@ import MicOffIcon from '@mui/icons-material/MicOff';
 import { Avatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import  { useState, useEffect } from 'react';
+import Theme from '../theme';
 
 
 
@@ -58,7 +59,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 
 export default function PersistentDrawerLeft() {
-  const theme = useTheme();
+  const theme = useTheme ( Theme);      
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate()
   const [isListening, setIsListening] = useState(false);
@@ -116,7 +117,7 @@ export default function PersistentDrawerLeft() {
       <AppBar 
         position="fixed"
         open={open}
-        sx={{ bgcolor: '#ff7644', zIndex: (theme) => theme.zIndex.drawer + 1}}
+        sx={{ bgcolor: 'primary.main', zIndex: (theme) => theme.zIndex.drawer + 1}}
         >
         <Toolbar>
           <IconButton
@@ -186,7 +187,7 @@ export default function PersistentDrawerLeft() {
                     marginLeft: '10px', // Add some margin to the left
                     marginRight: '10px', // Add some margin to the right
                     ':hover': {
-                      backgroundColor: '#ff7644', // Background color on hover
+                      backgroundColor: 'primary.main', // Background color on hover
                       color: 'white', // Text color on hover to inverse the color scheme
                     },
                   }}                        
@@ -211,11 +212,11 @@ export default function PersistentDrawerLeft() {
         }}>
      <IconButton 
   onClick={toggleListening} 
-  color="inherit" 
+  color="primary" 
   sx={{
-    backgroundColor: '#ff7644', // Fond orange
+    backgroundColor: 'primary.main', // Fond orange
     '&:hover': {
-      backgroundColor: '#ff9933', // Fond plus clair au survol
+      backgroundColor: 'primary.main', // Fond plus clair au survol
     },
     color: 'white', // Couleur de l'icône
     borderRadius: '20%', // Rend le fond complètement rond
@@ -248,7 +249,7 @@ export default function PersistentDrawerLeft() {
                     marginLeft: '10px', // Add some margin to the left
                     marginRight: '10px', // Add some margin to the right
                     ':hover': {
-                      backgroundColor: '#ff7644', // Background color on hover
+                      backgroundColor: 'primary.main', // Background color on hover
                       color: 'white', // Text color on hover to inverse the color scheme
                     },
                   }}                        
