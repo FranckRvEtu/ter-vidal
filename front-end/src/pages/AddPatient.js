@@ -3,34 +3,7 @@ import { ThemeProvider, Container,  Box, TextField, Button, Input, InputAdornmen
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import createTheme from '@mui/material/styles/createTheme';
 
-
-const theme = createTheme({
-    palette: {
-      primary: { main: '#ff7644' }, // Changer en orange
-    },
-    components: {
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            '& label.Mui-focused': {
-              color: '#ff7644', // Couleur du label lors du focus
-            },
-            '& .MuiInput-underline:after': {
-              borderBottomColor: '#ff7644', // Couleur de la ligne en dessous du TextField
-            },
-            '& .MuiOutlinedInput-root': {
-              '&.Mui-focused fieldset': {
-                borderColor: '#ff7644', // Couleur de la bordure pour le variant 'outlined'
-              },
-            },
-          },
-        },
-      },
-    },
-  });
-//pour les couleurs si besoin 
 
 export default function AddPatient() {
 
@@ -70,7 +43,7 @@ export default function AddPatient() {
       });
 }
   return (
-        <ThemeProvider theme={theme}>
+        
             <Container component="main" maxWidth="md" sx={{mt: 20}} >
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 
@@ -171,6 +144,5 @@ export default function AddPatient() {
                   
                 </Box>
             </Container>
-        </ThemeProvider>
 );
 }

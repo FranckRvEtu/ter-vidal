@@ -73,8 +73,8 @@ export default function ListePatient({ patientsInitiaux = []}) {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Grid container spacing={2} alignItems="center" sx={{ mt: 10 }} >
-        <Grid item xs={10}>
+      <Grid container spacing={2} alignItems="center" sx={{ mt: 8 }} >
+        <Grid item xs={8}    >
           <TextField
             fullWidth
             label="Rechercher un patient"
@@ -103,7 +103,7 @@ export default function ListePatient({ patientsInitiaux = []}) {
           </Menu>
         </Grid>
       </Grid>
-      <Paper sx={{ maxHeight: 700, overflow: 'auto', mt: 2, padding: 2 ,
+      <Paper sx={{ minHeight:200,maxHeight: 700, overflow: 'auto', mt: 2, padding: 2 ,
     
     '&::-webkit-scrollbar': {
       width: '10px',
@@ -121,17 +121,17 @@ export default function ListePatient({ patientsInitiaux = []}) {
     
     
     }}>
-      <Grid container spacing={1} sx={{ mt: 2 }}>
+      <Grid container spacing={0.5} sx={{ mt: 0 }}>
         {patientsAffiches.map((patient, index) => (
           <Grid item xs={12} sm={6} md={4} key={patient._id || index}>
             <Paper elevation={3} sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <Avatar src={patient.imageUrl} sx={{ width: 80, height: 80, mb: 2 }} />
+              <Avatar src={patient.imageUrl} sx={{ width: 73, height: 73, mb: 2 }} />
               <Typography>{`${patient.firstname} ${patient.name}`}</Typography>
               <Grid container spacing={1} sx={{ mt: 2, justifyContent: 'center' }}>
               <Grid item>
                 <IconButton 
                     
-                    color="primary" 
+                    color="voir" 
                     onClick={() => navigate(`/dossierPatient/${patient._id}`)}
                 >
                     <VisibilityIcon />
@@ -139,10 +139,10 @@ export default function ListePatient({ patientsInitiaux = []}) {
                 </Grid>
 
                 <Grid item>
-                  <IconButton color="secondary" onClick={() => console.log("Modifier", patient._id)}><EditIcon /></IconButton>
+                  <IconButton color="modifier" onClick={() => console.log("Modifier", patient._id)}><EditIcon /></IconButton>
                 </Grid>
                 <Grid item>
-                  <IconButton color="error" onClick={() => console.log("Supprimer", patient._id)}><DeleteIcon /></IconButton>
+                  <IconButton color="supprimer" onClick={() => console.log("Supprimer", patient._id)}><DeleteIcon /></IconButton>
                 </Grid>
               </Grid>
             </Paper>

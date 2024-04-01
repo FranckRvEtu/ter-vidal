@@ -120,7 +120,7 @@ export default function PersistentDrawerLeft() {
         >
         <Toolbar>
           <IconButton
-            color="inherit"
+            color="#FFFFFF"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"

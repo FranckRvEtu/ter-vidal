@@ -1,36 +1,10 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import { ThemeProvider,InputAdornment, Container, CssBaseline, Box, Typography, TextField, Button, Grid, Link, Paper, Divider } from '@mui/material';
-import createTheme from '@mui/material/styles/createTheme';
+import { InputAdornment, Container, CssBaseline, Box, Typography, TextField, Button, Grid, Link, Paper, Divider } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 
-const theme = createTheme({
-    palette: {
-      primary: { main: '#ff7644' }, // Changer en orange
-    },
-    components: {
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            '& label.Mui-focused': {
-              color: '#ff7644', // Couleur du label lors du focus
-            },
-            '& .MuiInput-underline:after': {
-              borderBottomColor: '#ff7644', // Couleur de la ligne en dessous du TextField
-            },
-            '& .MuiOutlinedInput-root': {
-              '&.Mui-focused fieldset': {
-                borderColor: '#ff7644', // Couleur de la bordure pour le variant 'outlined'
-              },
-            },
-          },
-        },
-      },
-    },
-  });
-//pour les couleurs si besoin 
 
 export default function SignIn() {
   const handleSubmit = (event) => {
@@ -43,7 +17,7 @@ export default function SignIn() {
   };
 
 return (
-        <ThemeProvider theme={theme}>
+        
             <Container component="main" maxWidth="md">
 
                 <CssBaseline />
@@ -181,6 +155,6 @@ return (
                 
                 </Grid>
             </Container>
-        </ThemeProvider>
+       
 );
 }
