@@ -17,7 +17,7 @@ function Ordonnance() {
           console.log("medoc:"+ modifiedString);
           document.getElementById("Medicament").value += modifiedString;
       }
-  });
+    });
 
     if (window.annyang) {
       window.annyang.setLanguage('fr-FR');
@@ -75,6 +75,30 @@ function Ordonnance() {
     }
   };
 
+  const handleCreateOrdo = async () => {
+    try {
+      const response = await fetch('http://localhost:3014/ordonnance/addOrdonnance', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          date: new Date(),
+          idPatient: '60d6b2e4d0a3e4c4d0c7a7b7',
+          prescriptions: prescriptions,
+        }),
+      });
+      if (response.ok) {
+        // Mettez ici le code à exécuter si la requête réussit
+        console.log('Ordonnance créée avec succès');
+      } else {
+        console.error('Failed to create ordonnance');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <div className="ordonnance">
       <h2>Nom patient Concerné</h2>
@@ -98,6 +122,8 @@ function Ordonnance() {
           </a>
         </div>
       </form>
+      <button id="ajout-ordo" onClick={handleCreateOrdo}>créer ordo</button>
+          
       {prescriptions.length > 0 && (
         <div className="prescription-list">
           <h3>Prescriptions ajoutées :</h3>
@@ -115,4 +141,4 @@ function Ordonnance() {
   );
 }
   
-export default Ordonnance;
+export default Ordonnance; 
