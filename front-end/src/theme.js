@@ -28,29 +28,23 @@ const theme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: `
-        body {
-          scrollbar-width: thin; /* pour Firefox */
-          scrollbar-color: #888 #f1f1f1; /* couleur de la barre de défilement pour Firefox */
-        }
+      *::-webkit-scrollbar {
+        width: 10px; // Sets the scrollbar width
+      }
+      
+      *::-webkit-scrollbar-track {
+        background-color: #f1f1f1; // Light track color for a minimal look
+      }
+      
+      *::-webkit-scrollbar-thumb {
+        background-color: #888; // Darker thumb for contrast but still smooth
+        border-radius: 2px; // Slightly rounded corners for a softer look
         
-        /* Styles de la barre de défilement pour Chrome, Edge, et Safari */
-        ::-webkit-scrollbar {
-          width: 10px;
+        &:hover {
+          background-color: #555; // Darker on hover for an interactive feel
         }
-
-        ::-webkit-scrollbar-track {
-          background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background: #888;
-          border-radius: 2px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-          background: #555;
-        }
-      `,
+      }
+    `,
     },
     MuiTextField: {
       styleOverrides: {
