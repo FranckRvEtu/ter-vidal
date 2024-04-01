@@ -16,7 +16,7 @@ app.use(express.json());
         });
 
         await newOrdonnance.save();
-
+        console.log(newOrdonnance.id);
         res.status(201).json({ id: newOrdonnance.id });
     } catch (error) {
         console.error(error);
