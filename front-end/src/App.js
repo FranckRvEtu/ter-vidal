@@ -13,6 +13,7 @@ import Home from './pages/Home';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme';
+import CalendarWrapper from './Wrapper/CalendarWrapper';
 
 function App() {
   return (
