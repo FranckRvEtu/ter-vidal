@@ -1,19 +1,21 @@
-import express from 'express';
-import cors from 'cors';
-import connectDB from './src/config/database.js';
+const express = require('express') 
+const cors = require('cors');
 
 const app = express();
-
+require('dotenv').config();
+require("./config/db_conn.js");
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
+app.use("/", require("./routes/patientRoute.js"))
+app.use("/", require("./routes/antecedantRoute.js"))
+
+const PORT = process.env.PORT || 3100;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
 
 
 
 // Connexion à MongoDB
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server listening on port ${PORT}`);
-    });
-});

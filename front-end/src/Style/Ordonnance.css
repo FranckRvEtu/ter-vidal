@@ -1,0 +1,77 @@
+.ordonnance-form input[type="text"],
+.ordonnance-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.ordonnance-form input[type="text"]::placeholder,
+.ordonnance-form textarea::placeholder {
+  color: #999;
+}
+
+.ordonnance-form input[type="text"]:focus,
+.ordonnance-form textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Style pour le bouton de validation de la prescription */
+.valider-prescription {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ordonnance{
+  margin-left:200px;
+}
+
+.valider-prescription:hover {
+  background-color: #0056b3;
+}
+  .mic2 img {
+    width: 30px;
+    height: 30px;
+
+  }
+  
+  .mic2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 25%;
+    background-color: #ff8166;
+    border-radius: 30px;
+    padding: 20px;
+    width: fit-content;
+    height: fit-content;
+    margin-left: 5rem;
+    transform: scale(0.8);
+    cursor: pointer; /* Ajoute cette ligne pour que le curseur devienne une main */
+  
+  }
+  .mic2.active {
+    border: 4px solid rgb(43, 240, 43); /* Trait vert autour du bouton */
+  }
+  .prescriptions-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  /* Ajoute plus de styles selon tes besoins */
+  
+
+  /*style de MedicamentSection*/
