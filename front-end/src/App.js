@@ -28,6 +28,9 @@ function App() {
         <Route path="/addPatient" element={<AddPatient />} />
         <Route path="/dossierPatient/:patientId" element={<DossierPatientWrapper />} />
         <Route path="/listePatient" element={<ListePatientsWrapper />} />
+        <Route path="/agenda" element={<CalendarWrapper />} />
+        
+        
       
       </Routes>
     </Router>
