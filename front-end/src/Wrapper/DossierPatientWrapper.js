@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import DossierPatient from '../pages/DossierPatient';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import DossierPatient from "../pages/DossierPatient";
 
 const DossierPatientWrapper = () => {
   const { patientId } = useParams();
@@ -16,9 +16,11 @@ const DossierPatientWrapper = () => {
     const fetchPatientData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:11000/getPatient/${patientId}`);
+        const response = await fetch(
+          `http://localhost:11000/getPatient/${patientId}`
+        );
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const patientData = await response.json();
         console.log("PATIENT DATA");
@@ -29,7 +31,7 @@ const DossierPatientWrapper = () => {
         if (patientData.listIDOrdo && patientData.listIDOrdo.length > 0) {
           fetchOrdonnances(patientData.listIDOrdo);
         }
-        
+
         // Récupérer les rdvs si listIDrdv est présent
         if (patientData.listIDrdv && patientData.listIDrdv.length > 0) {
           fetchRdvs(patientData.listIDrdv);
@@ -37,14 +39,13 @@ const DossierPatientWrapper = () => {
 
         // Récupérer les antecedants si antecedant est présent
         if (patientData.antecedant && patientData.antecedant.length > 0) {
-            fetchAntecedants(patientData.antecedant);
-          }
+          fetchAntecedants(patientData.antecedant);
+        }
 
-          // Récupérer les visites si listIDVisite est présent
+        // Récupérer les visites si listIDVisite est présent
         if (patientData.listIDvisite && patientData.listIDvisite.length > 0) {
-            fetchVisites(patientData.listIDvisite);
-          }
-        
+          fetchVisites(patientData.listIDvisite);
+        }
       } catch (e) {
         setError(e.toString());
       } finally {
@@ -55,13 +56,15 @@ const DossierPatientWrapper = () => {
     // Fetch ordonnances based on IDs
     const fetchOrdonnances = async (ids) => {
       try {
-        const promises = ids.map(id => 
-          fetch(`http://localhost:3000/getOrdonnance/${id}`)
-          .then(response => {
-            if (!response.ok) throw new Error(`Failed to fetch ordonnance with ID: ${id}`);
-          
-            return response.json();
-          })
+        const promises = ids.map((id) =>
+          fetch(`http://localhost:3000/getOrdonnance/${id}`).then(
+            (response) => {
+              if (!response.ok)
+                throw new Error(`Failed to fetch ordonnance with ID: ${id}`);
+
+              return response.json();
+            }
+          )
         );
         const ordonnancesData = await Promise.all(promises);
         console.log("ORDONNANCES");
@@ -76,10 +79,10 @@ const DossierPatientWrapper = () => {
     // Fetch rendez-vous based on IDs
     const fetchRdvs = async (ids) => {
       try {
-        const promises = ids.map(id => 
-          fetch(`http://localhost:5000/getRDV/${id}`)
-          .then(response => {
-            if (!response.ok) throw new Error(`Failed to fetch RDV with ID: ${id}`);
+        const promises = ids.map((id) =>
+          fetch(`http://localhost:5000/getRDV/${id}`).then((response) => {
+            if (!response.ok)
+              throw new Error(`Failed to fetch RDV with ID: ${id}`);
             return response.json();
           })
         );
@@ -95,49 +98,48 @@ const DossierPatientWrapper = () => {
     };
     // Fetch antecedants based on IDs
     const fetchAntecedants = async (ids) => {
-        try {
-          const promises = ids.map(id => 
-            fetch(`http://localhost:11000/getAntecedant/${id}`)
-            .then(response => {
-              if (!response.ok) throw new Error(`Failed to fetch antecedant with ID: ${id}`);
-              
-      
+      try {
+        const promises = ids.map((id) =>
+          fetch(`http://localhost:11000/getAntecedant/${id}`).then(
+            (response) => {
+              if (!response.ok)
+                throw new Error(`Failed to fetch antecedant with ID: ${id}`);
+
               return response.json();
-            })
-          );
-          const antecedantsData = await Promise.all(promises);
-          console.log("ANTCEDANTS");
-          console.log(antecedantsData);
-          setAntecedants(antecedantsData);
-        } catch (error) {
-          console.error("Error fetching antecedants:", error);
-          setError(error.toString());
-        }
-      };
-      const fetchVisites = async (ids) => {
-        try {
-        
-          const promises = ids.map(id =>
-            fetch(`http://localhost:8000/getVisite/${id}`)
-            .then(response => {
-              if (!response.ok) throw new Error(`Failed to fetch visite with ID: ${id}`);
-            
-              return response.json();
-            })
-          );
-          const visitesData = await Promise.all(promises);
-          console.log("VISITES");
-          console.log(visitesData);
-          setVisites(visitesData);
-        } catch (error) {
-          console.error("Error fetching visites:", error);
-          setError(error.toString());
-        }
-      };
-      
+            }
+          )
+        );
+        const antecedantsData = await Promise.all(promises);
+        console.log("ANTCEDANTS");
+        console.log(antecedantsData);
+        setAntecedants(antecedantsData);
+      } catch (error) {
+        console.error("Error fetching antecedants:", error);
+        setError(error.toString());
+      }
+    };
+    const fetchVisites = async (ids) => {
+      try {
+        const promises = ids.map((id) =>
+          fetch(`http://localhost:8000/getVisite/${id}`).then((response) => {
+            if (!response.ok)
+              throw new Error(`Failed to fetch visite with ID: ${id}`);
+
+            return response.json();
+          })
+        );
+        const visitesData = await Promise.all(promises);
+        console.log("VISITES");
+        console.log(visitesData);
+        setVisites(visitesData);
+      } catch (error) {
+        console.error("Error fetching visites:", error);
+        setError(error.toString());
+      }
+    };
+
     fetchPatientData();
-  }
-  , [patientId]);
+  }, [patientId]);
 
   if (loading) return <div>Chargement...</div>;
   if (error) return <div>Erreur : {error}</div>;

@@ -1,8 +1,6 @@
-import React from 'react';
-import '../Style/Header.css'; // Assure-toi que ce fichier contient les styles nécessaires
-import profil from '../Assets/profil.png'; // Assure-toi que le chemin est correct
-
-
+import React from "react";
+import "../Style/Header.css"; // Assure-toi que ce fichier contient les styles nécessaires
+import profil from "../Assets/profil.png"; // Assure-toi que le chemin est correct
 
 function Header() {
   return (

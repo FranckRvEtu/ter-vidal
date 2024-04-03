@@ -1,29 +1,34 @@
 import React from "react";
-import { useRef, useEffect } from 'react';
-import { Tooltip } from 'bootstrap'; // Assurez-vous d'avoir installé bootstrap
+import { useRef, useEffect } from "react";
+import { Tooltip } from "bootstrap"; // Assurez-vous d'avoir installé bootstrap
 import Fullcalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import '@fullcalendar/core/locales-all';
- 
+import "@fullcalendar/core/locales-all";
 
-export default function Calendar({ listRDV }){
-
-  console.log("Dans la page", listRDV);  
+export default function Calendar({ listRDV }) {
+  console.log("Dans la page", listRDV);
   let tooltip = null;
 
   const handleMouseEnter = (info) => {
-      const calendarBoundingRect = document.querySelector('.calendar').getBoundingClientRect();
-      const eventBoundingRect = info.el.getBoundingClientRect();
+    const calendarBoundingRect = document
+      .querySelector(".calendar")
+      .getBoundingClientRect();
+    const eventBoundingRect = info.el.getBoundingClientRect();
 
-      const placement = eventBoundingRect.top < calendarBoundingRect.top + 150 ? 'left' : 'top';
+    const placement =
+      eventBoundingRect.top < calendarBoundingRect.top + 150 ? "left" : "top";
 
-      tooltip = new Tooltip(info.el, {
-      title: 'Lieu: ' + info.event.extendedProps.department + ' - ' + info.event.description,
+    tooltip = new Tooltip(info.el, {
+      title:
+        "Lieu: " +
+        info.event.extendedProps.department +
+        " - " +
+        info.event.description,
       placement: placement,
-      trigger: 'hover',
-      container: 'body'
+      trigger: "hover",
+      container: "body",
     });
   };
 
@@ -48,12 +53,11 @@ export default function Calendar({ listRDV }){
         slotMinTime={"08:00:00"} // Début de la plage horaire à 8h
         slotMaxTime={"23:00:00"} // Fin de la plage horaire à 20h
         height={"auto"}
-        locale='fr' // Langue et timezone française
+        locale="fr" // Langue et timezone française
         allDaySlot={false} // Enlève la ligne "all day"
-        events = {listRDV}
-        eventMouseEnter={handleMouseEnter} 
+        events={listRDV}
+        eventMouseEnter={handleMouseEnter}
         eventMouseLeave={handleMouseLeave}
-
       />
     </div>
   );
