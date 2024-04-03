@@ -33,7 +33,7 @@ const HomePage = () => {
         {appointments.map((appointment) => (
           <Grid item key={appointment.id}>
             <Card>
-              <CardContent>
+              <CardContent sx={{ minWidth: 200, minHeight: 200 }}>
                 <Typography variant="h5" component="div">
                   {appointment.time}
                 </Typography>

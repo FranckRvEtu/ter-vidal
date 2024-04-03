@@ -14,6 +14,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./theme";
 import CalendarWrapper from "./Wrapper/CalendarWrapper";
+import HomeWrapper from "./Wrapper/HomeWrapper";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
       <Router>
         <Drawer />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomeWrapper />} />
           <Route path="/login" element={<Login />} />
           <Route path="/ordonnance/:patientId" element={<Ordonnance />} />
           <Route path="/addPatient" element={<AddPatient />} />
