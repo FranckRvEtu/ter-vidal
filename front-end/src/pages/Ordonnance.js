@@ -7,7 +7,7 @@ function Ordonnance() {
   const [isListening, setIsListening] = useState(false);
   const [prescriptions, setPrescriptions] = useState([]);
   useEffect(() => {
-    const socket = io('http://192.168.1.32:5002');
+    const socket = io('http://192.168.1.32:5000');
 
     socket.on('transcribedText', (text) => {
       console.log(text);

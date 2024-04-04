@@ -37,7 +37,7 @@ function Connection() {
     };
 
     const sendTranscribedText = (transcribedText) => {
-        fetch('http://192.168.1.32:5002/send-text', {
+        fetch('http://192.168.1.32:5000/send-text', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
