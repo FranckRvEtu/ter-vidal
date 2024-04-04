@@ -1,5 +1,4 @@
-import Antecedant from "../models/Antecedant";
-
+const Antecedant= require("../models/antecedantModel.js");
 
 const addAntecedant = async (req, res) => {
 

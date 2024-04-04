@@ -9,9 +9,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/rdv", require("./routes/rdvRoute.js"));
+app.use("/", require("./routes/rdvRoute.js"));
 
-const PORT = process.env.PORT || 3010 ;
+const PORT = process.env.PORT || 6000 ;
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
