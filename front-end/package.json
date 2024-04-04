@@ -29,6 +29,7 @@
     "react-native-really-awesome-button": "^2.0.4",
     "react-router-dom": "^6.22.3",
     "react-scripts": "5.0.1",
+    "rewired": "^0.0.0",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
     "speechkitt": "^1.0.0",
