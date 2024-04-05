@@ -127,20 +127,6 @@ export default function ListePatient({ patientsInitiaux = [] }) {
           overflow: "auto",
           mt: 2,
           padding: 2,
-
-          "&::-webkit-scrollbar": {
-            width: "10px",
-          },
-          "&::-webkit-scrollbar-track": {
-            backgroundColor: "#f1f1f1",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#888",
-            borderRadius: "2px",
-            "&:hover": {
-              backgroundColor: "#555",
-            },
-          },
         }}
       >
         <Grid container spacing={0.5} sx={{ mt: 0 }}>

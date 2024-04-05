@@ -2,14 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DossierPatientWrapper from "./Wrapper/DossierPatientWrapper";
 import Ordonnance from "./pages/Ordonnance";
+import Ordonnance2 from "./pages/Ordonnance2";
+
 import Login from "./pages/Login";
-import Dashboard from "./Components/Dashboard";
 import AddPatient from "./pages/AddPatient";
 import "./App.css";
 import Drawer from "./Components/Drawer";
-import ListePatient from "./pages/ListePatient";
 import ListePatientsWrapper from "./Wrapper/ListePatientsWrapper";
-import Home from "./pages/Home";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./theme";
@@ -25,7 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomeWrapper />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/ordonnance/:patientId" element={<Ordonnance />} />
+          <Route path="/ordonnance/:patientId" element={<Ordonnance2 />} />
           <Route path="/addPatient" element={<AddPatient />} />
           <Route
             path="/dossierPatient/:patientId"

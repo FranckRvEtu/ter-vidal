@@ -26,7 +26,7 @@ const HomeWrapper = () => {
   }, []); // Le tableau vide indique que l'effet ne dépend d'aucune valeur et ne s'exécutera qu'au montage du composant
 
   // Passage de l'état rdvs en props au composant HomePage
-  return <HomePage RDVs={rdvs} />;
+  return <HomePage appointments={rdvs} />;
 };
 
 export default HomeWrapper;

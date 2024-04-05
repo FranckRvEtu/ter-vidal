@@ -1,27 +1,17 @@
 import React from "react";
-import {
-  Box,
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  Button,
-} from "@mui/material";
-
-const HomePage = () => {
-  // Replace this with actual data
-  const appointments = [
-    { id: "65fb5f289805b1d954a06b11", time: "10:00 AM", patient: "cengi test" },
-    { id: 2, time: "11:00 AM", patient: "Jane Doe" },
-    { id: 3, time: "12:00 PM", patient: "Jim Doe" },
-  ];
-
+import { Box, Grid, Card, CardContent, Typography } from "@mui/material";
+import { format } from "date-fns"; // Assurez-vous d'installer cette dépendance
+import { useNavigate } from "react-router-dom";
+import { IconButton } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+const HomePage = ({ appointments }) => {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <Typography variant="h4" component="h1" align="center" sx={{ mt: 10 }}>
-        Welcome to the Appointments Page
+        Bienvenue sur la page des rendez-vous
       </Typography>
       <Grid
         container
@@ -30,16 +20,27 @@ const HomePage = () => {
         justifyContent="center"
         alignItems="center"
       >
-        {appointments.map((appointment) => (
-          <Grid item key={appointment.id}>
-            <Card>
-              <CardContent sx={{ minWidth: 200, minHeight: 200 }}>
+        {appointments.map((appointment, index) => (
+          <Grid item key={index}>
+            {" "}
+            {/* Utilisation de l'index comme clé si `appointment` n'a pas d'`id` unique */}
+            <Card sx={{ minWidth: 275 }}>
+              <CardContent>
                 <Typography variant="h5" component="div">
-                  {appointment.time}
+                  Lieu: {appointment.lieu}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {appointment.patient}
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  {format(new Date(appointment.date), "PPpp")}{" "}
+                  <IconButton
+                    color="voir"
+                    onClick={() =>
+                      navigate(`/dossierPatient/${appointment.idPatient}`)
+                    }
+                  >
+                    <VisibilityIcon />
+                  </IconButton>
                 </Typography>
+                {/* Si vous avez accès aux données du patient (nom, etc.), vous pouvez les ajouter ici */}
               </CardContent>
             </Card>
           </Grid>
