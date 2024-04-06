@@ -5,7 +5,6 @@ import {
   Card,
   CardMedia,
   CardContent,
-  Avatar,
   Button,
   Container,
   Grid,
@@ -19,9 +18,8 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import DriveFileMoveIcon from "@mui/icons-material/DriveFileMove";
 import iconPeople from "../../public/Assets/anonyme.jpg";
-import { auto } from "@popperjs/core";
 
 export default function ListePatient({ patientsInitiaux = [] }) {
   const navigate = useNavigate();
@@ -79,8 +77,8 @@ export default function ListePatient({ patientsInitiaux = [] }) {
           mt: 4,
           maxHeight: 700,
           padding: 2,
-          backgroundColor: "transparent", // Rendre le Paper transparent
-          boxShadow: "none", // Supprimer l'ombre pour moins de visibilité
+          backgroundColor: "transparent",
+          boxShadow: "none",
           "&::-webkit-scrollbar": { display: "none" }, // Pour les navigateurs Webkit (Chrome, Safari, etc.)
           scrollbarWidth: "none", // Pour Firefox
           "-ms-overflow-style": "none", // Pour Internet Explorer 10+
@@ -109,7 +107,7 @@ export default function ListePatient({ patientsInitiaux = [] }) {
               <Card
                 sx={{
                   borderRadius: "16px",
-                  maxWidth: 400, // Augmentez légèrement la largeur maximale pour rendre les cartes plus larges
+                  maxWidth: 400,
                   transition: "transform 0.2s ease-in-out",
                   ":hover": {
                     transform: "scale(1.05)",
@@ -140,27 +138,29 @@ export default function ListePatient({ patientsInitiaux = [] }) {
                   <Typography variant="body2" color="textSecondary">
                     {new Date(patient.birthdate).toLocaleDateString()}
                   </Typography>
-                  <Grid
-                    container
-                    spacing={1}
-                    sx={{ mt: 2, justifyContent: "center" }}
-                  >
-                    <Grid item>
+                  <Grid container sx={{ justifyContent: "center" }}>
+                    <Grid item sx={{ mx: 2 }}>
+                      {" "}
                       <IconButton
                         color="primary"
                         onClick={() =>
                           navigate(`/dossierPatient/${patient._id}`)
                         }
                       >
-                        <VisibilityIcon fontSize="small" />
+                        <DriveFileMoveIcon />
                       </IconButton>
-
+                    </Grid>
+                    <Grid item sx={{ mx: 2 }}>
+                      {" "}
                       <IconButton
                         color="warning"
                         onClick={() => navigate(`/editPatient/${patient._id}`)}
                       >
                         <EditIcon fontSize="small" />
                       </IconButton>
+                    </Grid>
+                    <Grid item sx={{ mx: 2 }}>
+                      {" "}
                       <IconButton color="error">
                         <DeleteIcon fontSize="small" />
                       </IconButton>

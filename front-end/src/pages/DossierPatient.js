@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { ThemeProvider, GlobalStyles } from "@mui/material/";
 import { Grid } from "@mui/material";
 import { ListItemIcon } from "@mui/material";
 
@@ -24,34 +23,26 @@ export default function DossierPatient({
 }) {
   const navigate = useNavigate();
   const handleOrdonnanceClick = (id) => {
-    // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
-    // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
   };
 
   const handleVisiteClick = (id) => {
-    // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
-    // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
   };
   const handleRDVClick = (id) => {
-    // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
-    // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
   };
 
   const handleAntecedantClick = (id) => {
-    // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
-    // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
   };
 
   return (
@@ -98,7 +89,6 @@ export default function DossierPatient({
             sx={{ width: 56, height: 56, mb: 5, mt: 5 }}
             src="/path/to/patient-image.jpg"
           />
-          {/* Conteneur pour le texte avec alignement uniforme et souligné */}
           <Box sx={{ textAlign: "left", maxWidth: "80%", mt: 1 }}>
             <Typography sx={{ mb: 3 }}>Nom: {patient.name}</Typography>
             <Typography sx={{ mb: 3 }}>Prénom: {patient.firstname}</Typography>
@@ -145,7 +135,6 @@ export default function DossierPatient({
                       onClick={() => handleOrdonnanceClick(ordonnance._id)}
                     >
                       <ListItemIcon>
-                        {/* Utilisation d'une icône stockée localement dans public/assets */}
                         <img
                           src="/Assets/prescription.png"
                           alt="Icon"

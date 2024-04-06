@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import { color } from "@mui/system";
 
 export default function SignIn() {
   const handleSubmit = (event) => {
@@ -36,7 +37,7 @@ export default function SignIn() {
             sx={{
               my: 8,
               p: 3,
-              backgroundColor: "#ff9c6d", // Arrière-plan coloré, sera partiellement visible autour de l'image
+              backgroundColor: "primary.main", // Arrière-plan coloré, sera partiellement visible autour de l'image
               backgroundImage: 'url("/Assets/a.png")', // Ajoutez votre image de fond ici
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center", // Centrer l'image de fond
@@ -84,7 +85,7 @@ export default function SignIn() {
                     </Avatar> */}
             <Paper
               sx={{
-                backgroundColor: "#ff9c6d", // Couleur de fond orange
+                backgroundColor: "primary.main", // Couleur de fond orange
                 padding: "8px 16px", // Espacement intérieur pour le texte
                 width: "100%", // Prend toute la largeur
                 marginTop: 0, // Supprime la marge supérieure
@@ -103,7 +104,7 @@ export default function SignIn() {
             <Divider sx={{ mt: 2, mb: 2 }} />
             <Avatar
               src="/Assets/steto.png"
-              sx={{ width: 50, height: 50, margin: "auto" }}
+              sx={{ width: 50, height: 50, margin: "auto", color: "fill" }}
             />
             <Box
               component="form"
