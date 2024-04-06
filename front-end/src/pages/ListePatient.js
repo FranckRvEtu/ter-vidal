@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
+  Card,
+  CardMedia,
+  CardContent,
   Avatar,
   Button,
   Container,
@@ -11,25 +14,19 @@ import {
   TextField,
   Typography,
   InputAdornment,
-  Menu,
-  MenuItem,
-  Checkbox,
+  Divider,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import SortIcon from "@mui/icons-material/Sort";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import iconPeople from "../../public/Assets/anonyme.jpg";
+import { auto } from "@popperjs/core";
 
 export default function ListePatient({ patientsInitiaux = [] }) {
   const navigate = useNavigate();
   const [recherche, setRecherche] = useState("");
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [triOptions, setTriOptions] = useState([
-    { label: "Nom", value: "name", checked: false },
-    { label: "Prénom", value: "firstname", checked: false },
-    { label: "ID", value: "_id", checked: false },
-  ]);
+
   const [patientsAffiches, setPatientsAffiches] = useState(patientsInitiaux);
 
   useEffect(() => {
@@ -45,42 +42,24 @@ export default function ListePatient({ patientsInitiaux = [] }) {
     }
 
     // Tri
-    resultats.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
     setPatientsAffiches(resultats);
-  }, [recherche, triOptions, patientsInitiaux]);
+  }, [recherche, patientsInitiaux]);
 
   const handleSearch = () => {
     console.log("Recherche en cours pour:", recherche);
   };
 
-  const handleClickSort = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleToggleTriOption = (value) => {
-    const newOptions = triOptions.map((option) => {
-      if (option.value === value) {
-        return { ...option, checked: !option.checked };
-      }
-      return option;
-    });
-    setTriOptions(newOptions);
-  };
-
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Grid container spacing={2} alignItems="center" sx={{ mt: 8 }}>
+      <Grid alignItems="center" sx={{ mt: 8 }}>
         <Grid item xs={8}>
           <TextField
             fullWidth
             label="Rechercher un patient"
             variant="standard"
             value={recherche}
+            color="primary"
             onChange={(e) => setRecherche(e.target.value)}
             InputProps={{
               endAdornment: (
@@ -93,95 +72,91 @@ export default function ListePatient({ patientsInitiaux = [] }) {
             }}
           />
         </Grid>
-        <Grid item xs={2}>
-          <Button
-            startIcon={<SortIcon />}
-            variant="contained"
-            onClick={handleClickSort}
-          >
-            Trier
-          </Button>
-          <Menu
-            id="sort-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            {triOptions.map((option) => (
-              <MenuItem
-                key={option.value}
-                onClick={() => handleToggleTriOption(option.value)}
-              >
-                <Checkbox checked={option.checked} />
-                {option.label}
-              </MenuItem>
-            ))}
-          </Menu>
-        </Grid>
       </Grid>
       <Paper
         sx={{
           minHeight: 200,
           maxHeight: 700,
+          maxWidth: 1500,
           overflow: "auto",
           mt: 2,
           padding: 2,
         }}
       >
-        <Grid container spacing={0.5} sx={{ mt: 0 }}>
+        <Grid
+          container
+          spacing={2}
+          sx={{ mt: 0, justifyContent: "space-between" }}
+        >
           {patientsAffiches.map((patient, index) => (
             <Grid item xs={12} sm={6} md={4} key={patient._id || index}>
-              <Paper
-                elevation={3}
+              <Card
                 sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
+                  borderRadius: "16px",
+                  maxWidth: 400, // Augmentez légèrement la largeur maximale pour rendre les cartes plus larges
+                  transition: "transform 0.2s ease-in-out",
+                  ":hover": {
+                    transform: "scale(1.05)",
+                  },
                 }}
               >
-                <Avatar
-                  src={patient.imageUrl}
-                  sx={{ width: 73, height: 73, mb: 2 }}
+                <CardMedia
+                  component="img"
+                  sx={{
+                    width: "100%",
+                    height: 200,
+                    objectFit: "contain",
+                  }}
+                  image={iconPeople}
+                  alt="recipe thumbnail"
                 />
-                <Typography>{`${patient.firstname} ${patient.name}`}</Typography>
-                <Grid
-                  container
-                  spacing={1}
-                  sx={{ mt: 2, justifyContent: "center" }}
-                >
-                  <Grid item>
-                    <IconButton
-                      color="voir"
-                      onClick={() => navigate(`/dossierPatient/${patient._id}`)}
-                    >
-                      <VisibilityIcon />
-                    </IconButton>
-                  </Grid>
 
-                  <Grid item>
-                    <IconButton
-                      color="modifier"
-                      onClick={() => console.log("Modifier", patient._id)}
-                    >
-                      <EditIcon />
-                    </IconButton>
+                <Divider />
+                <CardContent>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    sx={{ fontWeight: "bold" }}
+                  >
+                    {`${patient.firstname} ${patient.name}`}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    {new Date(patient.birthdate).toLocaleDateString()}
+                  </Typography>
+                  <Grid
+                    container
+                    spacing={1}
+                    sx={{ mt: 2, justifyContent: "center" }}
+                  >
+                    <Grid item>
+                      <IconButton
+                        color="primary"
+                        onClick={() =>
+                          navigate(`/dossierPatient/${patient._id}`)
+                        }
+                      >
+                        <VisibilityIcon fontSize="small" />
+                      </IconButton>
+
+                      <IconButton
+                        color="warning"
+                        onClick={() => navigate(`/editPatient/${patient._id}`)}
+                      >
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton color="error">
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </Grid>
                   </Grid>
-                  <Grid item>
-                    <IconButton
-                      color="supprimer"
-                      onClick={() => console.log("Supprimer", patient._id)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </Paper>
+                </CardContent>
+              </Card>
             </Grid>
           ))}
         </Grid>
       </Paper>
+
       <Button
         variant="contained"
         color="primary"

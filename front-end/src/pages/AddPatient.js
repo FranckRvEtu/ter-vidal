@@ -70,6 +70,7 @@ export default function AddPatient() {
           name="firstname"
           autoComplete="firstname"
           autoFocus
+          color="primary"
         />
         <TextField
           variant="standard"
