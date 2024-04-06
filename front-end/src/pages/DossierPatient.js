@@ -8,6 +8,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Divider,
 } from "@mui/material";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -90,18 +91,25 @@ export default function DossierPatient({
             src="/path/to/patient-image.jpg"
           />
           <Box sx={{ textAlign: "left", maxWidth: "80%", mt: 1 }}>
-            <Typography sx={{ mb: 3 }}>Nom: {patient.name}</Typography>
-            <Typography sx={{ mb: 3 }}>Prénom: {patient.firstname}</Typography>
-            <Typography sx={{ mb: 3 }}>Sexe: {patient.sexe}</Typography>
-            <Typography sx={{ mb: 3 }}>Taille: {patient.height} cm</Typography>
-            <Typography sx={{ mb: 3 }}>Poids: {patient.weight} kg</Typography>
-            <Typography sx={{ mb: 3 }}>
+            <Typography sx={{ mt: 3 }}>Nom: {patient.name}</Typography>
+            <Divider />
+            <Typography sx={{ mt: 3 }}>Prénom: {patient.firstname}</Typography>
+            <Divider />
+            <Typography sx={{ mt: 3 }}>Sexe: {patient.sexe}</Typography>
+            <Divider />
+            <Typography sx={{ mt: 3 }}>Taille: {patient.height} cm</Typography>
+            <Divider />
+            <Typography sx={{ mt: 3 }}>Poids: {patient.weight} kg</Typography>
+            <Divider />
+            <Typography sx={{ mt: 3 }}>
               Date de naissance:{" "}
               {format(new Date(patient.birthdate), "dd/MM/yyyy")}
             </Typography>
-            <Typography sx={{ mb: 3 }}>
+            <Divider />
+            <Typography sx={{ mt: 3 }}>
               Groupe sanguin: {patient.BloodType}
             </Typography>
+            <Divider />
           </Box>
         </Paper>
       </Box>
@@ -129,25 +137,27 @@ export default function DossierPatient({
               <List>
                 {ordonnances &&
                   ordonnances.map((ordonnance) => (
-                    <ListItem
-                      key={ordonnance._id}
-                      button
-                      onClick={() => handleOrdonnanceClick(ordonnance._id)}
-                    >
-                      <ListItemIcon>
-                        <img
-                          src="/Assets/prescription.png"
-                          alt="Icon"
-                          style={{ width: 24, height: 24 }}
+                    <div key={ordonnance._id}>
+                      <ListItem
+                        button
+                        onClick={() => handleOrdonnanceClick(ordonnance._id)}
+                      >
+                        <ListItemIcon>
+                          <img
+                            src="/Assets/prescription.png"
+                            alt="Icon"
+                            style={{ width: 24, height: 24 }}
+                          />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={`Date d'ordonnance : ${format(
+                            new Date(ordonnance.date),
+                            "dd/MM/yyyy"
+                          )}`}
                         />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={`Date d'ordonnance : ${format(
-                          new Date(ordonnance.date),
-                          "dd/MM/yyyy"
-                        )}`}
-                      />
-                    </ListItem>
+                      </ListItem>
+                      <Divider />
+                    </div>
                   ))}
               </List>
             </Paper>
