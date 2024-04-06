@@ -60,7 +60,7 @@ export default function DossierPatient({
         display: "flex",
         alignItems: "flex-start",
         justifyContent: "space-between",
-        mt: 10,
+        minHeight: "100vh",
       }}
     >
       <Box sx={{ display: "flex", flexDirection: "column", mr: 2 }}>
@@ -153,7 +153,10 @@ export default function DossierPatient({
                         />
                       </ListItemIcon>
                       <ListItemText
-                        primary={`Date d'ordonnance : ${format(new Date(ordonnance.date), "dd/MM/yyyy")}`}
+                        primary={`Date d'ordonnance : ${format(
+                          new Date(ordonnance.date),
+                          "dd/MM/yyyy"
+                        )}`}
                       />
                     </ListItem>
                   ))}
@@ -186,7 +189,10 @@ export default function DossierPatient({
                       onClick={() => handleRDVClick(rdv._id)}
                     >
                       <ListItemText
-                        primary={`Rendez-vous le ${format(new Date(rdv.date), "dd/MM/yyyy à HH:mm")}`}
+                        primary={`Rendez-vous le ${format(
+                          new Date(rdv.date),
+                          "dd/MM/yyyy à HH:mm"
+                        )}`}
                         secondary={`Lieu : ${rdv.lieu}`}
                       />
                     </ListItem>
@@ -256,7 +262,10 @@ export default function DossierPatient({
                       onClick={() => handleVisiteClick(visite._id)}
                     >
                       <ListItemText
-                        primary={`Visite le ${format(new Date(visite.date), "dd/MM/yyyy à HH:mm")}`}
+                        primary={`Visite le ${format(
+                          new Date(visite.date),
+                          "dd/MM/yyyy à HH:mm"
+                        )}`}
                       />
                     </ListItem>
                   ))}

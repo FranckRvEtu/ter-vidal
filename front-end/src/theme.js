@@ -8,6 +8,7 @@ const theme = createTheme({
     voir: { main: "#0000ff" }, // Change to blue
     supprimer: { main: "#ff0000" }, // Change to red
     modifier: { main: "#00ff00" }, // Change to green
+    background: { default: "#f5f5f5" },
   },
   typography: {
     // Définir la taille de la police globale

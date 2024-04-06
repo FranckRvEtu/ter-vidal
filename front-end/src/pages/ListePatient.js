@@ -51,8 +51,8 @@ export default function ListePatient({ patientsInitiaux = [] }) {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Grid alignItems="center" sx={{ mt: 8 }}>
+    <Container maxWidth="lg" sx={{}}>
+      <Grid alignItems="center" sx={{}}>
         <Grid item xs={8}>
           <TextField
             fullWidth
@@ -75,21 +75,37 @@ export default function ListePatient({ patientsInitiaux = [] }) {
       </Grid>
       <Paper
         sx={{
-          minHeight: 200,
-          maxHeight: 700,
-          maxWidth: 1500,
           overflow: "auto",
-          mt: 2,
+          mt: 4,
+          maxHeight: 700,
           padding: 2,
+          backgroundColor: "transparent", // Rendre le Paper transparent
+          boxShadow: "none", // Supprimer l'ombre pour moins de visibilité
+          "&::-webkit-scrollbar": { display: "none" }, // Pour les navigateurs Webkit (Chrome, Safari, etc.)
+          scrollbarWidth: "none", // Pour Firefox
+          "-ms-overflow-style": "none", // Pour Internet Explorer 10+
         }}
       >
         <Grid
           container
           spacing={2}
-          sx={{ mt: 0, justifyContent: "space-between" }}
+          sx={{
+            mt: 0,
+            justifyContent: "space-between",
+          }}
         >
           {patientsAffiches.map((patient, index) => (
-            <Grid item xs={12} sm={6} md={4} key={patient._id || index}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              key={patient._id || index}
+              sx={{
+                mt: 0,
+                justifyContent: "space-between",
+              }}
+            >
               <Card
                 sx={{
                   borderRadius: "16px",
@@ -156,7 +172,6 @@ export default function ListePatient({ patientsInitiaux = [] }) {
           ))}
         </Grid>
       </Paper>
-
       <Button
         variant="contained"
         color="primary"

@@ -137,7 +137,7 @@ function Ordonnance2() {
 
   return (
     <Container maxWidth="sm" sx={{ mt: 5 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
+      <Typography variant="h5" component="h1" gutterBottom>
         Nom patient Concerné
       </Typography>
       <form onSubmit={handleSubmit} id="ordonnance-form">
