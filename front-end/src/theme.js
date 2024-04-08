@@ -1,29 +1,27 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
-    primary: { main: '#ff7644' }, // Changer en orange
-    secondary:  { main: '#b3b300' }, // Change to darker yellow
-    voir: { main: '#0000ff' }, // Change to blue
-    supprimer: { main: '#ff0000' }, // Change to red
-    modifier: { main: '#00ff00' }, // Change to green
+    primary: { main: "#00897b" }, // Changer en orange
+    secondary: { main: "#B3E5FC" }, // Change to darker yellow
+    dark: { main: "#0288D1" }, // Change to black
+    voir: { main: "#0000ff" }, // Change to blue
+    supprimer: { main: "#ff0000" }, // Change to red
+    modifier: { main: "#00ff00" }, // Change to green
+    background: { default: "#f5f5f5" },
   },
   typography: {
-    // Définir la taille de la police globale à 18px
+    // Définir la taille de la police globale
     fontSize: 18,
-    fontFamily: [
-      'Poppins',
-      'sans-serif',
-    ].join(','),
+    // Spécifier la famille de polices globale
+    fontFamily: "'Helvetica Neue', sans-serif",
     h4: {
-      fontSize: '1.75rem',
-      color: 'white',
+      fontSize: "1.75rem",
+      color: "white",
     },
     h6: {
-
-      fontSize: '1.5rem',
+      fontSize: "1.5rem",
     },
-    
   },
   components: {
     MuiCssBaseline: {
@@ -49,15 +47,15 @@ const theme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
-          '& label.Mui-focused': {
-            color: '#ff7644',
+          "& label.Mui-focused": {
+            color: "primary",
           },
-          '& .MuiInput-underline:after': {
-            borderBottomColor: '#ff7644',
+          "& .MuiInput-underline:after": {
+            borderBottomColor: "primary",
           },
-          '& .MuiOutlinedInput-root': {
-            '&.Mui-focused fieldset': {
-              borderColor: '#ff7644',
+          "& .MuiOutlinedInput-root": {
+            "&.Mui-focused fieldset": {
+              borderColor: "primary",
             },
           },
         },

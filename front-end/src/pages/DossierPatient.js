@@ -8,10 +8,10 @@ import {
   List,
   ListItem,
   ListItemText,
+  Divider,
 } from "@mui/material";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { ThemeProvider, GlobalStyles } from "@mui/material/";
 import { Grid } from "@mui/material";
 import { ListItemIcon } from "@mui/material";
 
@@ -24,34 +24,26 @@ export default function DossierPatient({
 }) {
   const navigate = useNavigate();
   const handleOrdonnanceClick = (id) => {
-    // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
-    // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
   };
 
   const handleVisiteClick = (id) => {
-    // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
-    // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
   };
   const handleRDVClick = (id) => {
-    // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
-    // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
   };
 
   const handleAntecedantClick = (id) => {
-    // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
-    // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
   };
 
   return (
@@ -60,7 +52,7 @@ export default function DossierPatient({
         display: "flex",
         alignItems: "flex-start",
         justifyContent: "space-between",
-        mt: 10,
+        minHeight: "100vh",
       }}
     >
       <Box sx={{ display: "flex", flexDirection: "column", mr: 2 }}>
@@ -98,20 +90,26 @@ export default function DossierPatient({
             sx={{ width: 56, height: 56, mb: 5, mt: 5 }}
             src="/path/to/patient-image.jpg"
           />
-          {/* Conteneur pour le texte avec alignement uniforme et souligné */}
           <Box sx={{ textAlign: "left", maxWidth: "80%", mt: 1 }}>
-            <Typography sx={{ mb: 3 }}>Nom: {patient.name}</Typography>
-            <Typography sx={{ mb: 3 }}>Prénom: {patient.firstname}</Typography>
-            <Typography sx={{ mb: 3 }}>Sexe: {patient.sexe}</Typography>
-            <Typography sx={{ mb: 3 }}>Taille: {patient.height} cm</Typography>
-            <Typography sx={{ mb: 3 }}>Poids: {patient.weight} kg</Typography>
-            <Typography sx={{ mb: 3 }}>
+            <Typography sx={{ mt: 3 }}>Nom: {patient.name}</Typography>
+            <Divider />
+            <Typography sx={{ mt: 3 }}>Prénom: {patient.firstname}</Typography>
+            <Divider />
+            <Typography sx={{ mt: 3 }}>Sexe: {patient.sexe}</Typography>
+            <Divider />
+            <Typography sx={{ mt: 3 }}>Taille: {patient.height} cm</Typography>
+            <Divider />
+            <Typography sx={{ mt: 3 }}>Poids: {patient.weight} kg</Typography>
+            <Divider />
+            <Typography sx={{ mt: 3 }}>
               Date de naissance:{" "}
               {format(new Date(patient.birthdate), "dd/MM/yyyy")}
             </Typography>
-            <Typography sx={{ mb: 3 }}>
+            <Divider />
+            <Typography sx={{ mt: 3 }}>
               Groupe sanguin: {patient.BloodType}
             </Typography>
+            <Divider />
           </Box>
         </Paper>
       </Box>
@@ -139,23 +137,27 @@ export default function DossierPatient({
               <List>
                 {ordonnances &&
                   ordonnances.map((ordonnance) => (
-                    <ListItem
-                      key={ordonnance._id}
-                      button
-                      onClick={() => handleOrdonnanceClick(ordonnance._id)}
-                    >
-                      <ListItemIcon>
-                        {/* Utilisation d'une icône stockée localement dans public/assets */}
-                        <img
-                          src="/Assets/prescription.png"
-                          alt="Icon"
-                          style={{ width: 24, height: 24 }}
+                    <div key={ordonnance._id}>
+                      <ListItem
+                        button
+                        onClick={() => handleOrdonnanceClick(ordonnance._id)}
+                      >
+                        <ListItemIcon>
+                          <img
+                            src="/Assets/prescription.png"
+                            alt="Icon"
+                            style={{ width: 24, height: 24 }}
+                          />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={`Date d'ordonnance : ${format(
+                            new Date(ordonnance.date),
+                            "dd/MM/yyyy"
+                          )}`}
                         />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={`Date d'ordonnance : ${format(new Date(ordonnance.date), "dd/MM/yyyy")}`}
-                      />
-                    </ListItem>
+                      </ListItem>
+                      <Divider />
+                    </div>
                   ))}
               </List>
             </Paper>
@@ -186,7 +188,10 @@ export default function DossierPatient({
                       onClick={() => handleRDVClick(rdv._id)}
                     >
                       <ListItemText
-                        primary={`Rendez-vous le ${format(new Date(rdv.date), "dd/MM/yyyy à HH:mm")}`}
+                        primary={`Rendez-vous le ${format(
+                          new Date(rdv.date),
+                          "dd/MM/yyyy à HH:mm"
+                        )}`}
                         secondary={`Lieu : ${rdv.lieu}`}
                       />
                     </ListItem>
@@ -256,7 +261,10 @@ export default function DossierPatient({
                       onClick={() => handleVisiteClick(visite._id)}
                     >
                       <ListItemText
-                        primary={`Visite le ${format(new Date(visite.date), "dd/MM/yyyy à HH:mm")}`}
+                        primary={`Visite le ${format(
+                          new Date(visite.date),
+                          "dd/MM/yyyy à HH:mm"
+                        )}`}
                       />
                     </ListItem>
                   ))}

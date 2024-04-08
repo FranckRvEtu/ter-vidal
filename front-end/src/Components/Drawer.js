@@ -46,11 +46,10 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
+  justifyContent: "space-between",
+  backgroundColor: "primary.main",
 }));
-
 export default function PersistentDrawerLeft() {
   const theme = useTheme(Theme);
   const [open, setOpen] = React.useState(false);
@@ -66,6 +65,15 @@ export default function PersistentDrawerLeft() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleMouseEnter = () => {
+    handleDrawerOpen();
+  };
+
+  // Fonction pour gérer la fermeture du drawer lorsque la souris quitte la zone
+  const handleMouseLeave = () => {
+    handleDrawerClose();
   };
 
   useEffect(() => {
@@ -110,35 +118,50 @@ export default function PersistentDrawerLeft() {
         position="fixed"
         open={open}
         sx={{
+          top: 0, // Positionner l'AppBar en haut
+          right: 0, // Aligner l'AppBar à droite
           bgcolor: "primary.main",
           zIndex: (theme) => theme.zIndex.drawer + 1,
+          width: "auto", // Ajuster la largeur automatiquement en fonction du contenu
+          height: "auto", // Ajuster la hauteur automatiquement en fonction du contenu
+          display: "flex",
+          justifyContent: "flex-end", // Placer le contenu à droite
+
+          borderBottomLeftRadius: 20, // Arrondir également le coin bas gauche
+          boxShadow: "none", // Supprimer l'ombre pour un effet plus épuré
         }}
       >
-        <Toolbar>
-          <IconButton
-            color="#FFFFFF"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h4" noWrap component="div">
-            Nom app
-          </Typography>
-          <Box sx={{ flexGrow: 1 }} />
+        <Toolbar
+          disableGutters // Désactiver les paddings par défaut du Toolbar
+          sx={{
+            minHeight: "64px", // Hauteur minimale pour aligner avec la hauteur standard d'AppBar
+            justifyContent: "flex-end", // Placer le contenu à droite
+            padding: "0 16px", // Ajouter du padding à droite et à gauche pour éviter que le contenu touche les bords
+          }}
+        >
           <Avatar
             alt="Dr Kawasaki"
             src="/Assets/photoDR.jpg"
-            sx={{ width: 50, height: 50, marginLeft: "auto" }}
+            sx={{
+              width: 50,
+              height: 50,
+              marginRight: 2, // Ajouter un petit espace à droite de l'avatar
+            }}
           />
 
-          <Typography variant="h4" marginLeft="auto" noWrap component="div">
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{
+              color: "white", // Couleur du texte
+            }}
+          >
             Dr Kawasaki
           </Typography>
         </Toolbar>
       </AppBar>
+
       <Drawer
         sx={{
           width: drawerWidth,
@@ -151,15 +174,17 @@ export default function PersistentDrawerLeft() {
         variant="persistent"
         anchor="left"
         open={open}
+        onMouseLeave={handleDrawerClose}
       >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
+        <DrawerHeader sx={{ backgroundColor: "primary.main" }}>
+          <Typography
+            variant="h4"
+            noWrap
+            component="div"
+            sx={{ color: "white" }}
+          >
+            Nom app
+          </Typography>
         </DrawerHeader>
         <Box sx={{}}>
           <Divider />
@@ -281,6 +306,16 @@ export default function PersistentDrawerLeft() {
           </List>
         </Box>
       </Drawer>
+      <Box
+        sx={{
+          width: "160px",
+          height: "100vh",
+          position: "fixed",
+          left: 0,
+          top: 0,
+        }}
+        onMouseEnter={handleMouseEnter} // Ajout de l'événement onMouseEnter sur la zone sensible
+      ></Box>
     </Box>
   );
 }

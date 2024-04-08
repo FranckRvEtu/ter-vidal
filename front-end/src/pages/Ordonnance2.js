@@ -32,7 +32,6 @@ function Ordonnance2() {
     socket.on("transcribedText", (text) => {
       console.log(text);
 
-      // Utiliser les expressions régulières pour détecter le mot clé "médicament" et supprimer ce mot du texte reçu.
       if (/(médicament|médicaments|Médicament|Médicaments)/gi.test(text)) {
         const modifiedString = text.replace(
           /(médicament|médicaments|Médicament|Médicaments)/gi,
@@ -40,7 +39,6 @@ function Ordonnance2() {
         );
         console.log("medoc:" + modifiedString);
 
-        // Mettre à jour l'état `medicament` avec le texte modifié au lieu de manipuler directement le DOM.
         setMedicament(
           (prevMedicament) => `${prevMedicament} ${modifiedString}`
         );
@@ -99,7 +97,6 @@ function Ordonnance2() {
 
         setPrescriptions([...prescriptions, data]);
 
-        // Réinitialiser les champs après l'ajout d'une prescription
         setMedicament("");
         setPosologie("");
         setRemarque("");
@@ -125,7 +122,6 @@ function Ordonnance2() {
         }),
       });
       if (response.ok) {
-        // Mettez ici le code à exécuter si la requête réussit
         console.log("Ordonnance créée avec succès");
       } else {
         console.error("Failed to create ordonnance");
@@ -137,7 +133,7 @@ function Ordonnance2() {
 
   return (
     <Container maxWidth="sm" sx={{ mt: 5 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
+      <Typography variant="h5" component="h1" gutterBottom>
         Nom patient Concerné
       </Typography>
       <form onSubmit={handleSubmit} id="ordonnance-form">
@@ -192,7 +188,6 @@ function Ordonnance2() {
       {prescriptions.length > 0 && (
         <Card sx={{ mt: 2, overflow: "auto", maxHeight: 300 }}>
           {" "}
-          {/* Ajoutez une hauteur maximale et un défilement */}
           <CardContent>
             <Typography variant="h6">Prescriptions ajoutées :</Typography>
             <List>
