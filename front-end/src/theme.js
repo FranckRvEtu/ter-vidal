@@ -1,14 +1,26 @@
 import { createTheme } from "@mui/material/styles";
 
+const primaryMain = "#2D6A4F";
+const primaryLight = "#74C69D";
+const primaryLight2 = "#95D5B2";
+const primaryLight3 = "#B7E4C7";
+const light = "#f1f1f1";
+const primaryDark = "#40916C";
+const primaryDark2 = "#1B4332";
+const dark = "#081C15";
+const backgroundDefault = "#f1f1f1";
+
 const theme = createTheme({
   palette: {
-    primary: { main: "#00897b" }, // Changer en orange
-    secondary: { main: "#B3E5FC" }, // Change to darker yellow
-    dark: { main: "#0288D1" }, // Change to black
-    voir: { main: "#0000ff" }, // Change to blue
-    supprimer: { main: "#ff0000" }, // Change to red
-    modifier: { main: "#00ff00" }, // Change to green
-    background: { default: "#f5f5f5" },
+    primary: { main: primaryMain },
+    primaryLight: { main: primaryLight },
+    primaryLight2: { main: primaryLight2 },
+    primaryLight3: { main: primaryLight3 },
+    light: { main: light },
+    primaryDark: { main: primaryDark },
+    primaryDark2: { main: primaryDark2 },
+    dark: { main: dark },
+    background: { default: backgroundDefault },
   },
   typography: {
     // Définir la taille de la police globale
@@ -48,14 +60,14 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           "& label.Mui-focused": {
-            color: "primary",
+            color: primaryLight, // Utilisation de la variable
           },
           "& .MuiInput-underline:after": {
-            borderBottomColor: "primary",
+            borderBottomColor: primaryLight, // Utilisation de la variable
           },
           "& .MuiOutlinedInput-root": {
             "&.Mui-focused fieldset": {
-              borderColor: "primary",
+              borderColor: primaryLight, // Utilisation de la variable
             },
           },
         },

@@ -112,6 +112,8 @@ export default function ListePatient({ patientsInitiaux = [] }) {
                   ":hover": {
                     transform: "scale(1.05)",
                   },
+                  background: (theme) =>
+                    `linear-gradient(45deg, ${theme.palette.primaryLight2.main} 30%, ${theme.palette.primaryDark2.main} 90%)`,
                 }}
               >
                 <CardMedia
