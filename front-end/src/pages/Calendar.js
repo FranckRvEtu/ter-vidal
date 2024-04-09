@@ -12,6 +12,7 @@ export default function Calendar({ listRDV }) {
   let tooltip = null;
 
   const handleMouseEnter = (info) => {
+
     const calendarBoundingRect = document
       .querySelector(".calendar")
       .getBoundingClientRect();
@@ -51,11 +52,32 @@ export default function Calendar({ listRDV }) {
         }}
         firstDay={1} // Lundi premier jour de la semaine
         slotMinTime={"08:00:00"} // Début de la plage horaire à 8h
-        slotMaxTime={"23:00:00"} // Fin de la plage horaire à 20h
+        slotMaxTime={"20:00:00"} // Fin de la plage horaire à 20h
         height={"auto"}
         locale="fr" // Langue et timezone française
         allDaySlot={false} // Enlève la ligne "all day"
-        events={listRDV}
+        events={[
+          {
+            title: 'RDV Francky',
+            start: '2024-04-04T10:30:00',
+            end: '2024-04-04T11:30:00',
+            extendedProps: {
+              department: 'Lozère',
+            },
+            description: 'Description de l"événement'
+          },
+        
+          {
+            title: 'RDV Etienne',
+            start: '2024-04-03T08:30:00',
+            end: '2024-04-03T10:30:00',
+            extendedProps: {
+              department: 'Lozère',
+            },
+            description: 'Description de l"événement'
+          }
+          // more events ...
+        ]}
         eventMouseEnter={handleMouseEnter}
         eventMouseLeave={handleMouseLeave}
       />

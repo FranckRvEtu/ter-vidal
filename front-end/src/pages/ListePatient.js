@@ -143,26 +143,30 @@ export default function ListePatient({ patientsInitiaux = [] }) {
           },
         }}
       >
-        <Grid container spacing={0.5} sx={{ mt: 0 }}>
+        <Grid container spacing={2} sx={{ mt: 0 }}>
           {patientsAffiches.map((patient, index) => (
             <Grid item xs={12} sm={6} md={4} key={patient._id || index}>
               <Paper
                 elevation={3}
                 sx={{
-                  p: 2,
+                  p: 1,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
+                  width: 300,
+                  height: 250,
+                  borderRadius: 15,
+                  mt: 2,
                 }}
               >
                 <Avatar
                   src={patient.imageUrl}
-                  sx={{ width: 73, height: 73, mb: 2 }}
+                  sx={{ width: 50, height: 50, mb: 2 }}
                 />
                 <Typography>{`${patient.firstname} ${patient.name}`}</Typography>
                 <Grid
                   container
-                  spacing={1}
+                  spacing={5}
                   sx={{ mt: 2, justifyContent: "center" }}
                 >
                   <Grid item>

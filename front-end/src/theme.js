@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
-    primary: { main: '#ff7644' }, // Changer en orange
+    primary: { main: '#77B5FE' }, // Changer en orange
     secondary:  { main: '#b3b300' }, // Change to darker yellow
     voir: { main: '#0000ff' }, // Change to blue
     supprimer: { main: '#ff0000' }, // Change to red
