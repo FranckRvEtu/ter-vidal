@@ -166,7 +166,26 @@ export default function ListePatient({ patientsInitiaux = [] }) {
                     </Grid>
                     <Grid item sx={{ mx: 2 }}>
                       {" "}
-                      <IconButton color="error">
+                      <IconButton 
+                      color="error"
+                      onClick={() => {
+                        if (window.confirm("Voulez-vous vraiment supprimer ce patient ?")){
+                          fetch(`http://localhost:11000/deletePatient/${patient._id}`,{
+                            method:"GET"
+                          })
+                          .then((response) => {
+                            console.log(response.ok);
+                            if(response.ok){
+                              window.alert("Patient supprimé avec succès");
+                              window.location.reload();
+                            } else {
+                              console.error("Erreur lors de la suppression du patient");
+                            }
+                          })
+
+                        }
+                        }}
+                      >
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </Grid>
