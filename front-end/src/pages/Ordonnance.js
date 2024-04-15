@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import "../Style/Ordonnance.css";
 import mic from "../../public/Assets/microBlack.jpg";
 import io from "socket.io-client";
+import * as sdk from 'microsoft-cognitiveservices-speech-sdk';
 
 function Ordonnance() {
   const [isListening, setIsListening] = useState(false);
   const [prescriptions, setPrescriptions] = useState([]);
+  const [recognizer, setRecognizer] = useState(null); // Variable d'état pour recognizer
+
   useEffect(() => {
     const socket = io("http://192.168.1.32:5000");
 
@@ -22,35 +25,80 @@ function Ordonnance() {
       }
     });
 
-    if (window.annyang) {
-      window.annyang.setLanguage("fr-FR");
-      const commands = {
-        "médicament *text": function (text) {
-          document.getElementById("Medicament").value += text;
-        },
-        "posologie *text": function (text) {
-          document.getElementById("Posologie").value += text;
-        },
-        "commentaire *text": function (text) {
-          document.getElementById("Remarque").value += text;
-        },
-        "valider ajout": function () {
-          const form = document.getElementById("ordonnance-form");
-          form.dispatchEvent(new Event("submit", { cancelable: true }));
-        },
-      };
-      window.annyang.addCommands(commands);
-    }
+    const speechConfig = sdk.SpeechConfig.fromSubscription('60bb52b3a0d94c52b29930cee315c219', 'francecentral');
+    speechConfig.speechRecognitionLanguage = 'fr-FR';
+    const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
+
+    const newRecognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
+    newRecognizer.recognized = (_, event) => {
+      const text = event.result.text;
+      console.log(text);
+
+      if (/(médicament|médicaments|Médicament|Médicaments)/gi.test(text)) {
+        const modifiedString = text.replace(
+          /(médicament|médicaments|Médicament|Médicaments)/gi,
+          ""
+        );
+        console.log("medoc:" + modifiedString);
+        document.getElementById("Medicament").value += modifiedString;
+      }
+      if (/(posologie|posologies)/gi.test(text)) {
+        const modifiedString = text.replace(
+          /(posologie|posologies|Posologies|Posologie)/gi,
+          ""
+        );
+        console.log("poso:" + modifiedString);
+        document.getElementById("Posologie").value += modifiedString;
+      }
+      if (/(posologie|posologies)/gi.test(text)) {
+        const modifiedString = text.replace(
+          /(posologie|posologies|Posologies|Posologie)/gi,
+          ""
+        );
+        console.log("poso:" + modifiedString);
+        document.getElementById("Posologie").value += modifiedString;
+      }
+      if (/(commentaire|commentaires)/gi.test(text)) {
+        const modifiedString = text.replace(
+          /(commentaire|commmentaires|Commentaires|Commentaire)/gi,
+          ""
+        );
+        console.log("comment:" + modifiedString);
+        document.getElementById("Remarque").value += modifiedString;
+      }
+    };
+
+    setRecognizer(newRecognizer); // Affecter le recognizer à la variable d'état
+
+    return () => {
+      newRecognizer.close();
+    };
   }, []);
 
-  const toggleListening2 = () => {
-    if (isListening) {
-      window.annyang.abort();
-    } else {
-      window.annyang.start();
+  const toggleListening = () => {
+    if (!recognizer) {
+      console.error('Recognizer is not initialized.');
+      return;
     }
-    setIsListening(!isListening);
+
+    if (isListening) {
+      recognizer.stopContinuousRecognitionAsync(() => {
+        console.log('Speech recognition stopped.');
+        setIsListening(false);
+      }, (error) => {
+        console.error('Error stopping speech recognition:', error);
+      });
+    } else {
+      recognizer.startContinuousRecognitionAsync(() => {
+        console.log('Speech recognition started.');
+        setIsListening(true);
+      }, (error) => {
+        console.error('Error starting speech recognition:', error);
+      });
+    }
   };
+  
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -145,7 +193,7 @@ function Ordonnance() {
           </button>
           <a
             className={`mic2 ${isListening ? "active" : ""}`}
-            onClick={toggleListening2}
+            onClick={toggleListening}
           >
             <img src={mic} alt="Activer l'écoute" />
           </a>
