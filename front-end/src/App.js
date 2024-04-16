@@ -14,6 +14,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./theme";
 import CalendarWrapper from "./Wrapper/CalendarWrapper";
 import HomeWrapper from "./Wrapper/HomeWrapper";
+import UpdatePatientWrapper from "./Wrapper/UpdatePatientWrapper";
 
 function App() {
   return (
@@ -29,6 +30,10 @@ function App() {
           <Route
             path="/dossierPatient/:patientId"
             element={<DossierPatientWrapper />}
+          />
+          <Route
+            path="/editPatient/:patientId"
+            element={<UpdatePatientWrapper />}
           />
           <Route path="/listePatient" element={<ListePatientsWrapper />} />
           <Route path="/agenda" element={<CalendarWrapper />} />
