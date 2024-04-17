@@ -19,12 +19,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import io from "socket.io-client";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
+import * as sdk from 'microsoft-cognitiveservices-speech-sdk';
+import enrollProfile from '../../../enroll.js';
+
+const enrollFile = "/files/Enregistrement.wav"
+const speechConfig = sdk.SpeechConfig.fromSubscription('60bb52b3a0d94c52b29930cee315c219', 'francecentral');
 
 function Ordonnance2() {
   const [isListening, setIsListening] = useState(false);
   const [prescriptions, setPrescriptions] = useState([]);
   const [medicament, setMedicament] = useState("");
   const [posologie, setPosologie] = useState("");
+  const [recognizer, setRecognizer] = useState(null); // Variable d'état pour recognizer
   const [remarque, setRemarque] = useState("");
   useEffect(() => {
     const socket = io("http://192.168.1.32:5000");
@@ -38,43 +44,71 @@ function Ordonnance2() {
           ""
         );
         console.log("medoc:" + modifiedString);
-
-        setMedicament(
-          (prevMedicament) => `${prevMedicament} ${modifiedString}`
-        );
+        document.getElementById("Medicament").value += modifiedString;
       }
     });
 
-    if (window.annyang) {
-      window.annyang.setLanguage("fr-FR");
+    speechConfig.speechRecognitionLanguage = 'fr-FR';
+    const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
+    
 
-      const commands = {
-        "médicament *text": (text) => {
-          setMedicament((currentValue) => `${currentValue} ${text}`);
-        },
-        "posologie *text": (text) => {
-          setPosologie((currentValue) => `${currentValue} ${text}`);
-        },
-        "commentaire *text": (text) => {
-          setRemarque((currentValue) => `${currentValue} ${text}`);
-        },
-      };
+    const newRecognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
+    newRecognizer.recognized = (_, event) => {
+      const text = event.result.text;
+      console.log(text);
 
-      window.annyang.addCommands(commands);
+      if (/(médicament|médicaments|Médicament|Médicaments)/gi.test(text)) {
+        const modifiedString = text.replace(
+          /(médicament|médicaments|Médicament|Médicaments)/gi,
+          ""
+        );
+        console.log("medoc:" + modifiedString);
+        setMedicament((currentValue) => `${currentValue} ${modifiedString}`);    }  
+      if (/(posologie|posologies)/gi.test(text)) {
+        const modifiedString = text.replace(
+          /(posologie|posologies|Posologies|Posologie)/gi,
+          ""
+        );
+        console.log("poso:" + modifiedString);
+        setPosologie((currentValue) => `${currentValue} ${modifiedString}`);      }
+      if (/(commentaire|commentaires)/gi.test(text)) {
+        const modifiedString = text.replace(
+          /(commentaire|commmentaires|Commentaires|Commentaire)/gi,
+          ""
+        );
+        console.log("comment:" + modifiedString);
+        setRemarque((currentValue) => `${currentValue} ${modifiedString}`);      }
+    };
 
-      return () => {
-        if (window.annyang) window.annyang.abort();
-      };
-    }
+    setRecognizer(newRecognizer); // Affecter le recognizer à la variable d'état
+
+    return () => {
+      newRecognizer.close();
+    };
   }, []);
 
   const toggleListening = () => {
-    if (isListening) {
-      window.annyang.abort();
-    } else {
-      window.annyang.start();
+    if (!recognizer) {
+      console.error('Recognizer is not initialized.');
+      return;
     }
-    setIsListening(!isListening);
+
+    if (isListening) {
+      recognizer.stopContinuousRecognitionAsync(() => {
+        console.log('Speech recognition stopped.');
+        setIsListening(false);
+      }, (error) => {
+        console.error('Error stopping speech recognition:', error);
+      });
+    } else {
+      recognizer.startContinuousRecognitionAsync(async () => {
+        
+        console.log('Speech recognition started.');
+        setIsListening(true);
+      }, (error) => {
+        console.error('Error starting speech recognition:', error);
+      });
+    }
   };
 
   const handleSubmit = async (event) => {

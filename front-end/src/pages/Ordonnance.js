@@ -50,14 +50,6 @@ function Ordonnance() {
         console.log("poso:" + modifiedString);
         document.getElementById("Posologie").value += modifiedString;
       }
-      if (/(posologie|posologies)/gi.test(text)) {
-        const modifiedString = text.replace(
-          /(posologie|posologies|Posologies|Posologie)/gi,
-          ""
-        );
-        console.log("poso:" + modifiedString);
-        document.getElementById("Posologie").value += modifiedString;
-      }
       if (/(commentaire|commentaires)/gi.test(text)) {
         const modifiedString = text.replace(
           /(commentaire|commmentaires|Commentaires|Commentaire)/gi,
