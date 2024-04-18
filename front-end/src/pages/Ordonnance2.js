@@ -19,14 +19,17 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import io from "socket.io-client";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
-
+const currentUrl = window.location.href;
+const parts = currentUrl.split('/');
+const id_patient = parts[parts.length - 1];
 function Ordonnance2() {
   const [isListening, setIsListening] = useState(false);
-  const [prescriptions, setPrescriptions] = useState([]);
+  let [prescriptions, setPrescriptions] = useState([]);
   const [medicament, setMedicament] = useState("");
   const [posologie, setPosologie] = useState("");
   const [remarque, setRemarque] = useState("");
   useEffect(() => {
+    /*
     const socket = io("http://192.168.1.32:5000");
 
     socket.on("transcribedText", (text) => {
@@ -44,7 +47,7 @@ function Ordonnance2() {
         );
       }
     });
-
+    */
     if (window.annyang) {
       window.annyang.setLanguage("fr-FR");
 
@@ -108,6 +111,20 @@ function Ordonnance2() {
     }
   };
 
+  const handleDeletePrescription = (index) => {
+    console.log(prescriptions);
+
+    const updatedPrescriptions = [...prescriptions];
+
+    updatedPrescriptions.splice(index, 1);
+    console.log(updatedPrescriptions);
+
+    prescriptions = updatedPrescriptions;
+    setPrescriptions(prescriptions);
+
+    console.log(prescriptions);
+  };
+
   const handleCreateOrdo = async () => {
     try {
       const response = await fetch("http://localhost:3000/addOrdonnance", {
@@ -117,7 +134,7 @@ function Ordonnance2() {
         },
         body: JSON.stringify({
           date: new Date(),
-          idPatient: "60d6b2e4d0a3e4c4d0c7a7b7",
+          idPatient: id_patient,
           prescriptions: prescriptions,
         }),
       });
@@ -217,7 +234,7 @@ function Ordonnance2() {
                       <IconButton
                         edge="end"
                         aria-label="delete"
-                        onClick={() => console.log("Delete prescription")}
+                        onClick={() => handleDeletePrescription(index)}
                       >
                         <DeleteIcon />
                       </IconButton>
