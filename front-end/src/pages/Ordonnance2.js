@@ -20,10 +20,11 @@ import io from "socket.io-client";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import * as sdk from 'microsoft-cognitiveservices-speech-sdk';
+import { ResultReason } from 'microsoft-cognitiveservices-speech-sdk';
 import enrollProfile from '../../../enroll.js';
 
 const enrollFile = "/files/Enregistrement.wav"
-const speechConfig = sdk.SpeechConfig.fromSubscription('60bb52b3a0d94c52b29930cee315c219', 'francecentral');
+const speechConfig = sdk.SpeechConfig.fromSubscription('47c0c6c8a1d148a29e68ee9a135ad253', 'francecentral');
 
 function Ordonnance2() {
   const [isListening, setIsListening] = useState(false);
@@ -33,7 +34,7 @@ function Ordonnance2() {
   const [recognizer, setRecognizer] = useState(null); // Variable d'état pour recognizer
   const [remarque, setRemarque] = useState("");
   useEffect(() => {
-    const socket = io("http://192.168.1.32:5000");
+    const socket = io("http://localhost:3001");
 
     socket.on("transcribedText", (text) => {
       console.log(text);
@@ -47,17 +48,14 @@ function Ordonnance2() {
         document.getElementById("Medicament").value += modifiedString;
       }
     });
-
     speechConfig.speechRecognitionLanguage = 'fr-FR';
     const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
     
 
-    const newRecognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
-    newRecognizer.recognized = (_, event) => {
-      const text = event.result.text;
-      console.log(text);
+    const recognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
+    console.log("Recognizer created");
 
-      if (/(médicament|médicaments|Médicament|Médicaments)/gi.test(text)) {
+      /*if (/(médicament|médicaments|Médicament|Médicaments)/gi.test(text)) {
         const modifiedString = text.replace(
           /(médicament|médicaments|Médicament|Médicaments)/gi,
           ""
@@ -77,13 +75,12 @@ function Ordonnance2() {
           ""
         );
         console.log("comment:" + modifiedString);
-        setRemarque((currentValue) => `${currentValue} ${modifiedString}`);      }
-    };
+        setRemarque((currentValue) => `${currentValue} ${modifiedString}`);      }*/
 
-    setRecognizer(newRecognizer); // Affecter le recognizer à la variable d'état
+    setRecognizer(recognizer); // Affecter le recognizer à la variable d'état
 
     return () => {
-      newRecognizer.close();
+      recognizer.close();
     };
   }, []);
 
@@ -101,16 +98,22 @@ function Ordonnance2() {
         console.error('Error stopping speech recognition:', error);
       });
     } else {
-      recognizer.startContinuousRecognitionAsync(async () => {
-        
+      recognizer.startContinuousRecognitionAsync( () => {
         console.log('Speech recognition started.');
         setIsListening(true);
-      }, (error) => {
-        console.error('Error starting speech recognition:', error);
-      });
-    }
+        recognizer.recognized = (reco,e) => {
+          try{
+            const res = e.result;
+            console.log(`recognized: ${res.text}`);
+            if (res.text==='Médicament.'){
+              
+            }
+          }catch(error){
+            console.error('Error recognizing:', error);
+          }
+      }}
+    )};
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
