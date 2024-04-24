@@ -51,7 +51,7 @@ function App() {
     //   </Routes>
     // </Router>
 
-    <Ordonnance patient={patient} docteur={docteur}/>
+    <Ordonnance patient={patient} docteur={docteur} cabinet={cabinet}/>
 
   );
 }

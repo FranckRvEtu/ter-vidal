@@ -71,7 +71,50 @@
     margin-bottom: 10px;
   }
   
-  /* Ajoute plus de styles selon tes besoins */
+  /* Stle de l'ordonnance visualisée en temps réel */
+  
+  .ordo-viewer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust as needed */
+  }
+  
+  .ordo-viewer {
+    background-color: #007bff;
+    width: 210mm; /* Width of A4 paper */
+    height: 297mm; /* Height of A4 paper */
+    max-width: 100%; /* Ensures the container doesn't overflow the viewport */
+    max-height: 90vh; /* Ensures the container doesn't overflow the viewport */
+    margin: auto; /* Centers the container */
+    overflow: auto; /* Adds scrollbars if the content overflows */
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+  }
+
+  .ordo-header {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    img {
+      width: 50%;
+      height: 20%;
+      margin-top: 5%;
+    }
+    hr {
+      width: 50%;
+      margin-left: 0;
+    }
+    .info-cabinet p:last-child {
+      margin-top: 8%; 
+    } 
+  }
+
+  .signature {
+    img {
+      width: 20%;
+      height: 50%;
+    }
+  }
   
 
   /*style de MedicamentSection*/

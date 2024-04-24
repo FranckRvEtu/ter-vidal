@@ -42,7 +42,38 @@ class Ordonnance extends React.Component {
     const month = today.getMonth() + 1; // JavaScript months are 0-based counting
     const year = today.getFullYear();
 
-    const formattedDate = `${cabinet.ville}, le ${date} ${month} ${year}`;
+    function getMonthName(month) {
+      switch (month) {
+        case 1:
+          return 'Janvier';
+        case 2:
+          return 'Février';
+        case 3:
+          return 'Mars';
+        case 4:
+          return 'Avril';
+        case 5:
+          return 'Mai';
+        case 6:
+          return 'Juin';
+        case 7:
+          return 'Juillet';
+        case 8:
+          return 'Août';
+        case 9:
+          return 'Septembre';
+        case 10:
+          return 'Octobre';
+        case 11:
+          return 'Novembre';
+        case 12:
+          return 'Décembre';
+        default:
+          return '';
+      }
+    }
+
+    const formattedDate = `${cabinet.ville}, le ${date} ${getMonthName(month)} ${year}`;
     return (
       <div className="ordonnance">
         <div className="ordonnance-form">
@@ -68,8 +99,10 @@ class Ordonnance extends React.Component {
             Afficher la liste des médicaments
           </button>
         </div>
-        <div className='pdf-viewer'>
+        <div className='ordo-viewer-container'>
+          <div className='ordo-viewer'>
           <h2>Ordonnance</h2>
+          <div className='ordo-header'>
           <div className='info-docteur'>
             <p>Docteur {docteur.prenom} {docteur.nom}</p>
             <p>{docteur.specialite}</p><hr/>
@@ -79,10 +112,10 @@ class Ordonnance extends React.Component {
           <div className='info-cabinet'>
             <p>{cabinet.adresse}</p>
             <p>{cabinet.codePostal} {cabinet.ville}</p><hr/>
-            <p>{cabinet.telephone}</p>
-            <p>{cabinet.telephoneUrg}</p><hr/>
+            <p>Tél cabinet : {cabinet.telephone}</p>
+            <p>Tél urgences : {cabinet.telephoneUrg}</p>
             <p>{formattedDate}</p>
-            <p>{}</p>
+          </div>
           </div>
           <div className='info-patient'>
             <p>{patient.sexe === 'Masculin' ? 'Monsieur' : 'Madame'} {patient.prenom} {patient.nom}</p>
@@ -103,6 +136,7 @@ class Ordonnance extends React.Component {
             <img src={signature} alt="Doctor's Signature" />
           </div>
           <div className='ordonannce-footer'></div>
+          </div>
         </div>
       </div>
     );
