@@ -75,19 +75,15 @@ class Ordonnance extends React.Component {
 
     const formattedDate = `${cabinet.ville}, le ${date} ${getMonthName(month)} ${year}`;
     return (
-      <div className="ordonnance">
-        <div className="ordonnance-form">
+      <div className="container">
+        <div className="form">
           <h2>Nom patient Concerné</h2>
-          <div className="ordonnance-form">
             <MedicamentSection onAjouter={this.ajouterMedicament} />
             <ContreIndicationsSection />
-            <div className="comment-section">
               <h3>General Comments</h3>
               <textarea placeholder="Add your comments here..." onChange={e => this.setState({ comment: e.target.value })}></textarea>
-            </div>
-            <button className="valider-ordonnance" onClick={this.validerOrdonnance}>Valider l'ordonnance</button>
-          </div>
-          <div>
+            <button onClick={this.validerOrdonnance}>Valider l'ordonnance</button>
+          <div className='medlist'>
             {this.state.medicaments.map((med, index) => (
               <div key={index}>
                 <p>Médicament: {med.medicament}, Posologie: {med.posologie}, Commentaire: {med.commentaire}</p>
@@ -95,47 +91,48 @@ class Ordonnance extends React.Component {
               </div>
             ))}
           </div>
-          <button className='listemed' onClick={() => console.log(this.state.medicaments)}>
-            Afficher la liste des médicaments
-          </button>
         </div>
-        <div className='ordo-viewer-container'>
-          <div className='ordo-viewer'>
-          <h2>Ordonnance</h2>
-          <div className='ordo-header'>
-          <div className='info-docteur'>
-            <p>Docteur {docteur.prenom} {docteur.nom}</p>
-            <p>{docteur.specialite}</p><hr/>
-            <p>{docteur.credentials}</p><hr/>
-            <img src={rpps} alt="RPPS" />
+        <div className='preview'>
+          <div className='preview-header'>
+            <div className='info-docteur'>
+              <p>Docteur {docteur.prenom} {docteur.nom}</p>
+              <p>{docteur.specialite}</p><hr/>
+              <p>{docteur.credentials}</p><hr/>
+              <img src={rpps} alt="RPPS" />
+            </div>
+            <div className='info-cabinet'>
+              <p>{cabinet.adresse}</p>
+              <p>{cabinet.codePostal} {cabinet.ville}</p><hr/>
+              <p>Tél cabinet : {cabinet.telephone}</p>
+              <p>Tél urgences : {cabinet.telephoneUrg}</p>
+              <p>{formattedDate}</p>
+            </div>
           </div>
-          <div className='info-cabinet'>
-            <p>{cabinet.adresse}</p>
-            <p>{cabinet.codePostal} {cabinet.ville}</p><hr/>
-            <p>Tél cabinet : {cabinet.telephone}</p>
-            <p>Tél urgences : {cabinet.telephoneUrg}</p>
-            <p>{formattedDate}</p>
+          <div className='preview-body'>
+            <div className='info-patient'>
+              <p>{patient.sexe === 'Masculin' ? 'Monsieur' : 'Madame'} {patient.prenom} {patient.nom}</p>
+              <p>Age: {patient.age} ans, {patient.weight} kg</p>
+            </div>
+            <div className='info-medicaments'>
+              {this.state.medicaments.map((med, index) => (
+                <div className='medicament' key={index}>
+                  <p className='nom-med'>{med.medicament}</p> 
+                  <p className='posologie-med'>{med.posologie} </p>
+                  <p className='commentaire-med'>{med.commentaire}</p>
+                </div>
+              ))}
+            </div>
+            <div className='com-gen'>
+              <p>{this.state.comment}</p>
+            </div>
+            <div className='signature'>
+              <p>Signature</p>
+              <img src={signature} alt="Doctor's Signature" />
+            </div>
           </div>
-          </div>
-          <div className='info-patient'>
-            <p>{patient.sexe === 'Masculin' ? 'Monsieur' : 'Madame'} {patient.prenom} {patient.nom}</p>
-            <p>Age: {patient.age} ans, {patient.weight} kg</p>
-          </div>
-          <div className='info-medicaments'>
-            {this.state.medicaments.map((med, index) => (
-              <div key={index}>
-                <p>{med.medicament} {med.posologie} {med.commentaire}</p>
-              </div>
-            ))}
-          </div>
-          <div className='com-gen'>
-            <p>{this.state.comment}</p>
-          </div>
-          <div className='signature'>
-            <p>Signature</p>
-            <img src={signature} alt="Doctor's Signature" />
-          </div>
-          <div className='ordonannce-footer'></div>
+          <div className='preview-footer'>
+            <hr/>
+            <p>Le réglement des honoraires par chèque est accepté</p>
           </div>
         </div>
       </div>
