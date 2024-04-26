@@ -38,20 +38,20 @@ function App() {
 
   return (
     
-    // <Router>
-    //   <Drawer />
-    //   <Routes>
-    //     <Route path="/login" element={<Login />} />
-    //     <Route path="/addPatient" element={<AddPatient /> }/>
-    //     <Route path="/ordonnance/:patientId" element={<Ordonnance />} />
-    //     <Route path="/addPatient" element={<AddPatient />} />
-    //     <Route path="/dossierPatient/:patientId" element={<DossierPatientWrapper />} />
-    //     <Route path="/listePatient" element={<ListePatientsWrapper />} />
-    //     <Route path="/agenda" element={<CalendarWrapper />} />
-    //   </Routes>
-    // </Router>
+    <Router>
+      <Drawer />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/addPatient" element={<AddPatient /> }/>
+        <Route path="/ordonnance/:patientId" element={<Ordonnance />} />
+        <Route path="/addPatient" element={<AddPatient />} />
+        <Route path="/dossierPatient/:patientId" element={<DossierPatientWrapper />} />
+        <Route path="/listePatient" element={<ListePatientsWrapper />} />
+        <Route path="/agenda" element={<CalendarWrapper />} />
+      </Routes>
+    </Router>
 
-    <Ordonnance patient={patient} docteur={docteur} cabinet={cabinet}/>
+    //<Ordonnance patient={patient} docteur={docteur} cabinet={cabinet}/>
 
   );
 }
