@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DossierPatientWrapper from "./Wrapper/DossierPatientWrapper";
-import Ordonnance from "./pages/Ordonnance";
 import Ordonnance2 from "./pages/Ordonnance2";
 
 import Login from "./pages/Login";

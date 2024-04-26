@@ -19,7 +19,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DriveFileMoveIcon from "@mui/icons-material/DriveFileMove";
-import iconPeople from "../../public/Assets/anonyme.jpg";
+import iconPeople from "../Assets/anonyme.jpg";
 
 export default function ListePatient({ patientsInitiaux = [] }) {
   const navigate = useNavigate();

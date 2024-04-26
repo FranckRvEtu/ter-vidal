@@ -21,17 +21,53 @@ import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import * as sdk from 'microsoft-cognitiveservices-speech-sdk';
 import { ResultReason } from 'microsoft-cognitiveservices-speech-sdk';
-import enrollProfile from '../../../enroll.js';
+import * as fs from 'fs';
 
-const enrollFile = "/files/Enregistrement.wav"
+const enrollFiles = ["/files/Franck.wav", "/files/Franck_2_.wav","/files/Franck_3_.wav",]
 const speechConfig = sdk.SpeechConfig.fromSubscription('47c0c6c8a1d148a29e68ee9a135ad253', 'francecentral');
+const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
 
+const client = new sdk.VoiceProfileClient(speechConfig);
+speechConfig.speechRecognitionLanguage = 'fr-FR';
+
+
+const getAudioConfigFromFile = function (file) {
+  return sdk.AudioConfig.fromWavFileInput(fs.readFileSync(file));
+};
+
+
+fetch("https://francecentral.api.cognitive.microsoft.com/speaker-recognition/verification/text-independent/profiles?api-version=2021-09-05", {
+  method: "POST",
+  headers: {
+    "Ocp-Apim-Subscription-Key": "ff4beaca1cfe4929a8c4a1ed21048015"
+  },
+  body: JSON.stringify({
+    locale: "fr-FR"
+  })
+})
+.then((response) => {
+  if (response.ok) {
+    console.log("Profile created");
+  } else {
+    console.error("Failed to create profile");
+  }
+})
+
+/*console.log("Profile id: " + profile.profileId +" created, now enrolling using files beginning with: " + enrollFiles[0]);
+for (const enrollFile of enrollFiles) {
+  const enrollConfig = getAudioConfigFromFile(enrollFile);
+  const enrollResult = await client.enrollProfileAsync(profile, enrollConfig);
+  console.log("(Enrollment result) Reason: " + sdk.ResultReason[enrollResult.reason]); 
+}
+const model = sdk.SpeakerVerificationModel.fromProfile(profile);
+ */
 function Ordonnance2() {
   const [isListening, setIsListening] = useState(false);
   const [prescriptions, setPrescriptions] = useState([]);
   const [medicament, setMedicament] = useState("");
   const [posologie, setPosologie] = useState("");
   const [recognizer, setRecognizer] = useState(null); // Variable d'état pour recognizer
+  const [speaker, setSpeaker] = useState(null); // Variable d'état pour speaker
   const [remarque, setRemarque] = useState("");
   useEffect(() => {
     const socket = io("http://localhost:3001");
@@ -48,12 +84,13 @@ function Ordonnance2() {
         document.getElementById("Medicament").value += modifiedString;
       }
     });
-    speechConfig.speechRecognitionLanguage = 'fr-FR';
-    const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
+    
     
 
     const recognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
     console.log("Recognizer created");
+    const speaker = new sdk.SpeakerRecognizer(speechConfig, audioConfig);
+    console.log("Speaker created");
 
       /*if (/(médicament|médicaments|Médicament|Médicaments)/gi.test(text)) {
         const modifiedString = text.replace(
@@ -78,15 +115,26 @@ function Ordonnance2() {
         setRemarque((currentValue) => `${currentValue} ${modifiedString}`);      }*/
 
     setRecognizer(recognizer); // Affecter le recognizer à la variable d'état
+    setSpeaker(speaker); // Affecter le speaker à la variable d'état
 
     return () => {
       recognizer.close();
     };
   }, []);
 
+  /*const verification = async () => {
+    const result = await speaker.recognizeOnceAsync(model);
+    const reason = result.reason;
+    if (reason === ResultReason.Verified) {
+      console.log("(Verification result) Profile Id: " + result.profileId); 
+      console.log("(Verification result) Score: " + result.score);
+    }
+    return result.score;
+  }*/
+
   const toggleListening = () => {
-    if (!recognizer) {
-      console.error('Recognizer is not initialized.');
+    if (!recognizer||!speaker) {
+      console.error('Recognizer or Speaker is not initialized.');
       return;
     }
 
@@ -104,10 +152,11 @@ function Ordonnance2() {
         recognizer.recognized = (reco,e) => {
           try{
             const res = e.result;
-            console.log(`recognized: ${res.text}`);
-            if (res.text==='Médicament.'){
-              
-            }
+            /*if (verification() > 0.5) {
+              console.log(`recognized: ${res.text}`);
+            }else{
+              console.log('Speaker not recognized');
+            }*/
           }catch(error){
             console.error('Error recognizing:', error);
           }
