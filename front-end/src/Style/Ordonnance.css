@@ -37,13 +37,17 @@
   line-height: 0.5;
 }
 
+.preview-header .info-docteur p.credentials {
+  line-height: 1.5 !important; /* Adjust this value */
+}
+
 .preview-header hr {
   width: 50%;
   margin-left: 0;
 }
 
 .preview-header .info-cabinet p:last-child {
-  margin-top: 12%; 
+  margin-top: 20%; 
 }
 
 .info-cabinet {
