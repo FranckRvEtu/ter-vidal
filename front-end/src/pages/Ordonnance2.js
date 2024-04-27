@@ -19,12 +19,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import io from "socket.io-client";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
+import { useNavigate } from "react-router-dom";
+
 const currentUrl = window.location.href;
 const parts = currentUrl.split('/');
 const id_patient = parts[parts.length - 1];
 function Ordonnance2() {
+  const navigate = useNavigate();
   const [isListening, setIsListening] = useState(false);
   let [prescriptions, setPrescriptions] = useState([]);
+  const [idPrescription, setIdPrescription] = useState([]);
   const [medicament, setMedicament] = useState("");
   const [posologie, setPosologie] = useState("");
   const [remarque, setRemarque] = useState("");
@@ -97,9 +101,9 @@ function Ordonnance2() {
       if (response.ok) {
         const data = await response.json();
         console.log("Prescription ajoutée avec succès");
-
+        console.log("AddPresc",data);
         setPrescriptions([...prescriptions, data]);
-
+        setIdPrescription([...idPrescription, data._id]);
         setMedicament("");
         setPosologie("");
         setRemarque("");
@@ -135,11 +139,14 @@ function Ordonnance2() {
         body: JSON.stringify({
           date: new Date(),
           idPatient: id_patient,
-          prescriptions: prescriptions,
+          prescriptions: idPrescription,
         }),
       });
       if (response.ok) {
+        const data = await response.json();
         console.log("Ordonnance créée avec succès");
+        console.log("AddOrdo",data);
+        navigate(`/dossierPatient/${id_patient}`);
       } else {
         console.error("Failed to create ordonnance");
       }
@@ -222,8 +229,9 @@ function Ordonnance2() {
                           >
                             Posologie: {prescription.Posologie}
                           </Typography>
+                          <br />
                           {prescription.Remarque && (
-                            <Box component="div" sx={{ mt: 1 }}>
+                            <Box component="span" variant="body2" sx={{ mt: 1 }}>
                               Remarque: {prescription.Remarque}
                             </Box>
                           )}
