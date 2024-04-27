@@ -21,6 +21,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DriveFileMoveIcon from "@mui/icons-material/DriveFileMove";
 import iconPeople from "../../public/Assets/anonyme.jpg";
 
+
 export default function ListePatient({ patientsInitiaux = [] }) {
   const navigate = useNavigate();
   const [recherche, setRecherche] = useState("");
@@ -29,6 +30,7 @@ export default function ListePatient({ patientsInitiaux = [] }) {
 
   useEffect(() => {
     let resultats = [...patientsInitiaux];
+
 
     // Filtrage
     if (recherche) {
@@ -46,6 +48,37 @@ export default function ListePatient({ patientsInitiaux = [] }) {
 
   const handleSearch = () => {
     console.log("Recherche en cours pour:", recherche);
+  };
+
+  const handleDelete = async (id) => {
+    fetch(`http://localhost:11000/deletePatient/${id}`,{
+    method:"GET"
+    })
+    .then((response) => {
+      if(response.ok){
+        window.alert("Patient supprimé avec succès");
+        window.location.reload();
+      } else {
+        console.error("Erreur lors de la suppression du patient");
+      }
+    });
+  }
+  const deleteRDVs = async (idPatient) => {
+    if (window.confirm("Voulez-vous vraiment supprimer ce patient ? Tous les rendez-vous associés seront également supprimés.")){
+      try {
+          await fetch(`http://localhost:5000/deleteRDVFromPatient/${idPatient}`, {
+          method: "GET",
+        }).then((response) => {
+          if(response.ok){
+            console.log("RDVs supprimés avec succès");
+            console.log("response", response.ok);
+            handleDelete(idPatient);
+          }
+        });
+      }catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -168,23 +201,7 @@ export default function ListePatient({ patientsInitiaux = [] }) {
                       {" "}
                       <IconButton 
                       color="error"
-                      onClick={() => {
-                        if (window.confirm("Voulez-vous vraiment supprimer ce patient ?")){
-                          fetch(`http://localhost:11000/deletePatient/${patient._id}`,{
-                            method:"GET"
-                          })
-                          .then((response) => {
-                            console.log(response.ok);
-                            if(response.ok){
-                              window.alert("Patient supprimé avec succès");
-                              window.location.reload();
-                            } else {
-                              console.error("Erreur lors de la suppression du patient");
-                            }
-                          })
-
-                        }
-                        }}
+                      onClick={() => {deleteRDVs(patient._id)}}
                       >
                         <DeleteIcon fontSize="small" />
                       </IconButton>
