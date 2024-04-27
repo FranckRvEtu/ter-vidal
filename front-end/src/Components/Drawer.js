@@ -83,7 +83,7 @@ export default function PersistentDrawerLeft() {
       // Modification des commandes vocales pour utiliser navigate
       var commands = {
         dashboard: () => navigate("/"),
-        calendar: () => navigate("/calendar"),
+        agenda: () => navigate("/agenda"),
         patients: () => navigate("/ListePatient"),
         test: () => alert("test"),
         // Ajoutez d'autres commandes vocales ici

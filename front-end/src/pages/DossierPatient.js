@@ -88,7 +88,7 @@ export default function DossierPatient({
           </Typography>
           <Avatar
             sx={{ width: 56, height: 56, mb: 5, mt: 5 }}
-            src="/path/to/patient-image.jpg"
+            src={patient.image} // Using Base64 image string directly
           />
           <Box sx={{ textAlign: "left", maxWidth: "80%", mt: 1 }}>
             <Typography sx={{ mt: 3 }}>Nom: {patient.name}</Typography>

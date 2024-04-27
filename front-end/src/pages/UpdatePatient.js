@@ -19,6 +19,7 @@ const UpdatePatient = ({ patient }) => {
     weight: patient.weight,
     birthdate: format(new Date(patient.birthdate), "yyyy-MM-dd"),
     BloodType: patient.BloodType,
+    image: patient.image || "", // Ensure there is a default empty string
   });
   const navigate = useNavigate();
 
@@ -31,6 +32,16 @@ const UpdatePatient = ({ patient }) => {
     }));
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        setFormData((prev) => ({ ...prev, image: e.target.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   // Check if all fields in the form data are filled
   const allFieldsFilled = Object.values(formData).every((x) => x !== "");
 
@@ -73,9 +84,21 @@ const UpdatePatient = ({ patient }) => {
         Informations du Patient
       </Typography>
       <Avatar
-        sx={{ width: 56, height: 56, mb: 5, mt: 5 }}
-        src="/path/to/patient-image.jpg"
+        sx={{ width: 100, height: 100, mb: 2 }}
+        src={formData.image || "/path/to/default-avatar.jpg"}
       />
+      <input
+        accept="image/*"
+        type="file"
+        onChange={handleImageChange}
+        style={{ display: "none" }}
+        id="image-file"
+      />
+      <label htmlFor="image-file">
+        <Button variant="contained" component="span">
+          Upload Image
+        </Button>
+      </label>
       <Box sx={{ textAlign: "left", maxWidth: "100%", mt: 1 }}>
         <TextField
           fullWidth

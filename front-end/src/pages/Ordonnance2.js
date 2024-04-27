@@ -20,7 +20,7 @@ import io from "socket.io-client";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 const currentUrl = window.location.href;
-const parts = currentUrl.split('/');
+const parts = currentUrl.split("/");
 const id_patient = parts[parts.length - 1];
 function Ordonnance2() {
   const [isListening, setIsListening] = useState(false);

@@ -8,11 +8,13 @@ const HomePage = ({ appointments }) => {
   const navigate = useNavigate();
   return (
     <Box
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        mt: 5,
+      }}
     >
-      <Typography variant="h4" component="h1" align="center" sx={{ mt: 10 }}>
-        Bienvenue sur la page des rendez-vous
-      </Typography>
       <Grid
         container
         spacing={5}
