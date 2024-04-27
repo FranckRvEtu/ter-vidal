@@ -6,6 +6,7 @@ const {
   updateRDV,
   getAllRDVs,
   getUpcomingRDVs,
+  deleteRDVFromPatient,
 } = require("../controllers/RdvController.js");
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.get("/deleteRDV/:id", deleteRDV);
 router.post("/updateRDV/:id", updateRDV);
 router.get("/getRDVs", getAllRDVs);
 router.get("/getUpcomingRDVs", getUpcomingRDVs);
+router.get("/deleteRDVFromPatient/:idPatient", deleteRDVFromPatient);
 
 //router.get('/getWeekRDV',getWeekRDV);
 

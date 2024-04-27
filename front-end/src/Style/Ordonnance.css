@@ -1,5 +1,121 @@
-.ordonnance-form input[type="text"],
-.ordonnance-form textarea {
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+.form {
+  flex: 1;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  width: 210mm;
+  height: 297mm;
+  padding: 20mm;
+  background-color: #fff;
+  border: 1px solid #000;
+  color: #000;
+  font-size: 8pt;
+  font-family: 'Arial', sans-serif;
+  box-sizing: border-box;
+  margin: 20px;
+  position: relative;
+  max-width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.preview-header {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  color: #0095B6;
+  font-weight: bold;
+  line-height: 0.5;
+}
+
+.preview-header .info-docteur p.credentials {
+  line-height: 1.5 !important; /* Adjust this value */
+}
+
+.preview-header hr {
+  width: 50%;
+  margin-left: 0;
+}
+
+.preview-header .info-cabinet p:last-child {
+  margin-top: 20%; 
+}
+
+.info-cabinet {
+  margin-left: 20%;
+}
+
+.preview-header img {
+  width: 50%;
+  height: 20%;
+  margin-top: 5%;
+}
+
+.preview-body, .info-patient {
+  margin-top: 5%;
+}
+
+.preview-body p, .info-patient p {
+  margin-left: 1%;
+}
+
+.info-medicaments {
+  margin: 5% 0;
+}
+
+.info-medicaments .medicament {
+  display: flex;
+  justify-content: space-between;
+  line-height: 0.5; 
+}
+
+.medicament .posologie-med {
+  margin-left: -20%;
+}
+
+.medicament .commentaire-med {
+  flex: 1;
+}
+
+.medicament .nom-med,
+.medicament .posologie-med {
+  flex: 2;
+}
+
+.com-gen {
+  white-space: pre-wrap;
+  line-height: 2; 
+}
+
+.signature img {
+  width: 100px; 
+  height: auto; 
+}
+
+.signature {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+  align-items: flex-end;
+  margin-bottom: -10%;
+}
+
+.preview-footer {
+  font-size: 6px;
+  margin: 5% 0;
+}
+
+.form input[type="text"],
+.form textarea {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -10,13 +126,13 @@
   transition: border-color 0.3s ease;
 }
 
-.ordonnance-form input[type="text"]::placeholder,
-.ordonnance-form textarea::placeholder {
+.form input[type="text"]::placeholder,
+.form textarea::placeholder {
   color: #999;
 }
 
-.ordonnance-form input[type="text"]:focus,
-.ordonnance-form textarea:focus {
+.form input[type="text"]:focus,
+.form textarea:focus {
   border-color: #007bff;
   outline: none;
 }

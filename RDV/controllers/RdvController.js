@@ -102,6 +102,21 @@ const getUpcomingRDVs = async (req, res) => {
   }
 };
 
+const deleteRDVFromPatient = async (req, res) => {
+  const { idPatient } = req.params;
+  try {
+    console.log(req.params);
+    const rdv = await RDV.deleteMany({ idPatient: idPatient });
+    if (!rdv) {
+      return res.status(204).json({ message: "RDV pas trouvé" });
+    }
+    res.status(204).json({ message: "RDV supprimé avec succès" });    
+  }catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur lors de la suppression du RDV" });
+  }
+};
+
 module.exports = {
   getRDV,
   addRDV,
@@ -109,5 +124,6 @@ module.exports = {
   updateRDV,
   getAllRDVs,
   getUpcomingRDVs,
+  deleteRDVFromPatient,
   // Ajoutez les a
 };

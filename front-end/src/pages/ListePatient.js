@@ -48,6 +48,40 @@ export default function ListePatient({ patientsInitiaux = [] }) {
     console.log("Recherche en cours pour:", recherche);
   };
 
+  const handleDelete = async (id) => {
+    fetch(`http://localhost:11000/deletePatient/${id}`, {
+      method: "GET",
+    }).then((response) => {
+      if (response.ok) {
+        window.alert("Patient supprimé avec succès");
+        window.location.reload();
+      } else {
+        console.error("Erreur lors de la suppression du patient");
+      }
+    });
+  };
+  const deleteRDVs = async (idPatient) => {
+    if (
+      window.confirm(
+        "Voulez-vous vraiment supprimer ce patient ? Tous les rendez-vous associés seront également supprimés."
+      )
+    ) {
+      try {
+        await fetch(`http://localhost:5000/deleteRDVFromPatient/${idPatient}`, {
+          method: "GET",
+        }).then((response) => {
+          if (response.ok) {
+            console.log("RDVs supprimés avec succès");
+            console.log("response", response.ok);
+            handleDelete(idPatient);
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <Container maxWidth="lg" sx={{}}>
       <Grid alignItems="center" sx={{}}>

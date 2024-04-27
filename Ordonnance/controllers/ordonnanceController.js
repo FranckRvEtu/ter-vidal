@@ -6,17 +6,19 @@ app.use(express.json());
  const addOrdonnance = async (req, res) => {
     // on prend les infos de req.body et on les stock
     console.log("Fonction lancée");
-    const { date, idPatient, Prescription} = req.body;
+    console.log(req.body);
+    const { date, idPatient, prescriptions} = req.body;
+    console.log("prescriptions : ",prescriptions);
     try {
         // Créer l'ordonnance dans la base de données
         const newOrdonnance = new Ordonnance({ // on utilise la méthode save car elle est plus flexible que create
             date,
             idPatient,
-            Prescription: Prescription || []
+            Prescription: prescriptions || []
         });
 
         await newOrdonnance.save();
-        console.log(newOrdonnance.id);
+        console.log("Nouvelle Ordonnance : ",newOrdonnance);
         res.status(201).json({ id: newOrdonnance.id });
     } catch (error) {
         console.error(error);
