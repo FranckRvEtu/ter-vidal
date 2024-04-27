@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import '../Style/Ordonnance.css';
-import MedicamentSection from '../Components/Ordonnance/MedicamentSection';
-import ContreIndicationsSection from '../Components/Ordonnance/ContreIndicationsSection';
-import signature from '../Assets/signature.png';
-import rpps from '../Assets/rpps.png';
+// import MedicamentSection from '../Components/Ordonnance/MedicamentSection';
+// import ContreIndicationsSection from '../Components/Ordonnance/ContreIndicationsSection';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import OrdonnancePreview from '../Components/Ordonnance/OrdonnancePreview';
@@ -69,8 +67,8 @@ function Ordonnance(props) {
     <div className="container">
       <div className="form">
         <h2>Nom patient Concerné</h2>
-          <MedicamentSection onAjouter={ajouterMedicament} />
-          <ContreIndicationsSection />
+          {/* <MedicamentSection onAjouter={ajouterMedicament} />
+          <ContreIndicationsSection /> */}
             <h3>General Comments</h3>
             <textarea placeholder="Add your comments here..." onChange={e => setComment(e.target.value)}></textarea>
           <button onClick={validerOrdonnance}>Valider l'ordonnance</button>
