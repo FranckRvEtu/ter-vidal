@@ -133,30 +133,29 @@ function Ordonnance2() {
         const data = await responsePre.json();
         console.log("Prescriptions ajoutées avec succès");
         console.log("AddPresc",data);
-        setIdPrescription(data);
-      }
 
-      const response = await fetch("http://localhost:3000/addOrdonnance", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          date: new Date(),
-          idPatient: patientId,
-          prescriptions: idPrescription,
-        }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Ordonnance créée avec succès");
-        console.log("AddOrdo",data);
-        if (window.confirm("Voulez-vous télécharger l'ordonnance ?")){
-          downloadPDF();
-        };
-        navigate(`/dossierPatient/${patientId}`);
-      } else {
-        console.error("Failed to create ordonnance");
+        const response = await fetch("http://localhost:3000/addOrdonnance", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            date: new Date(),
+            idPatient: patientId,
+            prescriptions: data,
+          }),
+        });
+        if (response.ok) {
+          const dataOrdo = await response.json();
+          console.log("Ordonnance créée avec succès");
+          console.log("AddOrdo",dataOrdo);
+          if (window.confirm("Voulez-vous télécharger l'ordonnance ?")){
+            downloadPDF();
+          };
+          navigate(`/dossierPatient/${patientId}`);
+        } else {
+          console.error("Failed to create ordonnance");
+        }
       }
     } catch (error) {
       console.error("Error:", error);
