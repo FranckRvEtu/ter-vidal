@@ -41,7 +41,30 @@ const OrdonnancePreview = ({ patient, docteur, cabinet, medicaments, comment }) 
     }
     
     const formattedDate = `${date} ${getMonthName(month)} ${year}`;
+    const patientDate = new Date(patient.birthdate);
+    const diff = (year - patientDate.getFullYear())-1;
+    let patientAge = month > patientDate.getMonth() ? diff+1 :diff;
     
+    if (month === patientDate.getMonth()) {
+        if (date >= patientDate.getDate()) {
+            patientAge++;
+        }
+    }
+    if (patientAge <2){
+        let patientMonths = month - patientDate.getMonth() - 1;
+        if (patientMonths < 0){
+            patientMonths = 12 + patientMonths;
+        }
+        patientAge = patientMonths + ' mois'; 
+    }
+
+    if (patientAge === '0 mois') {
+        patientAge = date - patientDate.getDate() + ' jours';
+    }
+
+    if (typeof patientAge === 'number') {
+        patientAge = patientAge + ' ans';
+    }
     return (
         <div className='preview'>
         <div className='preview-header'>
@@ -61,8 +84,8 @@ const OrdonnancePreview = ({ patient, docteur, cabinet, medicaments, comment }) 
         </div>
         <div className='preview-body'>
             <div className='info-patient'>
-            <p>{patient.sexe === 'Masculin' ? 'Monsieur' : 'Madame'} {patient.prenom} {patient.nom}</p>
-            <p>Age: {patient.age} ans, {patient.weight} kg</p>
+            <p>{patient.sexe === 'Masculin' ? 'Monsieur' : 'Madame'} {patient.firstname} {patient.name}</p>
+            <p>Age: {patientAge} , {patient.weight} kg</p>
             </div>
             <div className='info-medicaments'>
             {medicaments.map((med, index) => (

@@ -62,7 +62,7 @@ export default function DossierPatient({
           sx={{ p: 2, ml: 5, mt: 2, mb: 2 }}
           onClick={() => navigate(`/ordonnance/${patient._id}`)}
         >
-          Accéder à Ordonnance
+          Démarrer une consultation
         </Button>
         <Paper
           elevation={3}

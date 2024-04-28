@@ -72,7 +72,6 @@ export default function ListePatient({ patientsInitiaux = [] }) {
         }).then((response) => {
           if (response.ok) {
             console.log("RDVs supprimés avec succès");
-            console.log("response", response.ok);
             handleDelete(idPatient);
           }
         });
@@ -201,30 +200,7 @@ export default function ListePatient({ patientsInitiaux = [] }) {
                       {" "}
                       <IconButton
                         color="error"
-                        onClick={() => {
-                          if (
-                            window.confirm(
-                              "Voulez-vous vraiment supprimer ce patient ?"
-                            )
-                          ) {
-                            fetch(
-                              `http://localhost:11000/deletePatient/${patient._id}`,
-                              {
-                                method: "GET",
-                              }
-                            ).then((response) => {
-                              console.log(response.ok);
-                              if (response.ok) {
-                                window.alert("Patient supprimé avec succès");
-                                window.location.reload();
-                              } else {
-                                console.error(
-                                  "Erreur lors de la suppression du patient"
-                                );
-                              }
-                            });
-                          }
-                        }}
+                        onClick={() => deleteRDVs(patient._id)}
                       >
                         <DeleteIcon fontSize="small" />
                       </IconButton>

@@ -54,7 +54,7 @@ const getPatient = async (req, res) => {
 
     // Si le patient est trouvé, renvoyez les données du patient
     console.log(patient);
-    res.json(patient);
+    res.status(201).json(patient);
   } catch (error) {
     console.error(error);
   }

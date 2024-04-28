@@ -2,17 +2,20 @@ import React, { useState, useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import OrdonnancePreview from "../Components/Ordonnance/OrdonnancePreview";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { TextField, Button, Grid, Typography,IconButton, Container, Card, CardContent, CardActions, List, ListItem, ListItemText, Divider, Box} from "@mui/material";
+import { set } from "mongoose";
+import { type } from "@testing-library/user-event/dist/type";
 
 const currentUrl = window.location.href;
-const parts = currentUrl.split("/");
-const id_patient = parts[parts.length - 1];
+
+
 
 function Ordonnance2() {
+  const {patientId} = useParams();
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const [isListening, setIsListening] = useState(false);
@@ -22,17 +25,9 @@ function Ordonnance2() {
   const [posologie, setPosologie] = useState("");
   const [remarque, setRemarque] = useState("");
   const [generalComments, setGeneralComments] = useState("");
+  const [patient, setPatient] = useState({});
 
   // À remplaçer par des requetes fetch pour récupérer les données du patient, du docteur et du cabinet
-
-  const patient = {
-    id: '123',
-    nom: 'Doe',
-    prenom: 'John',
-    age: 30,
-    weight: 70,
-    sexe: 'Masculin',
-  };
 
   const docteur = {
     prenom: 'Jane',
@@ -50,6 +45,25 @@ function Ordonnance2() {
   };
 
   useEffect(() => {
+    console.log("caca",patientId);
+    const getPatientData = async () => {
+      try {
+        const response = await fetch(`http://localhost:11000/getPatient/${patientId}`, {
+          method: "GET"
+        });
+        if (response.ok) {
+          const data  = await response.json();
+          console.log("Patient Data",data);
+          setPatient(data);
+        }
+        
+      }catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    getPatientData();
+    
     if (window.annyang) {
       window.annyang.setLanguage("fr-FR");
 
@@ -69,8 +83,10 @@ function Ordonnance2() {
 
       return () => {
         if (window.annyang) window.annyang.abort();
+        setPatient({});
       };
     }
+    
   }, []);
 
   const toggleListening = () => {
@@ -81,7 +97,6 @@ function Ordonnance2() {
     }
     setIsListening(!isListening);
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -112,7 +127,6 @@ function Ordonnance2() {
       console.error("Error:", error);
     }
   };
-
   const handleDeletePrescription = (index) => {
     const updatedPrescriptions = [...prescriptions];
     updatedPrescriptions.splice(index, 1);
@@ -128,7 +142,7 @@ function Ordonnance2() {
         },
         body: JSON.stringify({
           date: new Date(),
-          idPatient: id_patient,
+          idPatient: patientId,
           prescriptions: idPrescription,
         }),
       });
@@ -136,7 +150,7 @@ function Ordonnance2() {
         const data = await response.json();
         console.log("Ordonnance créée avec succès");
         console.log("AddOrdo",data);
-        navigate(`/dossierPatient/${id_patient}`);
+        navigate(`/dossierPatient/${patientId}`);
       } else {
         console.error("Failed to create ordonnance");
       }
@@ -163,7 +177,7 @@ function Ordonnance2() {
     <Container maxWidth="lg" sx={{ mt: 5 }}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <Typography variant="h5" component="h1" gutterBottom align="center">{patient.prenom} {patient.nom}</Typography>
+          <Typography variant="h5" component="h1" gutterBottom align="center">{patient.firstname} {patient.name}</Typography>
           <form onSubmit={handleSubmit} id="ordonnance-form">
             <Grid container spacing={3}>
               <Grid item xs={12}>
