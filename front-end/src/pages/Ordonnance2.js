@@ -45,7 +45,6 @@ function Ordonnance2() {
   };
 
   useEffect(() => {
-    console.log("caca",patientId);
     const getPatientData = async () => {
       try {
         const response = await fetch(`http://localhost:11000/getPatient/${patientId}`, {
@@ -53,7 +52,6 @@ function Ordonnance2() {
         });
         if (response.ok) {
           const data  = await response.json();
-          console.log("Patient Data",data);
           setPatient(data);
         }
         
@@ -100,30 +98,17 @@ function Ordonnance2() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:3013/addPrescription", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const newPrescription = {
           Medicament: medicament,
           Posologie: posologie,
           Remarque: remarque,
-        }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Prescription ajoutée avec succès");
-        console.log("AddPresc",data);
-        setPrescriptions([...prescriptions, data]);
-        setIdPrescription([...idPrescription, data._id]);
-        setMedicament("");
-        setPosologie("");
-        setRemarque("");
-      } else {
-        console.error("Failed to add prescription");
-      }
-    } catch (error) {
+        }
+      console.log("AddPresc",newPrescription);
+      setPrescriptions([...prescriptions, newPrescription]);
+      setMedicament("");
+      setPosologie("");
+      setRemarque("");
+      } catch (error) {
       console.error("Error:", error);
     }
   };
@@ -135,6 +120,22 @@ function Ordonnance2() {
 
   const handleCreateOrdo = async () => {
     try {
+      const responsePre = await fetch("http://localhost:3013/addManyPrescriptions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prescriptions
+        })
+      });
+      if (responsePre.ok) {
+        const data = await responsePre.json();
+        console.log("Prescriptions ajoutées avec succès");
+        console.log("AddPresc",data);
+        setIdPrescription(data);
+      }
+
       const response = await fetch("http://localhost:3000/addOrdonnance", {
         method: "POST",
         headers: {
@@ -150,6 +151,9 @@ function Ordonnance2() {
         const data = await response.json();
         console.log("Ordonnance créée avec succès");
         console.log("AddOrdo",data);
+        if (window.confirm("Voulez-vous télécharger l'ordonnance ?")){
+          downloadPDF();
+        };
         navigate(`/dossierPatient/${patientId}`);
       } else {
         console.error("Failed to create ordonnance");

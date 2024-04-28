@@ -30,6 +30,28 @@ const addPrescription = async (req, res) => {
     }
 }
 
+const addManyPrescriptions = async (req, res) => {
+    const {prescriptions} = req.body;
+    const newPrescriptionsId = [];
+    try{
+        for (prescription of prescriptions){
+            const {Medicament, Posologie, Remarque} = prescription;
+            const newPrescription = new Prescription({
+                Medicament,
+                Posologie,
+                Remarque
+            });
+            await newPrescription.save();
+            newPrescriptionsId.push(newPrescription._id);
+        }
+        console.log("Prescriptions ajoutées avec succès");
+        res.status(201).json(newPrescriptionsId);
+    }catch(error){
+        console.error(error);
+        res.status(500).json({message: "Erreur lors de l'ajout des prescriptions"});
+    }
+}
+
 // Fonction pour récupérer une prescription par son ID
 const getPrescription = async (prescriptionId) => {
     try {
@@ -95,8 +117,8 @@ const deletePrescription = async (req, res) => {
 module.exports = {
     getPrescription,
     addPrescription,
+    addManyPrescriptions,
     deletePrescription,
     updatePrescription,
     getAllPrescriptions,
-    // Ajoutez les a
 };
