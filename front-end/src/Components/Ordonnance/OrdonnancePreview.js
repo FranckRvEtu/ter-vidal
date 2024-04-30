@@ -90,9 +90,9 @@ const OrdonnancePreview = ({ patient, docteur, cabinet, medicaments, comment }) 
             <div className='info-medicaments'>
             {medicaments.map((med, index) => (
                 <div className='medicament' key={index}>
-                <p className='nom-med'>{med.medicament}</p> 
-                <p className='posologie-med'>{med.posologie} </p>
-                <p className='commentaire-med'>{med.commentaire}</p>
+                <p className='nom-med'>{med.Medicament}</p> 
+                <p className='posologie-med'>{med.Posologie} </p>
+                <p className='commentaire-med'>{med.Remarque}</p>
                 </div>
             ))}
             </div>
