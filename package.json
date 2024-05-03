@@ -24,7 +24,7 @@
     "ws": "^8.16.0"
   },
   "scripts": {
-    "server": "npx concurrently --kill-others --success first --raw \"npm start --prefix ./Ordonnance\" \"npm start --prefix ./RDV\" \"npm start --prefix ./Patient\" \"npm start --prefix ./Visite\" \"npm start --prefix ./Prescription\"",
+    "server": "npx concurrently --kill-others --success first --raw \"npm run dev --prefix ./Ordonnance\" \"npm run dev --prefix ./RDV\" \"npm run dev --prefix ./Patient\" \"npm run dev --prefix ./Visite\" \"npm run dev --prefix ./Prescription\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
