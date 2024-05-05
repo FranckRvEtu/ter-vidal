@@ -42,8 +42,13 @@ const UpdatePatient = ({ patient }) => {
       reader.readAsDataURL(file);
     }
   };
-  // Check if all fields in the form data are filled
-  const allFieldsFilled = Object.values(formData).every((x) => x !== "");
+  const clearImage = () => {
+    setFormData((prev) => ({ ...prev, image: "" }));
+  };
+
+  const allFieldsFilled = Object.entries(formData).every(([key, value]) => {
+    return (key === "image" && value === "") || value !== "";
+  });
 
   // Function to handle form submission
   const handleSubmit = (e) => {
@@ -99,6 +104,16 @@ const UpdatePatient = ({ patient }) => {
           Upload Image
         </Button>
       </label>
+      <div>
+        <Button
+          sx={{ mt: 2 }}
+          variant="contained"
+          component="span"
+          onClick={clearImage}
+        >
+          Clear
+        </Button>
+      </div>
       <Box sx={{ textAlign: "left", maxWidth: "100%", mt: 1 }}>
         <TextField
           fullWidth

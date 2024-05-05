@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardMedia,
+  Avatar,
   CardContent,
   Button,
   Container,
@@ -26,7 +27,9 @@ export default function ListePatient({ patientsInitiaux = [] }) {
   const [recherche, setRecherche] = useState("");
 
   const [patientsAffiches, setPatientsAffiches] = useState(patientsInitiaux);
-
+  const getInitials = (name, firstname) => {
+    return `${firstname.charAt(0)}${name.charAt(0)}`;
+  };
   useEffect(() => {
     let resultats = [...patientsInitiaux];
 
@@ -146,17 +149,44 @@ export default function ListePatient({ patientsInitiaux = [] }) {
                   },
                 }}
               >
-                <CardMedia
-                  component="img"
-                  sx={{
-                    width: "100%",
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                     height: 200,
-                    objectFit: "contain",
+                    width: "100%",
                   }}
-                  image={patient.image || iconPeople}
-                  alt="recipe thumbnail"
-                />
-
+                >
+                  {patient.image ? (
+                    <img
+                      src={patient.image}
+                      alt={`${patient.firstname} ${patient.name}`}
+                      style={{
+                        height: 200,
+                        width: "100%",
+                        objectFit: "contain",
+                      }}
+                    />
+                  ) : (
+                    <Avatar
+                      sx={{
+                        width: 200, // Width is now explicitly 200px
+                        height: 200, // Height is now explicitly 200px
+                        fontSize: "5rem",
+                        bgcolor: "background.paper",
+                        color: "primary.main",
+                        border: 3,
+                        borderColor: "primary.main",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      {getInitials(patient.name, patient.firstname)}
+                    </Avatar>
+                  )}
+                </div>
                 <Divider />
                 <CardContent
                   sx={{
