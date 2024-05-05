@@ -7,7 +7,27 @@ export default function Ordonnance({navigation}){
     const [medicament, setMedicament] = useState('');
     const [posologie, setPosologie] = useState('');
     const [commentaire, setCommentaire] = useState('');
+    const [prescriptions, setPrescriptions] = useState([]);
     const idPatient = navigation.getParam('_id');
+
+    useEffect(() => {
+        console.log(prescriptions);
+    }, [prescriptions]);
+
+    prescriptionHandler = () => {
+        console.log(medicament);
+        console.log(posologie);
+        console.log(commentaire);
+        const prescription = {
+            medicament: medicament,
+            posologie: posologie,
+            commentaire: commentaire
+        };
+        setMedicament('');
+        setPosologie('');
+        setCommentaire('');
+        setPrescriptions([...prescriptions, prescription]);
+        }
 
     return (
         <View>
@@ -31,14 +51,7 @@ export default function Ordonnance({navigation}){
                 placeholder='Commentaire'
                 onChangeText={(com) => setCommentaire(com)}
             />
-            <TouchableOpacity style={styles.button} onPress={() => {
-                console.log(medicament);
-                console.log(posologie);
-                console.log(commentaire);
-                setMedicament('');
-                setPosologie('');
-                setCommentaire('');
-                }}>
+            <TouchableOpacity style={styles.button} onPress={prescriptionHandler}>
                 <Text style={styles.text}>Rajouter une prescription</Text>
             </TouchableOpacity>
         </View>
