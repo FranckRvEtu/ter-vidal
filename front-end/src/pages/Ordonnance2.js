@@ -180,7 +180,6 @@ function Ordonnance2() {
     <Container maxWidth="lg" sx={{ mt: 5 }}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <Typography variant="h5" component="h1" gutterBottom align="center">{patient.firstname} {patient.name}</Typography>
           <form onSubmit={handleSubmit} id="ordonnance-form">
             <Grid container spacing={3}>
               <Grid item xs={12}>
