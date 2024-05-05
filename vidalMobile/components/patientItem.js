@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 export default function PatientItem({patient, pressHandler}) {
 
     return (
-        <TouchableOpacity onPress={()=>pressHandler(patient.firstname)}>
+        <TouchableOpacity onPress={()=>pressHandler(patient.firstname, patient.name)}>
             <View style={styles.patient}>
                 <Text>{patient.firstname}                  {patient.BloodType}          {patient.height}cm</Text>
                 <Text>{patient.name}                       {patient.weight}kg</Text>

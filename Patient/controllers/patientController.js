@@ -119,5 +119,4 @@ module.exports = {
   deletePatient,
   getAllPatients,
   updatePatient,
-  // Ajoutez les a
 };

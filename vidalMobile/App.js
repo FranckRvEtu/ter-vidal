@@ -7,36 +7,42 @@ import ListePatient from './components/listePatient';
 import Navigator from './routes/homeStack';
 
 export default function App() {
-  const [patients, setPatients] = useState([]);
 
-  const fetchPatient = async () => {
-    try {
-      const patient = await axios.get('http://192.168.1.7:11000/allPatients');
-      const data = patient.data;
-      setPatients(data);
-    }catch (error) {
-      console.error(error);
-
-    }
-  };
-
-  useEffect(() => {
-    fetchPatient();
-  }
-  ,[]);
-
-  const pressHandler = () => {
-
-  }
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Header />
-      <View style = {styles.content}>
-        <ListePatient patientsInitiaux={patients} />
-      </View>
-    </View>
-  );
+
+    <Navigator />
+
+  )
+
+
+
+  // const [patients, setPatients] = useState([]);
+
+  // const fetchPatient = async () => {
+  //   try {
+  //     const patient = await axios.get('http://192.168.1.7:11000/allPatients');
+  //     const data = patient.data;
+  //     setPatients(data);
+  //   }catch (error) {
+  //     console.error(error);
+
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchPatient();
+  // }
+  // ,[]);
+
+  // return (
+  //   <View style={styles.container}>
+  //     <StatusBar style="auto" />
+  //     <Header />
+  //     <View style = {styles.content}>
+  //       <ListePatient patientsInitiaux={patients} />
+  //     </View>
+  //   </View>
+  // );
 }
 
 const styles = StyleSheet.create({

@@ -125,5 +125,5 @@ module.exports = {
   getAllRDVs,
   getUpcomingRDVs,
   deleteRDVFromPatient,
-  // Ajoutez les a
+
 };

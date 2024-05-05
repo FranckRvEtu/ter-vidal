@@ -1,10 +1,13 @@
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import ListePatient from "../components/listePatient";
-
-const screens ={
+import Ordonnance from "../screens/ordonnance";
+const screens = {
     Home : {
         screen : ListePatient
+    },
+    Ordonnance : {
+        screen : Ordonnance
     }
 }
 

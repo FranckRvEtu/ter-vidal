@@ -3,33 +3,74 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList, Button} from 'react-native';
 import axios from 'axios';
 import PatientItem from './patientItem';
+import Header from './header';
 
 
-export default function ListePatient({patientsInitiaux}) {
-    const [patients, setPatients] = useState(patientsInitiaux);
+export default function ListePatient({navigation}) {
+    const [patients, setPatients] = useState([]);
+
+    const fetchPatient = async () => {
+      try {
+        const patient = await axios.get('http://192.168.1.7:11000/allPatients');
+        const data = patient.data;
+        setPatients(data);
+      }catch (error) {
+        console.error(error);
+  
+      }
+    };
+  
     useEffect(() => {
-        setPatients(patientsInitiaux);
-    }, [patientsInitiaux]);
-
-    pressHandler = (_id) => {
-        console.log('Patient', _id, 'pressed');
+      fetchPatient();
     }
-
+    ,[]);
+  
+    pressHandler = (firstname, name) => {
+        console.log('Patient', firstname, name, 'pressed');
+        navigation.navigate('Ordonnance');
+    };
     return (
-        <View >
-            <Text style={styles.title}>Liste des patients</Text>
-            <View>
-                <FlatList 
-                    data={patients}
+      <View style={styles.container}>
+        <StatusBar style="auto" />
+        <Header />
+        <View style = {styles.content}>
+            <FlatList 
+                data={patients}
 
-                    keyExtractor={item => item._id}
-                    renderItem={({item}) => (
-                        <PatientItem patient={item} pressHandler = {pressHandler}/>
-                    )}
-                />
-            </View>
+                keyExtractor={item => item._id}
+                renderItem={({item}) => (
+                    <PatientItem patient={item} pressHandler = {pressHandler}/>
+                )}
+            />
         </View>
-    )
+      </View>
+    );
+
+
+    // const [patients, setPatients] = useState();
+    // useEffect(() => {
+    //     setPatients(patientsInitiaux);
+    // }, [patientsInitiaux]);
+
+    // pressHandler = (_id) => {
+    //     console.log('Patient', _id, 'pressed');
+    // }
+
+    // return (
+    //     <View >
+    //         <Text style={styles.title}>Liste des patients</Text>
+    //         <View>
+    //             <FlatList 
+    //                 data={patients}
+
+    //                 keyExtractor={item => item._id}
+    //                 renderItem={({item}) => (
+    //                     <PatientItem patient={item} pressHandler = {pressHandler}/>
+    //                 )}
+    //             />
+    //         </View>
+    //     </View>
+    // )
 }
 const styles = StyleSheet.create({
     title: {

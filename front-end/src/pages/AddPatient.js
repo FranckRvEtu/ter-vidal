@@ -67,7 +67,7 @@ export default function AddPatient() {
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <Avatar
           src={formData.image || "/path/to/default-avatar.jpg"}
-          sx={{ width: 100, height: 100 }}
+          sx={{ width: 100, height: 100, mb: 2}}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
