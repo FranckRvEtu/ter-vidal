@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, FlatList, Button} from 'react-native';
 import axios from 'axios';
 import PatientItem from './patientItem';
 import Header from './header';
+import Ordonnance from '../screens/ordonnance';
+import Juif from '../screens/flavio';
 
 
 export default function ListePatient({navigation}) {
@@ -25,21 +27,23 @@ export default function ListePatient({navigation}) {
     }
     ,[]);
   
-    pressHandler = (firstname, name) => {
-        console.log('Patient', firstname, name, 'pressed');
-        navigation.navigate('Ordonnance');
-    };
+    // pressHandler = (firstname, name) => {
+    //     console.log('Patient', firstname, name, 'pressed');
+    //     navigation.navigate('Ordonnance', );
+    // };
+
     return (
       <View style={styles.container}>
         <StatusBar style="auto" />
         <Header />
+        <Button title='Accéder à Flavio' onPress={()=>navigation.navigate("Juif")}/>
         <View style = {styles.content}>
             <FlatList 
                 data={patients}
 
                 keyExtractor={item => item._id}
                 renderItem={({item}) => (
-                    <PatientItem patient={item} pressHandler = {pressHandler}/>
+                    <PatientItem patient={item} pressHandler = {() => navigation.navigate('Ordonnance',item)}/>
                 )}
             />
         </View>
