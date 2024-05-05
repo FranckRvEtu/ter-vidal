@@ -245,7 +245,7 @@ export default function PersistentDrawerLeft() {
             {[
               { text: "Parametres", iconPath: "/Assets/setting.png" },
               { text: "Aide", iconPath: "/Assets/help.png" },
-              { text: "Deconnexion", iconPath: "/Assets/logout.png" },
+              { text: "Deconnexion", iconPath: "/Assets/logout.png", path: "/logout" },
             ].map(
               (
                 item // Utilise item ici pour accéder aux propriétés de chaque objet

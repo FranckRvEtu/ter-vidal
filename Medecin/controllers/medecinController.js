@@ -1,5 +1,6 @@
 const MedecinM = require('../models/medecinModel.js');
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 require('dotenv').config();
 
 const loginMedecin = async (req, res) => { //belec faudra créer une collection pour les medecins
@@ -10,11 +11,13 @@ const loginMedecin = async (req, res) => { //belec faudra créer une collection 
         // Recherche du Medecin par son email
         console.log("je vais fetch", mail);
         const medecin = await MedecinM.findOne({ email: mail});
-        console.log("je suis après le fetch", medecin);
+        console.log("je asuis après le fetch", medecin);
         if (!medecin) {
             return res.status(404).json({ message: "Medecin pas trouvé" });
         }
-        else if (medecin.password !== password) {
+        console.log("je vais bcrypt copare", password, medecin.password);
+        const isMatch = await bcrypt.compare(password, medecin.password);
+        if (!isMatch) {
             console.log("je suis dans password !=");
             return res.status(401).json({ message: "Mot de passe incorrect" });
         }else{
@@ -29,12 +32,12 @@ const loginMedecin = async (req, res) => { //belec faudra créer une collection 
                 process.env.REFRESH_TOKEN_SECRET,
                 { expiresIn: '1d' }
             );
-            //medecin.refreshToken = refreshToken; //on sauvegarde le refreshToken dans la base de données
+            medecin.refreshToken = refreshToken; //on sauvegarde le refreshToken dans la base de données
             await medecin.save();
             console.log("après le save", medecin);
             
             //on envoie le refreshToken dans un cookie
-            res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000})
+            res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000})
             //secure: true -> pour https
 
             console.log("après le save accessToken", accessToken);

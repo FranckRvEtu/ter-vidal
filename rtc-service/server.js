@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
+const verifyJWT = require('../middleware/verifyJWT.js');
 
 const app = express();
 app.use(cors({
@@ -24,7 +25,7 @@ require('dotenv').config();
  
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(verifyJWT);
 const PORT = process.env.PORT || 3013;
 
 

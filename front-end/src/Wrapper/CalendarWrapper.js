@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Calendar from "../pages/Calendar";
+import axiosPrivate from "../../api/axios";
 
 const CalendarWrapper = () => {
   console.log("calendarWrapper");
@@ -10,9 +11,10 @@ const CalendarWrapper = () => {
     let patientData;
     console.log("fetch patient est bien call");
     try {
-      const response = await fetch(
+      const response = await axiosPrivate.get(
         `http://localhost:5000/getPatient/${idPatient}`
       );
+      
       console.log("haaaaaaaaaaaaaaaaaaaaaaa");
       if (!response.ok) {
         console.log("bhe non enfait");

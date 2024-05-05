@@ -1,6 +1,6 @@
 const express = require('express') 
 const cors = require('cors');
-const verifyJWT = require('./middleware/verifyJWT.js');
+const verifyJWT = require('../middleware/verifyJWT.js');
 
 const app = express();
 require('dotenv').config();
