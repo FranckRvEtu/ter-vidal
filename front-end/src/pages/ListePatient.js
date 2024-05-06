@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 import {
   Card,
   CardMedia,
@@ -136,86 +137,57 @@ export default function ListePatient({ patientsInitiaux = [] }) {
               key={patient._id || index}
               sx={{
                 mt: 0,
-                justifyContent: "space-between",
+                justifyContent: "center", // Centrer les éléments horizontalement
+                alignItems: "center", // Centrer les éléments verticalement
+                width: "100%", // Assurer que la grille occupe toute la largeur disponible
+                height: "auto", // Ajuster automatiquement la hauteur en fonction de la largeur
               }}
             >
               <Card
                 sx={{
                   borderRadius: "16px",
-                  maxWidth: 400,
+                  width: "100%", // Remplir entièrement l'espace de la grille
+                  height: "auto", // Remplir entièrement l'espace de la grille
+
                   transition: "transform 0.2s ease-in-out",
                   ":hover": {
                     transform: "scale(1.05)",
                   },
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: 200,
-                    width: "100%",
-                  }}
-                >
-                  {patient.image ? (
-                    <img
-                      src={patient.image}
-                      alt={`${patient.firstname} ${patient.name}`}
-                      style={{
-                        height: 200,
-                        width: "100%",
-                        objectFit: "contain",
-                      }}
-                    />
-                  ) : (
-                    <Avatar
-                      sx={{
-                        width: 200, // Width is now explicitly 200px
-                        height: 200, // Height is now explicitly 200px
-                        fontSize: "5rem",
-                        bgcolor: "background.paper",
-                        color: "primary.main",
-                        border: 3,
-                        borderColor: "primary.main",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {getInitials(patient.name, patient.firstname)}
-                    </Avatar>
-                  )}
-                </div>
-                <Divider />
                 <CardContent
                   sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    minHeight: "20vw", // 1/5 de la hauteur de l'écran
                     background: (theme) =>
-                      `linear-gradient(45deg, ${theme.palette.primaryLight2.main} 30%, ${theme.palette.primaryDark2.main} 90%)`,
+                      `linear-gradient(90deg, ${theme.palette.primaryLight2.main} 0%, ${theme.palette.primaryDark2.main} 100%)`,
                   }}
+                  onClick={() => navigate(`/dossierPatient/${patient._id}`)}
                 >
+                  <Avatar
+                    sx={{ width: 100, height: 100 }}
+                    src={iconPeople}
+                  ></Avatar>
                   <Typography
                     gutterBottom
+                    color="white"
                     variant="h5"
                     component="h2"
                     sx={{ fontWeight: "bold" }}
                   >
                     {`${patient.firstname} ${patient.name}`}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {new Date(patient.birthdate).toLocaleDateString()}
+                  <Typography variant="body2" color="white">
+                    {format(new Date(patient.birthdate), "d MMMM yyyy", {
+                      locale: fr,
+                    })}
                   </Typography>
                   <Grid container sx={{ justifyContent: "center" }}>
                     <Grid item sx={{ mx: 2 }}>
                       {" "}
-                      <IconButton
-                        color="primary"
-                        onClick={() =>
-                          navigate(`/dossierPatient/${patient._id}`)
-                        }
-                      >
-                        <DriveFileMoveIcon />
-                      </IconButton>
                     </Grid>
                     <Grid item sx={{ mx: 2 }}>
                       {" "}
@@ -245,7 +217,7 @@ export default function ListePatient({ patientsInitiaux = [] }) {
       <Button
         variant="contained"
         color="primary"
-        sx={{ mt: 2 }}
+        sx={{}}
         onClick={() => navigate("/addPatient")}
       >
         Ajouter un Patient

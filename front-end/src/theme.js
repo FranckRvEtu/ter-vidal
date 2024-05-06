@@ -1,14 +1,14 @@
 import { createTheme } from "@mui/material/styles";
 
-const primaryMain = "#2D6A4F";
-const primaryLight = "#74C69D";
-const primaryLight2 = "#95D5B2";
-const primaryLight3 = "#B7E4C7";
+const primaryMain = "#04498e";
+const primaryLight = "#006fdf";
+const primaryLight2 = "#007cfa";
+const primaryLight3 = "#0352a2";
 const light = "#f1f1f1";
-const primaryDark = "#40916C";
-const primaryDark2 = "#1B4332";
+const primaryDark = " #073666";
+const primaryDark2 = "#0061c3";
 const dark = "#081C15";
-const backgroundDefault = "#f1f1f1";
+const backgroundDefault = "#0a1929";
 
 const theme = createTheme({
   palette: {
@@ -25,8 +25,9 @@ const theme = createTheme({
   typography: {
     // Définir la taille de la police globale
     fontSize: 18,
+    color: "white",
     // Spécifier la famille de polices globale
-    fontFamily: "'Helvetica Neue', sans-serif",
+    fontFamily: "'Roboto', sans-serif",
     h4: {
       fontSize: "1.75rem",
       color: "white",
@@ -60,7 +61,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           "& label.Mui-focused": {
-            color: primaryLight, // Utilisation de la variable
+            color: "white", // Utilisation de la variable
           },
           "& .MuiInput-underline:after": {
             borderBottomColor: primaryLight, // Utilisation de la variable

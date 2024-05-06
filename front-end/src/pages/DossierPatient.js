@@ -57,12 +57,20 @@ export default function DossierPatient({
     >
       <Box sx={{ display: "flex", flexDirection: "column", mr: 2 }}>
         <Button
-          variant="contained"
-          color="primary"
+          variant="outlined"
+          color="primaryDark2"
           sx={{ p: 2, ml: 5, mt: 2, mb: 2 }}
           onClick={() => navigate(`/ordonnance/${patient._id}`)}
         >
           Démarrer une consultation
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ p: 2, ml: 5, mt: 2, mb: 2 }}
+          onClick={() => navigate(`/editPatient/${patient._id}`)}
+        >
+          Modifier le patient
         </Button>
         <Paper
           elevation={3}
@@ -115,7 +123,13 @@ export default function DossierPatient({
       </Box>
 
       <Box
-        sx={{ display: "flex", flexDirection: "column", flexGrow: 1, mt: 2 }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          flexGrow: 1,
+          mt: 2,
+          color: "primary",
+        }}
       >
         {/* Ligne 1 : Ordonnances et Rendez-vous */}
         <Grid container spacing={2} alignItems="flex-start">
@@ -132,13 +146,15 @@ export default function DossierPatient({
                 maxWidth: 700,
                 maxHeight: 300,
                 overflow: "auto",
+                color: "primary",
               }}
             >
-              <List>
+              <List sx={{ color: "" }}>
                 {ordonnances &&
                   ordonnances.map((ordonnance) => (
                     <div key={ordonnance._id}>
                       <ListItem
+                        sx={{ color: "primary" }}
                         button
                         onClick={() => handleOrdonnanceClick(ordonnance._id)}
                       >
@@ -146,11 +162,12 @@ export default function DossierPatient({
                           <img
                             src="/Assets/prescription.png"
                             alt="Icon"
+                            color="primary"
                             style={{ width: 24, height: 24 }}
                           />
                         </ListItemIcon>
                         <ListItemText
-                          primary={`Date d'ordonnance : ${format(
+                          primary={` ${format(
                             new Date(ordonnance.date),
                             "dd/MM/yyyy"
                           )}`}
