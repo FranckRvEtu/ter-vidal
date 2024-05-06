@@ -74,6 +74,7 @@ export default function DossierPatient({
         </Button>
         <Paper
           elevation={3}
+          color="primaryDark2"
           sx={{
             p: 2,
             ml: 5,
@@ -82,6 +83,7 @@ export default function DossierPatient({
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            color: "black",
           }}
         >
           <Typography
@@ -128,7 +130,7 @@ export default function DossierPatient({
           flexDirection: "column",
           flexGrow: 1,
           mt: 2,
-          color: "primary",
+          color: "white",
         }}
       >
         {/* Ligne 1 : Ordonnances et Rendez-vous */}
@@ -146,7 +148,6 @@ export default function DossierPatient({
                 maxWidth: 700,
                 maxHeight: 300,
                 overflow: "auto",
-                color: "primary",
               }}
             >
               <List sx={{ color: "" }}>
