@@ -1,4 +1,6 @@
 import * as React from "react";
+import { createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -50,8 +52,33 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "space-between",
   backgroundColor: "primary.main",
 }));
+const drawerTheme = createTheme({
+  palette: {
+    background: {
+      paper: "#001e3c", // Dark blue background
+    },
+    text: {
+      primary: "white", // White text for primary typography
+    },
+  },
+  components: {
+    MuiListItemText: {
+      styleOverrides: {
+        primary: {
+          color: "white", // Ensures text in ListItemText is white
+        },
+      },
+    },
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          color: "white", // Ensures icons in ListItems are white
+        },
+      },
+    },
+  },
+});
 export default function PersistentDrawerLeft() {
-  const theme = useTheme(Theme);
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
   const [isListening, setIsListening] = useState(false);
@@ -120,7 +147,7 @@ export default function PersistentDrawerLeft() {
         sx={{
           top: 0, // Positionner l'AppBar en haut
           right: 0, // Aligner l'AppBar à droite
-          bgcolor: "primary.main",
+          bgcolor: "white",
           zIndex: (theme) => theme.zIndex.drawer + 1,
           width: "auto", // Ajuster la largeur automatiquement en fonction du contenu
           height: "auto", // Ajuster la hauteur automatiquement en fonction du contenu
@@ -134,6 +161,7 @@ export default function PersistentDrawerLeft() {
         <Toolbar
           disableGutters // Désactiver les paddings par défaut du Toolbar
           sx={{
+            backgroundColor: "primary.main", // Couleur de fond
             minHeight: "64px", // Hauteur minimale pour aligner avec la hauteur standard d'AppBar
             justifyContent: "flex-end", // Placer le contenu à droite
             padding: "0 16px", // Ajouter du padding à droite et à gauche pour éviter que le contenu touche les bords
@@ -161,151 +189,157 @@ export default function PersistentDrawerLeft() {
           </Typography>
         </Toolbar>
       </AppBar>
-
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        onMouseLeave={handleDrawerClose}
-      >
-        <DrawerHeader sx={{ backgroundColor: "primary.main" }}>
-          <Typography
-            variant="h4"
-            noWrap
-            component="div"
-            sx={{ color: "white" }}
-          >
-            Nom app
-          </Typography>
-        </DrawerHeader>
-        <Box sx={{}}>
-          <Divider />
-          <List>
-            {[
-              { text: "Dashboard", iconPath: "/Assets/grid.png", path: "/" },
-              {
-                text: "Patients",
-                iconPath: "/Assets/iconPeople.png",
-                path: "/listePatient",
-              },
-              {
-                text: "Agenda",
-                iconPath: "/Assets/calendar.png",
-                path: "/agenda",
-              },
-            ].map(
-              (
-                item // Utilise item ici pour accéder aux propriétés de chaque objet
-              ) => (
-                <ListItem key={item.text} disablePadding>
-                  <ListItemButton
-                    sx={{
-                      borderRadius: "10px", // More rounded corners
-                      color: "black", // Initial text color
-                      padding: "6px 12px", // Adjust padding to control the size
-                      marginLeft: "10px", // Add some margin to the left
-                      marginRight: "10px", // Add some margin to the right
-                      ":hover": {
-                        backgroundColor: "primary.main", // Background color on hover
-                        color: "white", // Text color on hover to inverse the color scheme
-                      },
-                    }}
-                    onClick={(event) => handleListItemClick(event, item.path)}
-                  >
-                    <ListItemIcon>
-                      {/* Assure-toi d'utiliser item.iconPath pour obtenir la valeur dynamique */}
-                      <img
-                        src={item.iconPath}
-                        alt={item.text}
-                        style={{ maxWidth: 24, maxHeight: 24 }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText primary={item.text} />
-                  </ListItemButton>
-                </ListItem>
-              )
-            )}
-          </List>
-        </Box>
-
-        <Divider />
-        <Box
+      <ThemeProvider theme={drawerTheme}>
+        <Drawer
           sx={{
-            display: "flex",
-            justifyContent: "center", // Centre horizontalement
-            alignItems: "center", // Centre verticalement
-            height: "100%", // Prend toute la hauteur disponible
+            width: drawerWidth, // Assume drawerWidth is defined globally or higher in your component
+            flexShrink: 0,
           }}
+          variant="persistent"
+          anchor="left"
+          open={open}
+          onMouseLeave={handleDrawerClose}
         >
-          <IconButton
-            onClick={toggleListening}
-            color="primary"
+          <DrawerHeader sx={{ backgroundColor: "primary.main" }}>
+            <Typography
+              variant="h4"
+              noWrap
+              component="div"
+              sx={{ color: "white" }}
+            >
+              Nom app
+            </Typography>
+          </DrawerHeader>
+          <Box sx={{}}>
+            <Divider />
+            <List>
+              {[
+                { text: "Dashboard", iconPath: "/Assets/grid.png", path: "/" },
+                {
+                  text: "Patients",
+                  iconPath: "/Assets/iconPeople.png",
+                  path: "/listePatient",
+                },
+                {
+                  text: "Agenda",
+                  iconPath: "/Assets/calendar.png",
+                  path: "/agenda",
+                },
+              ].map(
+                (
+                  item // Utilise item ici pour accéder aux propriétés de chaque objet
+                ) => (
+                  <ListItem key={item.text} disablePadding>
+                    <ListItemButton
+                      sx={{
+                        borderRadius: "10px", // More rounded corners
+                        color: "black", // Initial text color
+                        padding: "6px 12px", // Adjust padding to control the size
+                        marginLeft: "10px", // Add some margin to the left
+                        marginRight: "10px", // Add some margin to the right
+                        ":hover": {
+                          backgroundColor: "primary.main", // Background color on hover
+                          color: "white", // Text color on hover to inverse the color scheme
+                        },
+                      }}
+                      onClick={(event) => handleListItemClick(event, item.path)}
+                    >
+                      <ListItemIcon>
+                        {/* Assure-toi d'utiliser item.iconPath pour obtenir la valeur dynamique */}
+                        <img
+                          src={item.iconPath}
+                          alt={item.text}
+                          style={{
+                            maxWidth: 24,
+                            maxHeight: 24,
+                            filter: "brightness(0) invert(1)",
+                          }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText primary={item.text} />
+                    </ListItemButton>
+                  </ListItem>
+                )
+              )}
+            </List>
+          </Box>
+
+          <Divider />
+          <Box
             sx={{
-              backgroundColor: "primary.main", // Fond orange
-              "&:hover": {
-                backgroundColor: "primary.main", // Fond plus clair au survol
-              },
-              color: "white", // Couleur de l'icône
-              borderRadius: "20%", // Rend le fond complètement rond
-              padding: "10px", // Espace entre l'icône et le bord du bouton
+              display: "flex",
+              justifyContent: "center", // Centre horizontalement
+              alignItems: "center", // Centre verticalement
+              height: "100%", // Prend toute la hauteur disponible
             }}
           >
-            {isListening ? (
-              <MicIcon sx={{ fontSize: "2rem" }} /> // Icône du micro active avec une taille plus grande
-            ) : (
-              <MicOffIcon sx={{ fontSize: "2rem" }} /> // Icône du micro éteint avec une taille plus grande
-            )}
-          </IconButton>
-        </Box>
-        <Box sx={{ width: "100%", marginTop: "Auto" }}>
-          <List>
-            {[
-              { text: "Parametres", iconPath: "/Assets/setting.png" },
-              { text: "Aide", iconPath: "/Assets/help.png" },
-              { text: "Deconnexion", iconPath: "/Assets/logout.png" },
-            ].map(
-              (
-                item // Utilise item ici pour accéder aux propriétés de chaque objet
-              ) => (
-                <ListItem key={item.text} disablePadding>
-                  <ListItemButton
-                    sx={{
-                      borderRadius: "10px", // More rounded corners
-                      color: "grey", // Initial text color
-                      padding: "6px 12px", // Adjust padding to control the size
-                      marginLeft: "10px", // Add some margin to the left
-                      marginRight: "10px", // Add some margin to the right
-                      ":hover": {
-                        backgroundColor: "primary.main", // Background color on hover
-                        color: "white", // Text color on hover to inverse the color scheme
-                      },
-                    }}
-                    onClick={(event) => handleListItemClick(event, item.text)}
-                  >
-                    <ListItemIcon>
-                      {/* Assure-toi d'utiliser item.iconPath pour obtenir la valeur dynamique */}
-                      <img
-                        src={item.iconPath}
-                        alt={item.text}
-                        style={{ maxWidth: 24, maxHeight: 24 }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText primary={item.text} />
-                  </ListItemButton>
-                </ListItem>
-              )
-            )}
-          </List>
-        </Box>
-      </Drawer>
+            <IconButton
+              onClick={toggleListening}
+              color="primary"
+              sx={{
+                backgroundColor: "primary.main", // Fond orange
+                "&:hover": {
+                  backgroundColor: "primary.main", // Fond plus clair au survol
+                },
+                color: "white", // Couleur de l'icône
+                borderRadius: "20%", // Rend le fond complètement rond
+                padding: "10px", // Espace entre l'icône et le bord du bouton
+              }}
+            >
+              {isListening ? (
+                <MicIcon sx={{ fontSize: "2rem" }} /> // Icône du micro active avec une taille plus grande
+              ) : (
+                <MicOffIcon sx={{ fontSize: "2rem" }} /> // Icône du micro éteint avec une taille plus grande
+              )}
+            </IconButton>
+          </Box>
+          <Box sx={{ width: "100%", marginTop: "Auto" }}>
+            <List>
+              {[
+                { text: "Parametres", iconPath: "/Assets/setting.png" },
+                { text: "Aide", iconPath: "/Assets/help.png" },
+                { text: "Deconnexion", iconPath: "/Assets/logout.png" },
+              ].map(
+                (
+                  item // Utilise item ici pour accéder aux propriétés de chaque objet
+                ) => (
+                  <ListItem key={item.text} disablePadding>
+                    <ListItemButton
+                      sx={{
+                        borderRadius: "10px", // More rounded corners
+                        color: "grey", // Initial text color
+                        padding: "6px 12px", // Adjust padding to control the size
+                        marginLeft: "10px", // Add some margin to the left
+                        marginRight: "10px", // Add some margin to the right
+                        ":hover": {
+                          backgroundColor: "primary.main", // Background color on hover
+                          color: "white", // Text color on hover to inverse the color scheme
+                        },
+                      }}
+                      onClick={(event) => handleListItemClick(event, item.text)}
+                    >
+                      <ListItemIcon>
+                        {/* Assure-toi d'utiliser item.iconPath pour obtenir la valeur dynamique */}
+                        <img
+                          src={item.iconPath}
+                          alt={item.text}
+                          style={{
+                            maxWidth: 24,
+                            maxHeight: 24,
+                            filter: "brightness(0) invert(1)",
+                          }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText primary={item.text} />
+                    </ListItemButton>
+                  </ListItem>
+                )
+              )}
+            </List>
+          </Box>
+        </Drawer>
+      </ThemeProvider>
+
       <Box
         sx={{
           width: "160px",

@@ -90,17 +90,22 @@ export default function ListePatient({ patientsInitiaux = [] }) {
       <Grid alignItems="center" sx={{}}>
         <Grid item xs={8}>
           <TextField
-            fullWidth
+            sx={{
+              width: "80%",
+              Color: "white",
+              borderRadius: "8px",
+              ml: 4,
+              mt: 1,
+            }}
             label="Rechercher un patient"
-            variant="standard"
+            variant="outlined"
             value={recherche}
-            color="primary"
             onChange={(e) => setRecherche(e.target.value)}
             InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
+              startAdornment: (
+                <InputAdornment position="start">
                   <IconButton onClick={handleSearch}>
-                    <SearchIcon />
+                    <SearchIcon color="primary" />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -108,11 +113,12 @@ export default function ListePatient({ patientsInitiaux = [] }) {
           />
         </Grid>
       </Grid>
-      <Paper
+      <Grid
         sx={{
           overflow: "auto",
-          mt: 4,
-          maxHeight: 700,
+          mt: 1,
+          mb: 1,
+          maxHeight: "80vh",
           padding: 2,
           backgroundColor: "transparent",
           boxShadow: "none",
@@ -148,7 +154,7 @@ export default function ListePatient({ patientsInitiaux = [] }) {
                   borderRadius: "16px",
                   width: "100%", // Remplir entièrement l'espace de la grille
                   height: "auto", // Remplir entièrement l'espace de la grille
-
+                  transform: "scale(0.95)",
                   transition: "transform 0.2s ease-in-out",
                   ":hover": {
                     transform: "scale(1.05)",
@@ -188,18 +194,6 @@ export default function ListePatient({ patientsInitiaux = [] }) {
                   <Grid container sx={{ justifyContent: "center" }}>
                     <Grid item sx={{ mx: 2 }}>
                       {" "}
-                    </Grid>
-                    <Grid item sx={{ mx: 2 }}>
-                      {" "}
-                      <IconButton
-                        color="warning"
-                        onClick={() => navigate(`/editPatient/${patient._id}`)}
-                      >
-                        <EditIcon fontSize="small" />
-                      </IconButton>
-                    </Grid>
-                    <Grid item sx={{ mx: 2 }}>
-                      {" "}
                       <IconButton
                         color="error"
                         onClick={() => deleteRDVs(patient._id)}
@@ -213,11 +207,11 @@ export default function ListePatient({ patientsInitiaux = [] }) {
             </Grid>
           ))}
         </Grid>
-      </Paper>
+      </Grid>
       <Button
         variant="contained"
         color="primary"
-        sx={{}}
+        sx={{ ml: 4 }}
         onClick={() => navigate("/addPatient")}
       >
         Ajouter un Patient

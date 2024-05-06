@@ -45,7 +45,17 @@ export default function DossierPatient({
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
   };
-
+  const commonPaperStyles = {
+    ml: 2,
+    mb: 2,
+    mr: 2,
+    mt: 0,
+    padding: 2,
+    minHeight: "18vw",
+    maxWidth: "40vw",
+    maxHeight: "18vw",
+    overflow: "auto",
+  };
   return (
     <Box
       sx={{
@@ -58,8 +68,8 @@ export default function DossierPatient({
       <Box sx={{ display: "flex", flexDirection: "column", mr: 2 }}>
         <Button
           variant="outlined"
-          color="primaryDark2"
-          sx={{ p: 2, ml: 5, mt: 2, mb: 2 }}
+          color="primary"
+          sx={{ p: 2, ml: 5, mt: 2.5, mb: 1, color: "white" }}
           onClick={() => navigate(`/ordonnance/${patient._id}`)}
         >
           Démarrer une consultation
@@ -67,7 +77,7 @@ export default function DossierPatient({
         <Button
           variant="contained"
           color="primary"
-          sx={{ p: 2, ml: 5, mt: 2, mb: 2 }}
+          sx={{ p: 2, ml: 5, mt: 1, mb: 1 }}
           onClick={() => navigate(`/editPatient/${patient._id}`)}
         >
           Modifier le patient
@@ -78,19 +88,20 @@ export default function DossierPatient({
           sx={{
             p: 2,
             ml: 5,
-            mt: 2,
+            mt: 3.5,
             mb: 2,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             color: "black",
+            height: "33vw",
+            overflow: "auto",
           }}
         >
           <Typography
             variant="h6"
             sx={{
               textAlign: "center",
-              textDecoration: "underline",
               width: "100%",
             }}
           >
@@ -101,24 +112,22 @@ export default function DossierPatient({
             src={patient.image} // Using Base64 image string directly
           />
           <Box sx={{ textAlign: "left", maxWidth: "80%", mt: 1 }}>
-            <Typography sx={{ mt: 3 }}>Nom: {patient.name}</Typography>
+            <Typography sx={{}}>Nom: {patient.name}</Typography>
             <Divider />
-            <Typography sx={{ mt: 3 }}>Prénom: {patient.firstname}</Typography>
+            <Typography sx={{}}>Prénom: {patient.firstname}</Typography>
             <Divider />
-            <Typography sx={{ mt: 3 }}>Sexe: {patient.sexe}</Typography>
+            <Typography sx={{}}>Sexe: {patient.sexe}</Typography>
             <Divider />
-            <Typography sx={{ mt: 3 }}>Taille: {patient.height} cm</Typography>
+            <Typography sx={{}}>Taille: {patient.height} cm</Typography>
             <Divider />
-            <Typography sx={{ mt: 3 }}>Poids: {patient.weight} kg</Typography>
+            <Typography sx={{}}>Poids: {patient.weight} kg</Typography>
             <Divider />
-            <Typography sx={{ mt: 3 }}>
+            <Typography sx={{}}>
               Date de naissance:{" "}
               {format(new Date(patient.birthdate), "dd/MM/yyyy")}
             </Typography>
             <Divider />
-            <Typography sx={{ mt: 3 }}>
-              Groupe sanguin: {patient.BloodType}
-            </Typography>
+            <Typography sx={{}}>Groupe sanguin: {patient.BloodType}</Typography>
             <Divider />
           </Box>
         </Paper>
@@ -134,28 +143,19 @@ export default function DossierPatient({
         }}
       >
         {/* Ligne 1 : Ordonnances et Rendez-vous */}
-        <Grid container spacing={2} alignItems="flex-start">
+        <Grid container spacing={2} alignItems="" sx={{ mt: 4 }}>
           {/* Ordonnances */}
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" component="h2">
+            <Typography variant="h6" component="h2" sx={{ ml: 2 }}>
               Ordonnances
             </Typography>
-            <Paper
-              sx={{
-                margin: 2,
-                padding: 2,
-                minHeight: 300,
-                maxWidth: 700,
-                maxHeight: 300,
-                overflow: "auto",
-              }}
-            >
+            <Paper sx={commonPaperStyles}>
               <List sx={{ color: "" }}>
                 {ordonnances &&
                   ordonnances.map((ordonnance) => (
                     <div key={ordonnance._id}>
                       <ListItem
-                        sx={{ color: "primary" }}
+                        sx={{ marginBottom: 1 }}
                         button
                         onClick={() => handleOrdonnanceClick(ordonnance._id)}
                       >
@@ -174,7 +174,6 @@ export default function DossierPatient({
                           )}`}
                         />
                       </ListItem>
-                      <Divider />
                     </div>
                   ))}
               </List>
@@ -183,19 +182,10 @@ export default function DossierPatient({
 
           {/* Rendez-vous */}
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" component="h2">
+            <Typography variant="h6" component="h2" sx={{ ml: 2 }}>
               Rendez-vous
             </Typography>
-            <Paper
-              sx={{
-                margin: 2,
-                padding: 2,
-                minHeight: 300,
-                maxWidth: 700,
-                maxHeight: 300,
-                overflow: "auto",
-              }}
-            >
+            <Paper sx={commonPaperStyles}>
               <List>
                 {rdvs &&
                   rdvs.map((rdv) => (
@@ -223,19 +213,10 @@ export default function DossierPatient({
         <Grid container spacing={2} alignItems="flex-start">
           {/* Antécédants */}
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" component="h2">
+            <Typography variant="h6" component="h2" sx={{ ml: 2 }}>
               Antécédants
             </Typography>
-            <Paper
-              sx={{
-                margin: 2,
-                padding: 2,
-                minHeight: 300,
-                maxWidth: 700,
-                maxHeight: 300,
-                overflow: "auto",
-              }}
-            >
+            <Paper sx={commonPaperStyles}>
               <List>
                 {antecedants &&
                   antecedants.map((antecedant) => (
@@ -256,19 +237,10 @@ export default function DossierPatient({
 
           {/* Visites */}
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" component="h2">
+            <Typography variant="h6" component="h2" sx={{ ml: 2 }}>
               Visites
             </Typography>
-            <Paper
-              sx={{
-                margin: 2,
-                padding: 2,
-                minHeight: 300,
-                maxWidth: 700,
-                maxHeight: 300,
-                overflow: "auto",
-              }}
-            >
+            <Paper sx={commonPaperStyles}>
               <List>
                 {visites &&
                   visites.map((visite) => (

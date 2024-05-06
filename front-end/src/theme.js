@@ -5,7 +5,7 @@ const primaryLight = "#006fdf";
 const primaryLight2 = "#007cfa";
 const primaryLight3 = "#0352a2";
 const light = "#f1f1f1";
-const primaryDark = " #073666";
+const primaryDark = " #001e3c";
 const primaryDark2 = "#0061c3";
 const dark = "#081C15";
 const backgroundDefault = "#0a1929";
@@ -25,8 +25,9 @@ const theme = createTheme({
   typography: {
     // Définir la taille de la police globale
     fontSize: 18,
-    color: "white",
-    // Spécifier la famille de polices globale
+    allVariants: {
+      color: "white",
+    }, // Spécifier la famille de polices globale
     fontFamily: "'Roboto', sans-serif",
     h4: {
       fontSize: "1.75rem",
@@ -37,10 +38,21 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: `linear-gradient(45deg, ${primaryLight2} 0%, ${primaryDark2} 100%)`,
+        },
+      },
+    },
     MuiCssBaseline: {
       styleOverrides: `
+      html {
+        color: white; // Set default text color to white for all text
+      }
+
       *::-webkit-scrollbar {
-        width: 10px; // Sets the scrollbar width
+        width: 0px; // Sets the scrollbar width
       }
       
       *::-webkit-scrollbar-track {
@@ -60,16 +72,29 @@ const theme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
-          "& label.Mui-focused": {
-            color: "white", // Utilisation de la variable
+          "& label": {
+            color: primaryMain, // Color for the label when it is not focused
           },
-          "& .MuiInput-underline:after": {
-            borderBottomColor: primaryLight, // Utilisation de la variable
+          "& .MuiInput-underline:before": {
+            borderBottomColor: primaryMain, // Underline color before it is focused
+          },
+          "& .MuiInputBase-input": {
+            color: "white", // Change input text color to white for outlined text fields
           },
           "& .MuiOutlinedInput-root": {
-            "&.Mui-focused fieldset": {
-              borderColor: primaryLight, // Utilisation de la variable
+            "& fieldset": {
+              borderColor: primaryMain, // Border color before it is focused
             },
+            "& .MuiInputBase-input::placeholder": {
+              // Style for placeholder text
+              color: "white", // Set placeholder text color to white
+              opacity: 1, // Ensures that the placeholder text is not semi-transparent
+            },
+          },
+          "& .MuiInputBase-input::placeholder": {
+            // This applies to both variants if needed
+            color: "white", // Change placeholder text color to white
+            opacity: 1, // Ensures that the placeholder text is fully visible
           },
         },
       },
