@@ -1,12 +1,13 @@
 // WrapperComponent.js
 import React, { useState, useEffect } from "react";
 import ListePatient from "../pages/ListePatient";
+import axiosPrivate from "../../api/axios";
 
 const WrapperListePatients = () => {
   const [listePatients, setListePatients] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:11000/allPatients") // Correction ici
+    axiosPrivate.get("http://localhost:5000/allPatients") // Correction ici
       .then((response) => {
         console.log(response); // Affiche la réponse brute dans la console
         if (!response.ok) {

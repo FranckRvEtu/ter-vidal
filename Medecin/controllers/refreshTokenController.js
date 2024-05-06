@@ -6,7 +6,7 @@ const refreshMedecin =  async (req, res) => { //belec faudra créer une collecti
     const cookie = req.cookies;
 
     if (!cookie?.jwt) {
-        return res.sendStatus(401).json({ message: "Pas de token" });
+        return res.sendStatus(401).json({ message: "Pas de token (controller refresh)" });
     }
     console.log("Cookie jwt présent", cookie.jwt);
     const refreshToken = cookie.jwt;

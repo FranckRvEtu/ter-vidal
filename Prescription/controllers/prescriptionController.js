@@ -1,5 +1,5 @@
 const Prescription = require("../models/prescriptionModel");
-
+require('dotenv').config();
 
 // Fonction pour ajouter une prescription
 const addPrescription = async (req, res) => {
