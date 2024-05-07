@@ -1,13 +1,22 @@
 // WrapperComponent.js
 import React, { useState, useEffect } from "react";
+import useAuth from "../hooks/useAuth";
 import ListePatient from "../pages/ListePatient";
-import axiosPrivate from "../../api/axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const WrapperListePatients = () => {
   const [listePatients, setListePatients] = useState([]);
+  const axiosPrivate = useAxiosPrivate();   
+  const token = useAuth().token;
 
   useEffect(() => {
-    axiosPrivate.get("http://localhost:5000/allPatients") // Correction ici
+    let isMonted = true;
+    const controller = new AbortController();
+
+    axiosPrivate.get(
+      "http://localhost:5000/allPatients", {
+        signal : controller.signal
+      }) // Correction ici
       .then((response) => {
         console.log(response); // Affiche la réponse brute dans la console
         if (!response.ok) {
@@ -18,7 +27,7 @@ const WrapperListePatients = () => {
       .then((data) => {
         console.log("DATA");
         console.log(data); // Affiche les données JSON récupérées
-        setListePatients(data);
+        isMonted && setListePatients(data);
       })
       .catch((error) =>
         console.error("Erreur lors de la récupération des patients:", error)

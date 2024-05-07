@@ -23,12 +23,12 @@ const loginMedecin = async (req, res) => { //belec faudra créer une collection 
         }else{
             console.log("avant le save", medecin);
             const accessToken = jwt.sign(
-                { email: medecin.email, id: medecin._id }, 
+                { email: medecin.email}, 
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: '30s' }
             );
             const refreshToken = jwt.sign(
-                { email: medecin.email, id: medecin._id }, 
+                { email: medecin.email}, 
                 process.env.REFRESH_TOKEN_SECRET,
                 { expiresIn: '1d' }
             );

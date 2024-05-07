@@ -1,7 +1,7 @@
 const express = require('express') 
 const cors = require('cors');
-const verifyJWT = require('../front-end/middleWare/verifyJWT')
-const credentials = require('../front-end/middleWare/credentiels.js');
+const verifyJWT = require('../middleWare/verifyJWT')
+const credentials = require('../middleWare/credentiels.js');
 const corsOptions = require('./config/corsOptions');
 
 const app = express();

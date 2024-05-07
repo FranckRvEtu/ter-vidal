@@ -1,7 +1,7 @@
 const express = require('express') 
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const credentials = require('../front-end/middleWare/credentiels.js');
+const credentials = require('../middleWare/credentiels.js');
 const corsOptions = require('./config/corsOptions');
 
 const app = express();

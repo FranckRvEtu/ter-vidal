@@ -1,4 +1,4 @@
-import { useAuth } from "../context/authContext";
+import useAuth from "./useAuth";
 
 const useRefreshToken = () => {
     const { setAuth } = useAuth();

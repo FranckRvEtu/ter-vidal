@@ -3,7 +3,7 @@ const {loginMedecin, addMedecin, getMedecin, updateMedecin, deleteMedecin}  = re
 const {refreshMedecin}  = require("../controllers/refreshTokenController");
 const {logoutMedecin}  = require("../controllers/logoutController");
 const router = express.Router();
-const verifyJWT = require('../../front-end/middleWare/verifyJWT');
+const verifyJWT = require('../../middleWare/verifyJWT');
 const app = express();
 
 router.get('/refreshMedecin',refreshMedecin);
