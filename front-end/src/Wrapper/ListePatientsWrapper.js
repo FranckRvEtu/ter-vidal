@@ -6,8 +6,10 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const WrapperListePatients = () => {
   const [listePatients, setListePatients] = useState([]);
+  const {auth, setAuth} = useAuth();
   const axiosPrivate = useAxiosPrivate();   
-  const token = useAuth().token;
+  const token = auth.accessToken;
+  console.log("TOKEN", token);
 
   useEffect(() => {
     let isMonted = true;
@@ -15,8 +17,12 @@ const WrapperListePatients = () => {
 
     axiosPrivate.get(
       "http://localhost:5000/allPatients", {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
         signal : controller.signal
-      }) // Correction ici
+      }) // Correction ici  
       .then((response) => {
         console.log(response); // Affiche la réponse brute dans la console
         if (!response.ok) {

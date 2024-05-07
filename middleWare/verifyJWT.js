@@ -9,7 +9,7 @@ const verifyJWT = (req, res, next) => {
         res.status(401).json({ message: "Middleware Pas de token"});
     } else {
         console.log("auth header", authHeader)
-        const token = authHeader//.split(' ')[1];
+        const token = authHeader.split(' ')[1];
         console.log("token", token);
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
             if (err) {
