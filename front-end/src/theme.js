@@ -1,14 +1,18 @@
 import { createTheme } from "@mui/material/styles";
+// Import all weights or specific ones as needed
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/600.css";
+import "@fontsource/poppins/700.css";
 
 const primaryMain = "#04498e";
-const primaryLight = "#006fdf";
+const primaryLight = "#C7E6F4";
 const primaryLight2 = "#007cfa";
 const primaryLight3 = "#0352a2";
 const light = "#f1f1f1";
 const primaryDark = " #001e3c";
 const primaryDark2 = "#0061c3";
 const dark = "#081C15";
-const backgroundDefault = "#ffffff";
+const backgroundDefault = "white";
 
 const theme = createTheme({
   palette: {
@@ -25,13 +29,14 @@ const theme = createTheme({
   typography: {
     // Définir la taille de la police globale
     fontSize: 18,
+    fontWeight: 0,
+    fontFamily: "'Poppins', sans-serif",
     allVariants: {
-      color: "white",
+      color: "#FFFFFF",
     }, // Spécifier la famille de polices globale
-    fontFamily: "'Roboto', sans-serif",
     h4: {
       fontSize: "1.75rem",
-      color: "white",
+      color: "#C6E5F3",
     },
     h6: {
       fontSize: "1.5rem",
@@ -51,6 +56,7 @@ const theme = createTheme({
     },
     MuiCssBaseline: {
       styleOverrides: `
+      
       html {
         color: black; // Set default text color to white for all text
       }
@@ -99,6 +105,16 @@ const theme = createTheme({
             // This applies to both variants if needed
             color: "white", // Change placeholder text color to white
             opacity: 1, // Ensures that the placeholder text is fully visible
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          color: "white", // Text color
+          "&:hover": {
+            backgroundColor: primaryLight, // Darker shade of the primary color on hover
           },
         },
       },

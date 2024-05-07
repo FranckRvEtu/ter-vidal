@@ -1,6 +1,11 @@
 import * as React from "react";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+import HealingIcon from "@mui/icons-material/Healing";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import {
   Button,
+  Hidden,
   Box,
   Avatar,
   Paper,
@@ -58,6 +63,7 @@ export default function DossierPatient({
     maxHeight: "18vw",
     overflow: "auto",
   };
+
   return (
     <Box
       sx={{
@@ -71,7 +77,7 @@ export default function DossierPatient({
         <Button
           variant="outlined"
           color="primary"
-          sx={{ p: 2, ml: 5, mt: 2.5, mb: 1, color: "white" }}
+          sx={{ p: 2, ml: 5, mt: 2.5, mb: 1 }}
           onClick={() => navigate(`/ordonnance/${patient._id}`)}
         >
           Démarrer une consultation
@@ -89,10 +95,13 @@ export default function DossierPatient({
           color="primaryDark2"
           sx={{
             borderRadius: 5,
-            p: 1,
+            boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+            position: "relative",
+            border: "1px solid #000",
+            padding: 0,
+            transform: "scale(1.05)",
+            mt: 2,
             ml: 5,
-            mt: 3.5,
-            mb: 2,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -107,6 +116,10 @@ export default function DossierPatient({
             sx={{
               textAlign: "center",
               width: "100%",
+              pt: 1,
+              pb: 0,
+              pr: 1,
+              pl: 1,
             }}
           >
             Informations du Patient
@@ -172,47 +185,139 @@ export default function DossierPatient({
         <Grid container spacing={2} alignItems="" sx={{ mt: 4 }}>
           {/* Ordonnances */}
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" component="h2" sx={{ ml: 2 }}>
-              Ordonnances
-            </Typography>
-            <Paper sx={commonPaperStyles}>
-              <List sx={{ color: "" }}>
+            <Paper
+              sx={{
+                boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+                position: "relative",
+                border: "1px solid #000",
+                padding: 2,
+                width: "90%",
+                margin: 2,
+
+                height: "40vh", // Ensure it has the same height as the other sections
+              }}
+            >
+              <Grid container>
+                {/* Icon positioned partially outside of the card's main content */}
+                <Hidden only="sm">
+                  <Box
+                    sx={{
+                      height: "5vw",
+                      width: "5vw",
+                      display: "flex",
+                      position: "absolute",
+                      zIndex: 1,
+                      top: -20,
+                      left: 12,
+                      background: "linear-gradient(to top, #BDDAD0, #FFFFFF)", // Salmon pink to white gradient
+                      borderRadius: "25%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      border: "1px solid #000",
+                    }}
+                  >
+                    <AssignmentIcon />
+                  </Box>
+                </Hidden>
+
+                {/* Header information */}
+                <Grid
+                  container
+                  justifyContent="flex-end"
+                  sx={{ padding: 0, margin: "16px 0" }}
+                >
+                  <Typography variant="h6" align="left">
+                    Ordonnances
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              <Divider sx={{ color: "#000" }} />
+
+              {/* List of prescriptions */}
+              <List
+                sx={{
+                  overflow: "auto",
+                  height: "27vh", // Set the height of the list
+                }}
+              >
                 {ordonnances &&
                   ordonnances.map((ordonnance) => (
-                    <div key={ordonnance._id}>
-                      <ListItem
-                        sx={{ marginBottom: 1 }}
-                        button
-                        onClick={() => handleOrdonnanceClick(ordonnance._id)}
-                      >
-                        <ListItemIcon>
-                          <img
-                            src="/Assets/prescription.png"
-                            alt="Icon"
-                            color="primary"
-                            style={{ width: 24, height: 24 }}
-                          />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={` ${format(
-                            new Date(ordonnance.date),
-                            "dd/MM/yyyy"
-                          )}`}
-                        />
-                      </ListItem>
-                    </div>
+                    <ListItem
+                      key={ordonnance._id}
+                      sx={{ marginBottom: 1 }}
+                      button
+                      onClick={() => handleOrdonnanceClick(ordonnance._id)}
+                    >
+                      <ListItemText
+                        primary={` ${format(
+                          new Date(ordonnance.date),
+                          "dd/MM/yyyy"
+                        )}`}
+                      />
+                    </ListItem>
                   ))}
               </List>
             </Paper>
           </Grid>
-
           {/* Rendez-vous */}
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" component="h2" sx={{ ml: 2 }}>
-              Rendez-vous
-            </Typography>
-            <Paper sx={commonPaperStyles}>
-              <List>
+            <Paper
+              sx={{
+                boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+                position: "relative",
+                border: "1px solid #000",
+                padding: 2,
+                width: "90%",
+                margin: 2,
+                height: "40vh", // Set the height of the entire section
+              }}
+            >
+              <Grid container>
+                {/* Icon positioned outside of the card's main content */}
+                <Hidden only="sm">
+                  <Grid
+                    sx={{
+                      height: "5vw",
+                      width: "5vw",
+                      display: "flex",
+                      position: "absolute",
+                      zIndex: 1,
+                      top: -20,
+                      left: 12,
+                      background: "linear-gradient(to top, #C7E6F4, #FFFFFF)", // Salmon pink to white gradient
+                      color: "",
+                      borderRadius: "25%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      border: "1px solid #000",
+                    }}
+                  >
+                    <CalendarTodayIcon />
+                  </Grid>
+                </Hidden>
+
+                {/* Header information */}
+                <Grid
+                  container
+                  justifyContent="flex-end"
+                  sx={{ padding: 0, margin: "16px 0" }}
+                >
+                  <Typography variant="h6" align="left">
+                    Rendez vous
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              <Divider sx={{ color: "#000" }} />
+
+              {/* List of appointments */}
+              <List
+                sx={{
+                  overflow: "auto",
+                  height: "27vh", // Set the height of the list
+                }}
+              >
                 {rdvs &&
                   rdvs.map((rdv) => (
                     <ListItem
@@ -238,12 +343,63 @@ export default function DossierPatient({
         {/* Ligne 2 : Antécédants et Visites */}
         <Grid container spacing={2} alignItems="flex-start">
           {/* Antécédants */}
+
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" component="h2" sx={{ ml: 2 }}>
-              Antécédants
-            </Typography>
-            <Paper sx={commonPaperStyles}>
-              <List>
+            <Paper
+              sx={{
+                boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+                position: "relative",
+                border: "1px solid #000",
+                padding: 2,
+                width: "90%",
+                margin: 2,
+                height: "40vh", // Set the height of the entire section to match Rendez-vous
+              }}
+            >
+              <Grid container>
+                {/* Icon positioned partially outside of the card's main content */}
+                <Hidden only="sm">
+                  <Box
+                    sx={{
+                      height: "5vw",
+                      width: "5vw",
+                      display: "flex",
+                      position: "absolute",
+                      zIndex: 1,
+                      top: -20,
+                      left: 12,
+                      background: "linear-gradient(to top, #E7C9D5, #FFFFFF)", // Salmon pink to white gradient
+                      borderRadius: "25%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      border: "1px solid #000",
+                    }}
+                  >
+                    <HealingIcon />
+                  </Box>
+                </Hidden>
+
+                {/* Header information */}
+                <Grid
+                  container
+                  justifyContent="flex-end"
+                  sx={{ padding: 0, margin: "16px 0" }}
+                >
+                  <Typography variant="h6" align="left">
+                    Antécédants
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              <Divider sx={{ color: "#000" }} />
+
+              {/* List of antecedents */}
+              <List
+                sx={{
+                  overflow: "auto",
+                  height: "27vh", // Set the height of the list
+                }}
+              >
                 {antecedants &&
                   antecedants.map((antecedant) => (
                     <ListItem
@@ -263,11 +419,70 @@ export default function DossierPatient({
 
           {/* Visites */}
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" component="h2" sx={{ ml: 2 }}>
-              Visites
-            </Typography>
-            <Paper sx={commonPaperStyles}>
-              <List>
+            <Paper
+              sx={{
+                boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+                position: "relative",
+                border: "1px solid #000",
+                padding: 2,
+                width: "90%",
+                margin: 2,
+                mt: 2,
+                height: "40vh", // Set the height of the entire section
+              }}
+            >
+              <Grid container>
+                {/* Icon positioned partially outside of the card's main content */}
+                <Hidden only="sm">
+                  <Grid
+                    sx={{
+                      height: "5vw",
+                      width: "5vw",
+                      display: "flex",
+                      position: "absolute",
+                      zIndex: 1,
+                      top: -20,
+                      left: 12,
+                      background: "linear-gradient(to top, #D7C9DD, #FFFFFF)", // Salmon pink to white gradient
+                      color: "",
+                      borderRadius: "25%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      border: "1px solid #000",
+                    }}
+                  >
+                    <MedicalServicesIcon />
+                  </Grid>
+                </Hidden>
+
+                {/* Fixed Header information */}
+                <Grid
+                  container
+                  justifyContent="flex-end"
+                  sx={{
+                    padding: 0,
+                    margin: "16px 0",
+                    position: "sticky", // Fixes the position
+                    top: 0,
+                    zIndex: 2,
+                    backgroundColor: "",
+                  }}
+                >
+                  <Typography variant="h6" align="left">
+                    Visites
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              <Divider sx={{ color: "#000" }} />
+
+              {/* Scrollable List of visits */}
+              <List
+                sx={{
+                  overflow: "auto",
+                  height: "27vh", // Set the height of the list
+                }}
+              >
                 {visites &&
                   visites.map((visite) => (
                     <ListItem
