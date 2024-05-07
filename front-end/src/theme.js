@@ -8,7 +8,7 @@ const light = "#f1f1f1";
 const primaryDark = " #001e3c";
 const primaryDark2 = "#0061c3";
 const dark = "#081C15";
-const backgroundDefault = "#0a1929";
+const backgroundDefault = "#ffffff";
 
 const theme = createTheme({
   palette: {
@@ -36,6 +36,10 @@ const theme = createTheme({
     h6: {
       fontSize: "1.5rem",
     },
+    h20: {
+      fontSize: "0.75rem",
+      color: "#E8DCB5",
+    },
   },
   components: {
     MuiPaper: {
@@ -48,7 +52,7 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: `
       html {
-        color: white; // Set default text color to white for all text
+        color: black; // Set default text color to white for all text
       }
 
       *::-webkit-scrollbar {
@@ -79,7 +83,7 @@ const theme = createTheme({
             borderBottomColor: primaryMain, // Underline color before it is focused
           },
           "& .MuiInputBase-input": {
-            color: "white", // Change input text color to white for outlined text fields
+            color: "black", // Change input text color to white for outlined text fields
           },
           "& .MuiOutlinedInput-root": {
             "& fieldset": {

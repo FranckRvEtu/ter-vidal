@@ -46,6 +46,8 @@ export default function DossierPatient({
     );
   };
   const commonPaperStyles = {
+    borderRadius: 5,
+
     ml: 2,
     mb: 2,
     mr: 2,
@@ -86,7 +88,8 @@ export default function DossierPatient({
           elevation={3}
           color="primaryDark2"
           sx={{
-            p: 2,
+            borderRadius: 5,
+            p: 1,
             ml: 5,
             mt: 3.5,
             mb: 2,
@@ -94,7 +97,8 @@ export default function DossierPatient({
             flexDirection: "column",
             alignItems: "center",
             color: "black",
-            height: "33vw",
+            width: "20vw",
+            height: "33.5vw",
             overflow: "auto",
           }}
         >
@@ -108,28 +112,50 @@ export default function DossierPatient({
             Informations du Patient
           </Typography>
           <Avatar
-            sx={{ width: 56, height: 56, mb: 5, mt: 5 }}
+            sx={{ width: 56, height: 56, mb: 0, mt: 2, alignSelf: "center" }}
             src={patient.image} // Using Base64 image string directly
           />
-          <Box sx={{ textAlign: "left", maxWidth: "80%", mt: 1 }}>
-            <Typography sx={{}}>Nom: {patient.name}</Typography>
-            <Divider />
-            <Typography sx={{}}>Prénom: {patient.firstname}</Typography>
-            <Divider />
-            <Typography sx={{}}>Sexe: {patient.sexe}</Typography>
-            <Divider />
-            <Typography sx={{}}>Taille: {patient.height} cm</Typography>
-            <Divider />
-            <Typography sx={{}}>Poids: {patient.weight} kg</Typography>
-            <Divider />
-            <Typography sx={{}}>
-              Date de naissance:{" "}
-              {format(new Date(patient.birthdate), "dd/MM/yyyy")}
-            </Typography>
-            <Divider />
-            <Typography sx={{}}>Groupe sanguin: {patient.BloodType}</Typography>
-            <Divider />
-          </Box>
+          <Typography alignSelf="center">
+            {patient.name} {patient.firstname}
+          </Typography>
+          <Grid
+            container
+            spacing={2} // Ajoute un espace entre les Paper
+            sx={{
+              textAlign: "center",
+              maxWidth: "90%",
+              mt: 1,
+              alignItems: "center",
+            }}
+          >
+            {[
+              { label: "Sexe", value: patient.sexe },
+              { label: "Taille", value: `${patient.height} cm` },
+              { label: "Poids", value: `${patient.weight} kg` },
+              {
+                label: "Date de naissance",
+                value: format(new Date(patient.birthdate), "dd/MM/yyyy"),
+              },
+              { label: "Groupe sanguin", value: patient.BloodType },
+            ].map((item, index) => (
+              <Grid item xs={6} key={index}>
+                <Paper
+                  elevation={3} // Contrôle l'intensité de l'ombre du Paper
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100px", // Ajustez cette valeur à votre convenance
+                    p: 2, // Ajoute un padding pour un meilleur espacement
+                  }}
+                >
+                  <Typography variant="h20">{item.label}</Typography>
+                  <Typography>{item.value}</Typography>
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
         </Paper>
       </Box>
 
