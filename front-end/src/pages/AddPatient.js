@@ -62,11 +62,24 @@ export default function AddPatient() {
   };
 
   return (
-    <Container component="main" maxWidth="md" sx={{ mt: 0 }}>
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+    <Container
+      component="main"
+      maxWidth="md"
+      sx={{
+        scale: 0.9,
+        mt: 0,
+        position: "fixed",
+        justifyContent: "center",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%) scale(0.9)",
+        overflow: "auto",
+      }}
+    >
+      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 0 }}>
         <Avatar
           src={formData.image || "/path/to/default-avatar.jpg"}
-          sx={{ width: 100, height: 100 }}
+          sx={{ width: 100, height: 100, mb: 2, position: "" }}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
@@ -179,7 +192,7 @@ export default function AddPatient() {
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mt: 2, mb: 2 }}
         >
           Enregistrer Patient
         </Button>

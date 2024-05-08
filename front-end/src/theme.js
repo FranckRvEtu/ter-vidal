@@ -30,7 +30,7 @@ const theme = createTheme({
     // Définir la taille de la police globale
     fontSize: 18,
     fontWeight: 700,
-    fontFamily: "'Poppins', bold",
+    fontFamily: "'Poppins', sans-serif",
     allVariants: {
       color: "#FFFFFF",
     }, // Spécifier la famille de polices globale

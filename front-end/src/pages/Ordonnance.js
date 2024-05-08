@@ -190,11 +190,11 @@ function Ordonnance() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 5 }}>
+    <Container maxWidth="lg" sx={{ mt: 0 }}>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} sx={{ mt: 2 }}>
           <form onSubmit={handleSubmit} id="ordonnance-form">
-            <Grid container spacing={3}>
+            <Grid container spacing={1}>
               <Grid item xs={12}>
                 <TextField
                   fullWidth
@@ -219,20 +219,20 @@ function Ordonnance() {
                   label="Remarque"
                   variant="outlined"
                   multiline
-                  rows={3}
+                  rows={2}
                   value={remarque}
                   onChange={(e) => setRemarque(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
                 <Box sx={{ display: "flex", justifyContent: "center" }}>
-                  <Button variant="contained" type="submit" sx={{ mt: 2 }}>
+                  <Button variant="contained" type="submit" sx={{ mt: 0 }}>
                     AJOUTER
                   </Button>
                   <IconButton
                     onClick={toggleListening}
                     color={isListening ? "primary" : "default"}
-                    sx={{ mt: 2, ml: 2 }}
+                    sx={{ mt: 0, ml: 2 }}
                   >
                     {isListening ? (
                       <MicIcon color="primaryDark2  " />
@@ -248,7 +248,7 @@ function Ordonnance() {
                   label="General Comments"
                   variant="outlined"
                   multiline
-                  rows={3}
+                  rows={2}
                   value={generalComments}
                   onChange={(e) => setGeneralComments(e.target.value)}
                 />
@@ -261,17 +261,23 @@ function Ordonnance() {
             sx={{ mt: 2, display: "block", mx: "auto" }}
           >
             {" "}
-            Créer Ordo{" "}
+            Créer Ordonnance{" "}
           </Button>
           {prescriptions.length > 0 && (
-            <Card sx={{ mt: 2, overflow: "auto", maxHeight: 300 }}>
+            <Card sx={{ mt: 2, overflow: "auto", maxHeight: "15vw" }}>
               <CardContent>
-                <Typography variant="h6">Prescriptions ajoutées :</Typography>
-                <List>
+                <Typography variant="h6" sx={{ position: "absolute" }}>
+                  Prescriptions ajoutées :
+                </Typography>
+                <List sx={{ mt: 6, overflow: "auto", maxHeight: "8vw" }}>
                   {prescriptions.map((prescription, index) => (
                     <React.Fragment key={index}>
                       <ListItem alignItems="flex-start">
                         <ListItemText
+                          style={{
+                            whiteSpace: "normal",
+                            wordBreak: "break-word",
+                          }}
                           primary={`Médicament: ${prescription.Medicament}`}
                           secondary={
                             <>
@@ -279,6 +285,10 @@ function Ordonnance() {
                                 component="span"
                                 variant="body2"
                                 color="text.primary"
+                                style={{
+                                  whiteSpace: "normal",
+                                  wordBreak: "break-word",
+                                }}
                               >
                                 Posologie: {prescription.Posologie}
                               </Typography>
@@ -287,7 +297,11 @@ function Ordonnance() {
                                 <Box
                                   component="span"
                                   variant="body2"
-                                  sx={{ mt: 1 }}
+                                  sx={{
+                                    mt: 1,
+                                    whiteSpace: "normal",
+                                    wordBreak: "break-word",
+                                  }}
                                 >
                                   Remarque: {prescription.Remarque}
                                 </Box>
@@ -295,6 +309,7 @@ function Ordonnance() {
                             </>
                           }
                         />
+
                         <CardActions>
                           <IconButton
                             edge="end"
@@ -316,9 +331,6 @@ function Ordonnance() {
           )}
         </Grid>
         <Grid item xs={12} md={6}>
-          <Typography variant="h5" component="h1" gutterBottom align="center">
-            Aperçu Ordonnance
-          </Typography>
           <OrdonnancePreview
             patient={patient}
             docteur={docteur}
@@ -329,7 +341,7 @@ function Ordonnance() {
           <Button
             variant="contained"
             onClick={downloadPDF}
-            sx={{ mt: 2, display: "block", mx: "auto" }}
+            sx={{ mt: 0, display: "block", mx: "auto" }}
           >
             {" "}
             Télécharger l'ordonnance{" "}
