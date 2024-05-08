@@ -29,8 +29,8 @@ const theme = createTheme({
   typography: {
     // Définir la taille de la police globale
     fontSize: 18,
-    fontWeight: 0,
-    fontFamily: "'Poppins', sans-serif",
+    fontWeight: 700,
+    fontFamily: "'Poppins', bold",
     allVariants: {
       color: "#FFFFFF",
     }, // Spécifier la famille de polices globale

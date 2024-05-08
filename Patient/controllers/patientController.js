@@ -71,7 +71,27 @@ const getAllPatients = async (req, res) => {
       .json({ message: "Erreur lors de la récupération des patients" });
   }
 };
+const addOrdonnanceToPatient = async (req, res) => {
+  const { ordonnanceId } = req.body;
+  const { id } = req.params;
 
+  try {
+    // Find the patient and add the new ordonnance ID
+    const patient = await Patient.findById(id);
+    if (!patient) {
+      return res.status(404).json({ message: "Patient not found" });
+    }
+
+    // Add the ordonnance ID to the list
+    patient.listIDOrdo.push(ordonnanceId);
+    await patient.save();
+
+    res.status(200).json({ message: "Ordonnance ID added to patient" });
+  } catch (error) {
+    console.error("Error updating patient:", error);
+    res.status(500).json({ message: "Error updating patient" });
+  }
+};
 const updatePatient = async (req, res) => {
   const { id } = req.params;
   const updates = req.body;
@@ -119,5 +139,6 @@ module.exports = {
   deletePatient,
   getAllPatients,
   updatePatient,
+  addOrdonnanceToPatient,
   // Ajoutez les a
 };

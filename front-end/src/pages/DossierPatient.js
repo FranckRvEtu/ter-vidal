@@ -3,6 +3,8 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import HealingIcon from "@mui/icons-material/Healing";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import { fr } from "date-fns/locale";
+
 import {
   Button,
   Hidden,
@@ -147,7 +149,9 @@ export default function DossierPatient({
               { label: "Poids", value: `${patient.weight} kg` },
               {
                 label: "Date de naissance",
-                value: format(new Date(patient.birthdate), "dd/MM/yyyy"),
+                value: format(new Date(patient.birthdate), "d MMMM yyyy", {
+                  locale: fr,
+                }),
               },
               { label: "Groupe sanguin", value: patient.BloodType },
             ].map((item, index) => (
@@ -252,7 +256,10 @@ export default function DossierPatient({
                       <ListItemText
                         primary={` ${format(
                           new Date(ordonnance.date),
-                          "dd/MM/yyyy"
+                          "d MMMM yyyy",
+                          {
+                            locale: fr,
+                          }
                         )}`}
                       />
                     </ListItem>
@@ -329,7 +336,8 @@ export default function DossierPatient({
                       <ListItemText
                         primary={`Rendez-vous le ${format(
                           new Date(rdv.date),
-                          "dd/MM/yyyy à HH:mm"
+                          "d MMMM yyyy à HH:mm",
+                          { locale: fr }
                         )}`}
                         secondary={`Lieu : ${rdv.lieu}`}
                       />
@@ -494,7 +502,8 @@ export default function DossierPatient({
                       <ListItemText
                         primary={`Visite le ${format(
                           new Date(visite.date),
-                          "dd/MM/yyyy à HH:mm"
+                          "d MMMM yyyy à HH:mm",
+                          { locale: fr }
                         )}`}
                       />
                     </ListItem>

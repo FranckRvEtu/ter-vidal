@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Divider from "@mui/material/Divider";
 import Hidden from "@mui/material/Hidden";
+import FolderIcon from "@mui/icons-material/Folder";
 
 export default function Card(props) {
   // Calculate the percentage
@@ -33,20 +34,20 @@ export default function Card(props) {
               zIndex: 1,
               top: -20,
               left: 12,
-              color: "#ff0000",
-              background: props.color,
+              color: "#blue",
+              background: "white",
+              border: "1px solid #000",
               borderRadius: "25%",
               justifyContent: "center",
               alignItems: "center",
+              transform: "scale(0.8)", // Scale down the icon
+              transition: "transform 0.2s", // Transition applies to all transformations (in and out)
+              "&:hover": {
+                transform: "scale(1)", // Scale up on hover
+              },
             }}
           >
-            <IconPerformance
-              sx={{
-                minWidth: 60,
-                minHeight: 60,
-                color: "#ffffff",
-              }}
-            />
+            <FolderIcon />
           </Grid>
         </Hidden>
 
