@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import Calendar from "../pages/Calendar";
 
 const CalendarWrapper = () => {
@@ -13,9 +12,7 @@ const CalendarWrapper = () => {
       const response = await fetch(
         `http://localhost:5000/getPatient/${idPatient}`
       );
-      console.log("haaaaaaaaaaaaaaaaaaaaaaa");
       if (!response.ok) {
-        console.log("bhe non enfait");
         throw new Error("Network response was not ok");
       }
       const contentType = response.headers.get("content-type");
@@ -23,7 +20,7 @@ const CalendarWrapper = () => {
         patientData = await response.json();
         console.log("pdata", patientData.name);
       } else {
-        console.log("c'est pas du json frr");
+        console.log("not json!");
       }
     } catch (error) {
       console.log("An error occurred:", error);
@@ -33,13 +30,10 @@ const CalendarWrapper = () => {
   };
 
   const convertlist = async (oldList) => {
-    console.log("convert est bien call");
+    console.log("convertlist est bien call");
     const newlist = await Promise.all(
       oldList.map(async (item) => {
-        console.log("slam", item);
-        console.log("ouioui", item.idPatient);
         const patientName = await fetchPatientName(item.idPatient);
-        console.log("nonon");
         let startDate = new Date(item.date);
         let endDate = new Date(item.date);
         endDate.setMinutes(endDate.getMinutes() + 30);
@@ -72,7 +66,7 @@ const CalendarWrapper = () => {
         console.log("LIST RDV", newl);
         setListRDV(newl);
       } else {
-        console.log("Oops, we haven't got JSON!");
+        console.log(" not JSON!");
       }
     } catch (e) {
       console.error("Erreur lors de la récupération des RDV:", e);

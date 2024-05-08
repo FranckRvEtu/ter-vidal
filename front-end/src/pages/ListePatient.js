@@ -4,33 +4,25 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import {
   Card,
-  CardMedia,
   Avatar,
   CardContent,
   Button,
   Container,
   Grid,
   IconButton,
-  Paper,
   TextField,
   Typography,
   InputAdornment,
-  Divider,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import DriveFileMoveIcon from "@mui/icons-material/DriveFileMove";
 import iconPeople from "../../public/Assets/anonyme.jpg";
 
 export default function ListePatient({ patientsInitiaux = [] }) {
   const navigate = useNavigate();
   const [recherche, setRecherche] = useState("");
-
   const [patientsAffiches, setPatientsAffiches] = useState(patientsInitiaux);
-  const getInitials = (name, firstname) => {
-    return `${firstname.charAt(0)}${name.charAt(0)}`;
-  };
+
   useEffect(() => {
     let resultats = [...patientsInitiaux];
 
@@ -143,17 +135,17 @@ export default function ListePatient({ patientsInitiaux = [] }) {
               key={patient._id || index}
               sx={{
                 mt: 0,
-                justifyContent: "center", // Centrer les éléments horizontalement
-                alignItems: "center", // Centrer les éléments verticalement
-                width: "100%", // Assurer que la grille occupe toute la largeur disponible
-                height: "auto", // Ajuster automatiquement la hauteur en fonction de la largeur
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                height: "auto",
               }}
             >
               <Card
                 sx={{
                   borderRadius: "16px",
-                  width: "100%", // Remplir entièrement l'espace de la grille
-                  height: "auto", // Remplir entièrement l'espace de la grille
+                  width: "100%",
+                  height: "auto",
                   transform: "scale(0.95)",
                   transition: "transform 0.2s ease-in-out",
                   ":hover": {
@@ -167,7 +159,7 @@ export default function ListePatient({ patientsInitiaux = [] }) {
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    minHeight: "20vw", // 1/5 de la hauteur de l'écran
+                    minHeight: "20vw",
                     background: (theme) =>
                       `linear-gradient(90deg, ${theme.palette.primaryLight2.main} 0%, ${theme.palette.primaryDark2.main} 100%)`,
                   }}

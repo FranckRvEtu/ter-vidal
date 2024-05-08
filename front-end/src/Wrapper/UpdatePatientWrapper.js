@@ -6,7 +6,7 @@ const UpdatePatientWrapper = () => {
   const [patientData, setPatientData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { patientId } = useParams(); // Get patient ID from route params
+  const { patientId } = useParams();
 
   useEffect(() => {
     fetch(`http://localhost:11000/getPatient/${patientId}`)

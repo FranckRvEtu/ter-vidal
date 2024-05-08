@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,9 +11,6 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -23,7 +20,6 @@ import MicOffIcon from "@mui/icons-material/MicOff";
 import { Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Theme from "../theme";
 
 const drawerWidth = 240;
 
@@ -55,24 +51,24 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 const drawerTheme = createTheme({
   palette: {
     background: {
-      paper: "#001e3c", // Dark blue background
+      paper: "#001e3c",
     },
     text: {
-      primary: "white", // White text for primary typography
+      primary: "white",
     },
   },
   components: {
     MuiListItemText: {
       styleOverrides: {
         primary: {
-          color: "white", // Ensures text in ListItemText is white
+          color: "white",
         },
       },
     },
     MuiListItemIcon: {
       styleOverrides: {
         root: {
-          color: "white", // Ensures icons in ListItems are white
+          color: "white",
         },
       },
     },
@@ -98,33 +94,21 @@ export default function PersistentDrawerLeft() {
     handleDrawerOpen();
   };
 
-  // Fonction pour gérer la fermeture du drawer lorsque la souris quitte la zone
-  const handleMouseLeave = () => {
-    handleDrawerClose();
-  };
-
   useEffect(() => {
     if (window.annyang) {
-      // Définition de la langue pour la reconnaissance vocale
       window.annyang.setLanguage("fr-FR");
-      // Modification des commandes vocales pour utiliser navigate
+      // Liste des commandes vocales
       var commands = {
         dashboard: () => navigate("/"),
         agenda: () => navigate("/agenda"),
         patients: () => navigate("/ListePatient"),
         test: () => alert("test"),
-        // Ajoutez d'autres commandes vocales ici
       };
 
-      // Ajout des commandes vocales à Annyang
       window.annyang.addCommands(commands);
-
-      // Optionnel: Démarrer l'écoute au chargement du composant
-      // window.annyang.start();
     }
 
     return () => {
-      // Assurez-vous d'arrêter Annyang lorsque le composant est démonté
       if (window.annyang) window.annyang.abort();
     };
   }, [navigate]);
@@ -145,26 +129,25 @@ export default function PersistentDrawerLeft() {
         position="fixed"
         open={open}
         sx={{
-          top: 0, // Positionner l'AppBar en haut
-          right: 0, // Aligner l'AppBar à droite
+          top: 0,
+          right: 0,
           bgcolor: "white",
           zIndex: (theme) => theme.zIndex.drawer + 1,
-          width: "auto", // Ajuster la largeur automatiquement en fonction du contenu
-          height: "auto", // Ajuster la hauteur automatiquement en fonction du contenu
+          width: "auto",
+          height: "auto",
           display: "flex",
-          justifyContent: "flex-end", // Placer le contenu à droite
-
-          borderBottomLeftRadius: 20, // Arrondir également le coin bas gauche
-          boxShadow: "none", // Supprimer l'ombre pour un effet plus épuré
+          justifyContent: "flex-end",
+          borderBottomLeftRadius: 20,
+          boxShadow: "none",
         }}
       >
         <Toolbar
-          disableGutters // Désactiver les paddings par défaut du Toolbar
+          disableGutters
           sx={{
-            backgroundColor: "primary.main", // Couleur de fond
-            minHeight: "64px", // Hauteur minimale pour aligner avec la hauteur standard d'AppBar
-            justifyContent: "flex-end", // Placer le contenu à droite
-            padding: "0 16px", // Ajouter du padding à droite et à gauche pour éviter que le contenu touche les bords
+            backgroundColor: "primary.main",
+            minHeight: "64px",
+            justifyContent: "flex-end",
+            padding: "0 16px",
           }}
         >
           <Avatar
@@ -173,7 +156,7 @@ export default function PersistentDrawerLeft() {
             sx={{
               width: 50,
               height: 50,
-              marginRight: 2, // Ajouter un petit espace à droite de l'avatar
+              marginRight: 2,
             }}
           />
 
@@ -182,7 +165,7 @@ export default function PersistentDrawerLeft() {
             noWrap
             component="div"
             sx={{
-              color: "white", // Couleur du texte
+              color: "white",
             }}
           >
             Dr Kawasaki
@@ -192,7 +175,7 @@ export default function PersistentDrawerLeft() {
       <ThemeProvider theme={drawerTheme}>
         <Drawer
           sx={{
-            width: drawerWidth, // Assume drawerWidth is defined globally or higher in your component
+            width: drawerWidth,
             flexShrink: 0,
           }}
           variant="persistent"
@@ -232,20 +215,19 @@ export default function PersistentDrawerLeft() {
                   <ListItem key={item.text} disablePadding>
                     <ListItemButton
                       sx={{
-                        borderRadius: "10px", // More rounded corners
-                        color: "black", // Initial text color
-                        padding: "6px 12px", // Adjust padding to control the size
-                        marginLeft: "10px", // Add some margin to the left
-                        marginRight: "10px", // Add some margin to the right
+                        borderRadius: "10px",
+                        color: "black",
+                        padding: "6px 12px",
+                        marginLeft: "10px",
+                        marginRight: "10px",
                         ":hover": {
-                          backgroundColor: "primary.main", // Background color on hover
-                          color: "white", // Text color on hover to inverse the color scheme
+                          backgroundColor: "primary.main",
+                          color: "white",
                         },
                       }}
                       onClick={(event) => handleListItemClick(event, item.path)}
                     >
                       <ListItemIcon>
-                        {/* Assure-toi d'utiliser item.iconPath pour obtenir la valeur dynamique */}
                         <img
                           src={item.iconPath}
                           alt={item.text}
@@ -268,22 +250,22 @@ export default function PersistentDrawerLeft() {
           <Box
             sx={{
               display: "flex",
-              justifyContent: "center", // Centre horizontalement
-              alignItems: "center", // Centre verticalement
-              height: "100%", // Prend toute la hauteur disponible
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
             }}
           >
             <IconButton
               onClick={toggleListening}
               color="primary"
               sx={{
-                backgroundColor: "primary.main", // Fond orange
+                backgroundColor: "primary.main",
                 "&:hover": {
-                  backgroundColor: "primary.main", // Fond plus clair au survol
+                  backgroundColor: "primary.main",
                 },
-                color: "white", // Couleur de l'icône
-                borderRadius: "20%", // Rend le fond complètement rond
-                padding: "10px", // Espace entre l'icône et le bord du bouton
+                color: "white",
+                borderRadius: "20%",
+                padding: "10px",
               }}
             >
               {isListening ? (
@@ -299,42 +281,37 @@ export default function PersistentDrawerLeft() {
                 { text: "Parametres", iconPath: "/Assets/setting.png" },
                 { text: "Aide", iconPath: "/Assets/help.png" },
                 { text: "Deconnexion", iconPath: "/Assets/logout.png" },
-              ].map(
-                (
-                  item // Utilise item ici pour accéder aux propriétés de chaque objet
-                ) => (
-                  <ListItem key={item.text} disablePadding>
-                    <ListItemButton
-                      sx={{
-                        borderRadius: "10px", // More rounded corners
-                        color: "grey", // Initial text color
-                        padding: "6px 12px", // Adjust padding to control the size
-                        marginLeft: "10px", // Add some margin to the left
-                        marginRight: "10px", // Add some margin to the right
-                        ":hover": {
-                          backgroundColor: "primary.main", // Background color on hover
-                          color: "white", // Text color on hover to inverse the color scheme
-                        },
-                      }}
-                      onClick={(event) => handleListItemClick(event, item.text)}
-                    >
-                      <ListItemIcon>
-                        {/* Assure-toi d'utiliser item.iconPath pour obtenir la valeur dynamique */}
-                        <img
-                          src={item.iconPath}
-                          alt={item.text}
-                          style={{
-                            maxWidth: 24,
-                            maxHeight: 24,
-                            filter: "brightness(0) invert(1)",
-                          }}
-                        />
-                      </ListItemIcon>
-                      <ListItemText primary={item.text} />
-                    </ListItemButton>
-                  </ListItem>
-                )
-              )}
+              ].map((item) => (
+                <ListItem key={item.text} disablePadding>
+                  <ListItemButton
+                    sx={{
+                      borderRadius: "10px",
+                      color: "grey",
+                      padding: "6px 12px",
+                      marginLeft: "10px",
+                      marginRight: "10px",
+                      ":hover": {
+                        backgroundColor: "primary.main",
+                        color: "white",
+                      },
+                    }}
+                    onClick={(event) => handleListItemClick(event, item.text)}
+                  >
+                    <ListItemIcon>
+                      <img
+                        src={item.iconPath}
+                        alt={item.text}
+                        style={{
+                          maxWidth: 24,
+                          maxHeight: 24,
+                          filter: "brightness(0) invert(1)",
+                        }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary={item.text} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
             </List>
           </Box>
         </Drawer>
@@ -348,7 +325,7 @@ export default function PersistentDrawerLeft() {
           left: 0,
           top: 0,
         }}
-        onMouseEnter={handleMouseEnter} // Ajout de l'événement onMouseEnter sur la zone sensible
+        onMouseEnter={handleMouseEnter} // permet au drawer d'avoir une detection de souris au lieu de devoir utiliser un boutton
       ></Box>
     </Box>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Grid, Card, CardContent, Typography } from "@mui/material";
-import { format } from "date-fns"; // Assurez-vous d'installer cette dépendance
-import { fr } from "date-fns/locale"; // Assurez-vous d'installer cette dépendance
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -26,7 +26,6 @@ const HomePage = ({ appointments }) => {
         {appointments.map((appointment, index) => (
           <Grid item key={index}>
             {" "}
-            {/* Utilisation de l'index comme clé si `appointment` n'a pas d'`id` unique */}
             <Card sx={{ minWidth: 275 }}>
               <CardContent>
                 <Typography variant="h5" component="div">
@@ -43,7 +42,6 @@ const HomePage = ({ appointments }) => {
                     <VisibilityIcon />
                   </IconButton>
                 </Typography>
-                {/* Si vous avez accès aux données du patient (nom, etc.), vous pouvez les ajouter ici */}
               </CardContent>
             </Card>
           </Grid>

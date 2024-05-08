@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Button,
-  Box,
-  Avatar,
-  Typography,
-  Divider,
-} from "@mui/material";
+import { TextField, Button, Box, Avatar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 
@@ -19,11 +12,10 @@ const UpdatePatient = ({ patient }) => {
     weight: patient.weight,
     birthdate: format(new Date(patient.birthdate), "yyyy-MM-dd"),
     BloodType: patient.BloodType,
-    image: patient.image || "", // Ensure there is a default empty string
+    image: patient.image || "", // si le patient n'a pas d'image, on initialise à une chaîne vide
   });
   const navigate = useNavigate();
 
-  // Function to handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -50,7 +42,6 @@ const UpdatePatient = ({ patient }) => {
     return (key === "image" && value === "") || value !== "";
   });
 
-  // Function to handle form submission
   const handleSubmit = (e) => {
     console.log("Submitting form");
     e.preventDefault();
@@ -82,7 +73,7 @@ const UpdatePatient = ({ patient }) => {
         px: 2,
         display: "flex",
         flexDirection: "column",
-        alignItems: "center", // This centers the children components
+        alignItems: "center",
       }}
     >
       <Typography variant="h6" sx={{ maxWidth: "100%", mt: 1 }}>
@@ -197,7 +188,7 @@ const UpdatePatient = ({ patient }) => {
         fullWidth
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
-        disabled={!allFieldsFilled} // Button is disabled if not all fields are filled
+        disabled={!allFieldsFilled} //on veut que le bouton soit désactivé si tous les champs ne sont pas remplis
       >
         mis à jour
       </Button>

@@ -1,4 +1,3 @@
-// WrapperComponent.js
 import React, { useState, useEffect } from "react";
 import ListePatient from "../pages/ListePatient";
 
@@ -6,17 +5,17 @@ const WrapperListePatients = () => {
   const [listePatients, setListePatients] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:11000/allPatients") // Correction ici
+    fetch("http://localhost:11000/allPatients")
       .then((response) => {
-        console.log(response); // Affiche la réponse brute dans la console
+        console.log(response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        return response.json(); // Continue le traitement en convertissant la réponse en JSON
+        return response.json();
       })
       .then((data) => {
         console.log("DATA");
-        console.log(data); // Affiche les données JSON récupérées
+        console.log(data);
         setListePatients(data);
       })
       .catch((error) =>

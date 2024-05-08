@@ -20,7 +20,6 @@ import {
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
-import { ListItemIcon } from "@mui/material";
 
 export default function DossierPatient({
   patient,
@@ -30,6 +29,9 @@ export default function DossierPatient({
   visites = [],
 }) {
   const navigate = useNavigate();
+
+  /*différentes fonction de handle pour les listes*/
+
   const handleOrdonnanceClick = (id) => {
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
@@ -51,19 +53,6 @@ export default function DossierPatient({
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
-  };
-  const commonPaperStyles = {
-    borderRadius: 5,
-
-    ml: 2,
-    mb: 2,
-    mr: 2,
-    mt: 0,
-    padding: 2,
-    minHeight: "18vw",
-    maxWidth: "40vw",
-    maxHeight: "18vw",
-    overflow: "auto",
   };
 
   return (
@@ -92,6 +81,7 @@ export default function DossierPatient({
         >
           Modifier le patient
         </Button>
+        {/* Information du Patient */}
         <Paper
           elevation={3}
           color="primaryDark2"
@@ -128,14 +118,14 @@ export default function DossierPatient({
           </Typography>
           <Avatar
             sx={{ width: 56, height: 56, mb: 0, mt: 2, alignSelf: "center" }}
-            src={patient.image} // Using Base64 image string directly
+            src={patient.image} // Base64 image string
           />
           <Typography alignSelf="center">
             {patient.name} {patient.firstname}
           </Typography>
           <Grid
             container
-            spacing={2} // Ajoute un espace entre les Paper
+            spacing={2}
             sx={{
               textAlign: "center",
               maxWidth: "90%",
@@ -157,14 +147,14 @@ export default function DossierPatient({
             ].map((item, index) => (
               <Grid item xs={6} key={index}>
                 <Paper
-                  elevation={3} // Contrôle l'intensité de l'ombre du Paper
+                  elevation={3}
                   sx={{
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    height: "100px", // Ajustez cette valeur à votre convenance
-                    p: 2, // Ajoute un padding pour un meilleur espacement
+                    height: "100px",
+                    p: 2,
                   }}
                 >
                   <Typography variant="h20">{item.label}</Typography>
@@ -198,11 +188,11 @@ export default function DossierPatient({
                 width: "90%",
                 margin: 2,
 
-                height: "40vh", // Ensure it has the same height as the other sections
+                height: "40vh",
               }}
             >
               <Grid container>
-                {/* Icon positioned partially outside of the card's main content */}
+                {/* on crée une petite icon que l'on fait resortir vers le haut pour faire jolie */}
                 <Hidden only="sm">
                   <Box
                     sx={{
@@ -213,7 +203,7 @@ export default function DossierPatient({
                       zIndex: 1,
                       top: -20,
                       left: 12,
-                      background: "linear-gradient(to top, #BDDAD0, #FFFFFF)", // Salmon pink to white gradient
+                      background: "linear-gradient(to top, #BDDAD0, #FFFFFF)",
                       borderRadius: "25%",
                       justifyContent: "center",
                       alignItems: "center",
@@ -228,7 +218,7 @@ export default function DossierPatient({
                 <Grid
                   container
                   justifyContent="flex-end"
-                  sx={{ padding: 0, margin: "16px 0" }}
+                  sx={{ padding: 0, margin: "16px 0", position: "sticky" }}
                 >
                   <Typography variant="h6" align="left">
                     Ordonnances
@@ -242,7 +232,7 @@ export default function DossierPatient({
               <List
                 sx={{
                   overflow: "auto",
-                  height: "27vh", // Set the height of the list
+                  height: "27vh",
                 }}
               >
                 {ordonnances &&
@@ -277,11 +267,10 @@ export default function DossierPatient({
                 padding: 2,
                 width: "90%",
                 margin: 2,
-                height: "40vh", // Set the height of the entire section
+                height: "40vh",
               }}
             >
               <Grid container>
-                {/* Icon positioned outside of the card's main content */}
                 <Hidden only="sm">
                   <Grid
                     sx={{
@@ -292,7 +281,7 @@ export default function DossierPatient({
                       zIndex: 1,
                       top: -20,
                       left: 12,
-                      background: "linear-gradient(to top, #C7E6F4, #FFFFFF)", // Salmon pink to white gradient
+                      background: "linear-gradient(to top, #C7E6F4, #FFFFFF)",
                       color: "",
                       borderRadius: "25%",
                       justifyContent: "center",
@@ -308,7 +297,7 @@ export default function DossierPatient({
                 <Grid
                   container
                   justifyContent="flex-end"
-                  sx={{ padding: 0, margin: "16px 0" }}
+                  sx={{ padding: 0, margin: "16px 0", position: "sticky" }}
                 >
                   <Typography variant="h6" align="left">
                     Rendez vous
@@ -322,7 +311,7 @@ export default function DossierPatient({
               <List
                 sx={{
                   overflow: "auto",
-                  height: "27vh", // Set the height of the list
+                  height: "27vh",
                 }}
               >
                 {rdvs &&
@@ -361,11 +350,10 @@ export default function DossierPatient({
                 padding: 2,
                 width: "90%",
                 margin: 2,
-                height: "40vh", // Set the height of the entire section to match Rendez-vous
+                height: "40vh",
               }}
             >
               <Grid container>
-                {/* Icon positioned partially outside of the card's main content */}
                 <Hidden only="sm">
                   <Box
                     sx={{
@@ -376,7 +364,7 @@ export default function DossierPatient({
                       zIndex: 1,
                       top: -20,
                       left: 12,
-                      background: "linear-gradient(to top, #E7C9D5, #FFFFFF)", // Salmon pink to white gradient
+                      background: "linear-gradient(to top, #E7C9D5, #FFFFFF)",
                       borderRadius: "25%",
                       justifyContent: "center",
                       alignItems: "center",
@@ -391,7 +379,7 @@ export default function DossierPatient({
                 <Grid
                   container
                   justifyContent="flex-end"
-                  sx={{ padding: 0, margin: "16px 0" }}
+                  sx={{ padding: 0, margin: "16px 0", position: "sticky" }}
                 >
                   <Typography variant="h6" align="left">
                     Antécédants
@@ -405,7 +393,7 @@ export default function DossierPatient({
               <List
                 sx={{
                   overflow: "auto",
-                  height: "27vh", // Set the height of the list
+                  height: "27vh",
                 }}
               >
                 {antecedants &&
@@ -436,11 +424,10 @@ export default function DossierPatient({
                 width: "90%",
                 margin: 2,
                 mt: 2,
-                height: "40vh", // Set the height of the entire section
+                height: "40vh",
               }}
             >
               <Grid container>
-                {/* Icon positioned partially outside of the card's main content */}
                 <Hidden only="sm">
                   <Grid
                     sx={{
@@ -451,7 +438,7 @@ export default function DossierPatient({
                       zIndex: 1,
                       top: -20,
                       left: 12,
-                      background: "linear-gradient(to top, #D7C9DD, #FFFFFF)", // Salmon pink to white gradient
+                      background: "linear-gradient(to top, #D7C9DD, #FFFFFF)",
                       color: "",
                       borderRadius: "25%",
                       justifyContent: "center",
@@ -463,14 +450,14 @@ export default function DossierPatient({
                   </Grid>
                 </Hidden>
 
-                {/* Fixed Header information */}
+                {/* Header information */}
                 <Grid
                   container
                   justifyContent="flex-end"
                   sx={{
                     padding: 0,
                     margin: "16px 0",
-                    position: "sticky", // Fixes the position
+                    position: "sticky",
                     top: 0,
                     zIndex: 2,
                     backgroundColor: "",
@@ -484,11 +471,11 @@ export default function DossierPatient({
 
               <Divider sx={{ color: "#000" }} />
 
-              {/* Scrollable List of visits */}
+              {/* List of visits */}
               <List
                 sx={{
                   overflow: "auto",
-                  height: "27vh", // Set the height of the list
+                  height: "27vh",
                 }}
               >
                 {visites &&
