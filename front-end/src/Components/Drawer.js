@@ -148,6 +148,7 @@ export default function PersistentDrawerLeft() {
             minHeight: "64px",
             justifyContent: "flex-end",
             padding: "0 16px",
+            borderBottomLeftRadius: "20px",
           }}
         >
           <Avatar

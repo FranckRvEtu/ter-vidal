@@ -66,19 +66,19 @@ const UpdatePatient = ({ patient }) => {
       component="form"
       onSubmit={handleSubmit}
       sx={{
-        mt: 1,
+        mt: 0,
         mx: "auto",
         width: "100%",
         maxWidth: 960,
-        px: 2,
+        px: 0,
         display: "flex",
         flexDirection: "column",
+        position: "static",
         alignItems: "center",
+        justifyContent: "center",
+        transform: "scale(0.85)",
       }}
     >
-      <Typography variant="h6" sx={{ maxWidth: "100%", mt: 1 }}>
-        Informations du Patient
-      </Typography>
       <Avatar
         sx={{ width: 100, height: 100, mb: 2 }}
         src={formData.image || "/path/to/default-avatar.jpg"}

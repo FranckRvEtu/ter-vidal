@@ -69,17 +69,23 @@ export default function AddPatient() {
         scale: 0.9,
         mt: 0,
         position: "fixed",
-        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%) scale(0.9)",
         overflow: "auto",
       }}
     >
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 0 }}>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        noValidate
+        sx={{ mt: 0, alignSelf: "center" }}
+      >
         <Avatar
           src={formData.image || "/path/to/default-avatar.jpg"}
-          sx={{ width: 100, height: 100, mb: 2, position: "" }}
+          sx={{ width: 100, height: 100, mb: 2 }}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker

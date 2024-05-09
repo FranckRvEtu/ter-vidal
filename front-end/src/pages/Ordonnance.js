@@ -267,7 +267,7 @@ function Ordonnance() {
             <Card sx={{ mt: 2, overflow: "auto", maxHeight: "15vw" }}>
               <CardContent>
                 <Typography variant="h6" sx={{ position: "absolute" }}>
-                  Prescriptions ajoutées :
+                  Prescriptions ajoutées
                 </Typography>
                 <List sx={{ mt: 6, overflow: "auto", maxHeight: "8vw" }}>
                   {prescriptions.map((prescription, index) => (
