@@ -4,7 +4,9 @@ import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import HealingIcon from "@mui/icons-material/Healing";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { fr } from "date-fns/locale";
-
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import { Grid } from "@mui/material";
 import {
   Button,
   Hidden,
@@ -17,9 +19,6 @@ import {
   ListItemText,
   Divider,
 } from "@mui/material";
-import { format } from "date-fns";
-import { useNavigate } from "react-router-dom";
-import { Grid } from "@mui/material";
 
 export default function DossierPatient({
   patient,
@@ -34,8 +33,9 @@ export default function DossierPatient({
 
   const handleOrdonnanceClick = (id) => {
     console.log(
-      `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
+      `Ordonnance ID: ${id} cliqué.`
     );
+    navigate(`/getOrdonnance/${id}`);
   };
 
   const handleVisiteClick = (id) => {
@@ -237,22 +237,23 @@ export default function DossierPatient({
               >
                 {ordonnances &&
                   ordonnances.map((ordonnance) => (
-                    <ListItem
-                      key={ordonnance._id}
-                      sx={{ marginBottom: 1 }}
-                      button
-                      onClick={() => handleOrdonnanceClick(ordonnance._id)}
-                    >
-                      <ListItemText
-                        primary={` ${format(
-                          new Date(ordonnance.date),
-                          "d MMMM yyyy",
-                          {
-                            locale: fr,
-                          }
-                        )}`}
-                      />
-                    </ListItem>
+                    <div key={ordonnance._id}>
+                      <ListItem
+                        sx={{ marginBottom: 1 }}
+                        button
+                        onClick={() => handleOrdonnanceClick(ordonnance._id)}
+                      >
+                        <ListItemText
+                          primary={` ${format(
+                            new Date(ordonnance.date),
+                            "d MMMM yyyy",
+                            {
+                              locale: fr,
+                            }
+                          )}`}
+                        />
+                      </ListItem>
+                    </div>
                   ))}
               </List>
             </Paper>
