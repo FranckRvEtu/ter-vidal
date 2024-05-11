@@ -236,25 +236,28 @@ export default function DossierPatient({
                 }}
               >
                 {ordonnances &&
-                  ordonnances.map((ordonnance) => (
-                    <div key={ordonnance._id}>
-                      <ListItem
-                        sx={{ marginBottom: 1 }}
-                        button
-                        onClick={() => handleOrdonnanceClick(ordonnance._id)}
-                      >
-                        <ListItemText
-                          primary={` ${format(
-                            new Date(ordonnance.date),
-                            "d MMMM yyyy",
-                            {
-                              locale: fr,
-                            }
-                          )}`}
-                        />
-                      </ListItem>
-                    </div>
-                  ))}
+                  ordonnances.map((ordonnance) => 
+                    ordonnance && (
+                      <div key={ordonnance._id}>
+                        <ListItem
+                          sx={{ marginBottom: 1 }}
+                          button
+                          onClick={() => handleOrdonnanceClick(ordonnance._id)}
+                        >
+                          <ListItemText
+                            primary={` ${format(
+                              new Date(ordonnance.date),
+                              "d MMMM yyyy",
+                              {
+                                locale: fr,
+                              }
+                            )}`}
+                          />
+                        </ListItem>
+                      </div>
+                    )
+                  )
+                }
               </List>
             </Paper>
           </Grid>

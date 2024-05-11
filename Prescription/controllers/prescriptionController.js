@@ -52,21 +52,16 @@ const addManyPrescriptions = async (req, res) => {
   }
 };
 
-// Fonction pour récupérer une prescription par son ID
-const getPrescription = async (prescriptionId) => {
+const getPrescription = async (req, res) => {
   try {
-    // Recherche de la prescription par son ID
-    const prescription = await Prescription.findById(prescriptionId);
-
-    // Si la prescription n'est pas trouvée, renvoyez un code 404
+    const prescription = await Prescription.findById(req.params.id);
     if (!prescription) {
-      throw new Error("Prescription not found");
+      return res.status(404).json({ message: 'Prescription not found' });
     }
-
-    // Si la prescription est trouvée, renvoyez les données de la prescription
-    return prescription;
+    res.json(prescription);
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: error.message });
   }
 };
 

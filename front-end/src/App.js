@@ -15,6 +15,7 @@ import HomeWrapper from "./Wrapper/HomeWrapper";
 import UpdatePatientWrapper from "./Wrapper/UpdatePatientWrapper";
 import Stat from "./pages/Stat";
 import GetOrdonnance from "./pages/GetOrdonnance";
+import UpdateOrdonnance from "./pages/UpdateOrdonnance";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="/agenda" element={<CalendarWrapper />} />
           <Route path="/stat" element={<Stat />} />
           <Route path="/getOrdonnance/:ordonnanceId" element={<GetOrdonnance />} />
+          <Route path="/updateOrdonnance/:ordonnanceId" element={<UpdateOrdonnance />} />
         </Routes>
       </Router>
     </ThemeProvider>

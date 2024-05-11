@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import OrdonnancePreview from '../Components/Ordonnance/OrdonnancePreview';
+import { Button, Box } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import UpdateOrdonnance from './UpdateOrdonnance';
 
 function GetOrdonnance() {
   const { ordonnanceId } = useParams();
   const [ordonnance, setOrdonnance] = useState(null);
   const [patient, setPatient] = useState(null);
   const [prescriptions, setPrescriptions] = useState([]);
+  const navigate = useNavigate();
 
   const docteur = {
     prenom: 'Jane',
@@ -25,6 +29,28 @@ function GetOrdonnance() {
 
   const comment = 'Patient à surveiller';
 
+  const handleUpdateClick = () => {
+    navigate(`/updateOrdonnance/${ordonnanceId}`);
+  };
+
+  const handleDeleteClick = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/deleteOrdonnance/${ordonnanceId}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message);
+      }
+  
+      console.log('Ordonnance deleted');
+      navigate(`/dossierPatient/${patient._id}`)
+    } catch (error) {
+      console.error('Failed to delete ordonnance:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,11 +68,8 @@ function GetOrdonnance() {
 
         if (ordonnanceData && ordonnanceData.Prescription) {
           const prescriptionPromises = ordonnanceData.Prescription.map(async prescriptionId => {
-            console.log('Fetching prescription:', prescriptionId);
             const response = await fetch(`http://localhost:3013/getPrescription/${prescriptionId}`).catch(console.error);
-            console.log('Response:', response);
             const data = await response.json();
-            console.log('Data:', data);
             return data;
           });
           const prescriptionData = await Promise.all(prescriptionPromises);
@@ -68,7 +91,19 @@ function GetOrdonnance() {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <div style={{ width: '150mm' }}>
-        <OrdonnancePreview patient={patient} docteur={docteur} cabinet={cabinet} medicaments={ordonnance.Prescription} comment={comment}/>
+        <OrdonnancePreview patient={patient} docteur={docteur} cabinet={cabinet} medicaments={prescriptions} comment={comment}/>
+        <Box display="flex" justifyContent="space-between">
+          <Box m={1}>
+            <Button variant="contained" color="primary" onClick={handleUpdateClick}>
+              Update Ordonnance
+            </Button>
+          </Box>
+          <Box m={1}>
+            <Button variant="contained" color="error" onClick={handleDeleteClick}>
+              Delete Ordonnance
+            </Button>
+          </Box>
+        </Box>
       </div>
     </div>
   );
