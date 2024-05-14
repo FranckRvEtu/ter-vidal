@@ -1,111 +1,151 @@
-// ExampleComponent.js
 import React, { useEffect, useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-  Box,
-} from "@mui/material";
+import PropTypes from "prop-types";
+import { Typography, Card, Paper, CardHeader, Box } from "@mui/material";
+import { styled, useTheme } from "@mui/material/styles";
+import Chart from "react-apexcharts";
+import chroma from "chroma-js";
 
-const Stat = () => {
-  const [medicationStats, setMedicationStats] = useState([]);
-  const [dailyStats, setDailyStats] = useState([]);
+function generateColors(baseColor, pieces) {
+  const baseHue = chroma(baseColor).get("hsl.h");
+  let colors = [];
 
-  // Fetch medication stats on component mount
+  for (let i = 0; i < pieces; i++) {
+    const hue = (baseHue + (240 / pieces) * i) % 360; // ensure hue stays within 0-360
+    const color = chroma(baseColor).set("hsl.h", hue).css();
+    colors.push(color);
+  }
+
+  return colors;
+}
+
+const CHART_HEIGHT = 400;
+const LEGEND_HEIGHT = 72;
+
+const StyledChart = styled(Chart)(({ theme }) => ({
+  height: CHART_HEIGHT,
+  "& .apexcharts-canvas, .apexcharts-inner, svg, foreignObject": {
+    height: `100% !important`,
+  },
+  "& .apexcharts-legend": {
+    height: LEGEND_HEIGHT,
+    borderTop: `dashed 1px ${theme.palette.divider}`,
+    top: `calc(${CHART_HEIGHT - LEGEND_HEIGHT}px) !important`,
+  },
+}));
+
+function MedicationUsageChart({ title, subheader }) {
+  const theme = useTheme();
+  const [fullData, setFullData] = useState([]);
+  const [chartData, setChartData] = useState(null);
+
   useEffect(() => {
-    // Replace these URLs with your actual API paths
-    const countByMedicationUrl =
-      "http://localhost:3013/countPrescriptionsByMedication";
-    const countByDateUrl = "http://localhost:3013/countPrescriptionsByDate";
+    const fetchStats = async () => {
+      try {
+        const response = await fetch("http://localhost:3013/allPrescriptions");
+        const data = await response.json();
+        setFullData(data);
 
-    // Fetch medication stats (total count by medication)
-    fetch(countByMedicationUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
-        }
-        return response.json(); // Parse JSON data
-      })
-      .then((data) => {
-        setMedicationStats(data); // Set the state with fetched data
-      })
-      .catch((error) => {
-        console.error("Error fetching medication stats:", error);
-      });
+        const medicationCounts = {};
+        data.forEach((prescription) => {
+          const medication = prescription.Medicament;
+          medicationCounts[medication] =
+            (medicationCounts[medication] || 0) + 1;
+        });
 
-    // Fetch daily stats (count by medication per day)
-    fetch(countByDateUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
+        const sortedMedications = Object.entries(medicationCounts).sort(
+          (a, b) => b[1] - a[1]
+        );
+        const topMedications = sortedMedications.slice(0, 8);
+        const otherCount = sortedMedications
+          .slice(8)
+          .reduce((acc, curr) => acc + curr[1], 0);
+
+        const labels = topMedications.map((item) => item[0]);
+        const series = topMedications.map((item) => item[1]);
+        if (otherCount > 0) {
+          labels.push("Other");
+          series.push(otherCount);
         }
-        return response.json();
-      })
-      .then((data) => {
-        setDailyStats(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching daily stats:", error);
-      });
+
+        const baseColor = "#D62F45"; // Example base color
+        const colors = generateColors(baseColor, labels.length);
+
+        setChartData({ labels, series, colors });
+      } catch (error) {
+        console.error("Failed to fetch statistics", error);
+      }
+    };
+
+    fetchStats();
   }, []);
 
+  // Handle cases where chartData may not be fully defined
+  if (!chartData) {
+    return <Typography>Loading chart data...</Typography>; // or any other fallback UI
+  }
+  const chartOptions = {
+    chart: {
+      type: "pie",
+      toolbar: {
+        show: true,
+      },
+    },
+    colors: chartData.colors, // Use dynamically generated colors
+    labels: chartData.labels,
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200,
+          },
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+    ],
+    legend: {
+      position: "bottom",
+    },
+    tooltip: {
+      y: {
+        formatter: (value) => `${value}`,
+        title: {
+          formatter: (seriesName) => `${seriesName}:`,
+        },
+      },
+    },
+  };
+
   return (
-    <Box
-      sx={{ marginTop: 4, marginLeft: 2, marginRight: 2, background: "red" }}
-    >
-      {/* Title */}
-      <Typography variant="h4" gutterBottom>
-        Medication Statistics
-      </Typography>
-
-      {/* Table: Medication Stats */}
-      <Typography variant="h5" gutterBottom>
-        Total Count by Medication
-      </Typography>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Medication</TableCell>
-            <TableCell>Count</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {medicationStats.map((stat, index) => (
-            <TableRow key={index}>
-              <TableCell>{stat._id}</TableCell>
-              <TableCell>{stat.count}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
-      {/* Table: Daily Stats */}
-      <Typography variant="h5" gutterBottom>
-        Daily Count by Medication
-      </Typography>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Medication</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>Count</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {dailyStats.map((stat, index) => (
-            <TableRow key={index}>
-              <TableCell>{stat._id.Medicament}</TableCell>
-              <TableCell>{stat._id.date}</TableCell>
-              <TableCell>{stat.count}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <Box>
+      <Box display="flex" justifyContent="flex-end">
+        <Paper>
+          <CardHeader title={title} subheader={subheader} sx={{ mb: 5 }} />
+          <StyledChart
+            options={chartOptions}
+            series={chartData.series}
+            type="pie"
+            width="100%"
+            height="90%"
+          />
+        </Paper>
+      </Box>
+      <Box component="div" sx={{ overflowY: "auto", maxHeight: 300 }}>
+        {fullData.map((item, index) => (
+          <Typography key={index}>
+            {item.Medicament}: {item.Details} on {item.Date}
+          </Typography>
+        ))}
+      </Box>
     </Box>
   );
+}
+
+MedicationUsageChart.propTypes = {
+  subheader: PropTypes.string,
+  title: PropTypes.string,
 };
 
-export default Stat;
+export default MedicationUsageChart;

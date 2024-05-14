@@ -11,8 +11,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 export default function AddPatient() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     firstname: "",
@@ -56,9 +59,20 @@ export default function AddPatient() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ patient: formData }),
     })
-      .then((response) => response.json())
-      .then((data) => console.log("Success:", data))
-      .catch((error) => console.error("Error client:", error));
+      .then((response) => {
+        if (response.ok) {
+          // Assurez-vous que la réponse indique que l'opération a réussi
+          return response.json(); // Process the response data
+        }
+        throw new Error("Network response was not ok."); // Throw error if response not ok
+      })
+      .then((data) => {
+        console.log("Success:", data);
+        navigate("/listePatient"); // Change this path to where you want to redirect
+      })
+      .catch((error) => {
+        console.error("Error client:", error);
+      });
   };
 
   return (
