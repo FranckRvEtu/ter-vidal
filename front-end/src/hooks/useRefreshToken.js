@@ -1,25 +1,27 @@
 import useAuth from "./useAuth";
+import axios from "axios";
+
 
 const useRefreshToken = () => {
-    const { setAuth } = useAuth();
-    
+    const { auth, setAuth } = useAuth();
+    const accessToken = auth.accessToken;
+    console.log("accessToken (useRefreshToken", accessToken);    
+
     const refreshToken = async () => {
         try {
-            const response = await fetch("http://localhost:11000/refreshMedecin", {
-                method: "POST",
+            const response = await axios.get("http://localhost:11000/refreshMedecin", {
                 headers: {
-                    "Content-Type": "application/json",
+                    'content-type': 'application/json'
                 },
-                credentials: "include",
                 withCredentials: true,
             });
-            if (response.ok) {
+            if (response.status === 200) {
                 setAuth((prev) => {
                     console.log("prev", prev);
                     console.log("response access token", response.data.accessToken);
                     return {
                         ...prev,
-                        accessToken: response.accessToken,
+                        accessToken: response.data.accessToken,
                     };
                 });
                 return response.data.accessToken;

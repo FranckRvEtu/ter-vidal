@@ -2,23 +2,24 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: '../.env' });
 
 const verifyJWT = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
+    //on récupère l'objet authorization dans le header de la requête
+    const authHeader = req.headers['authorization']; 
     console.log("headers", req.headers);
-    if (!authHeader) {
-        console.log("req.headers:", req.headers['uthorization']);
-        res.status(401).json({ message: "Middleware Pas de token"});
+    if (!authHeader) { //si l'objet authorization n'existe pas
+        console.log("req.headers:", req.headers['authorization']);
+        res.status(401).json({ message: "Middleware Pas de token"}); //no token
     } else {
         console.log("auth header", authHeader)
-        const token = authHeader.split(' ')[1];
+        const token = authHeader.split(' ')[1]; //on récupère le token
         console.log("token", token);
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => { //on vérifie le token
             if (err) {
                 console.log("err", err);
-                res.status(403).json({ message: "Pas de token middleware 2" }); //invalid token
+                res.status(403).json({ message: "Vérification du token échouée " }); //invalid token
                 //403 = forbiden access
             };
             console.log("decoded", decoded);
-            req.userId = decoded.email;
+            req.emailM = decoded.email; //on stocke l'email du Medecin dans la requête
             next();
         });
     };

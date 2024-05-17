@@ -21,27 +21,26 @@ const loginMedecin = async (req, res) => { //belec faudra créer une collection 
             console.log("je suis dans password !=");
             return res.status(401).json({ message: "Mot de passe incorrect" });
         }else{
-            console.log("avant le save", medecin);
-            const accessToken = jwt.sign(
-                { email: medecin.email}, 
-                process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '30s' }
+            console.log("Previous state", medecin);
+            const accessToken = jwt.sign( //permets de créer un accessToken
+                { email: medecin.email}, //on 'stocke' l'email du Medecin dans le token
+                process.env.ACCESS_TOKEN_SECRET, //utilise la clé secrète pour signer le token
+                { expiresIn: '10s' } // durée de vie du token
             );
-            const refreshToken = jwt.sign(
-                { email: medecin.email}, 
-                process.env.REFRESH_TOKEN_SECRET,
-                { expiresIn: '1d' }
+            const refreshToken = jwt.sign( //permets de créer un refreshToken
+                { email: medecin.email}, //on 'stocke' l'email du Medecin dans le token
+                process.env.REFRESH_TOKEN_SECRET, //utilise la clé secrète pour signer le token
+                { expiresIn: '1d' } // durée de vie du token
             );
             medecin.refreshToken = refreshToken; //on sauvegarde le refreshToken dans la base de données
             await medecin.save();
-            console.log("après le save", medecin);
+            console.log("New state", medecin);
             
-            //on envoie le refreshToken dans un cookie
-            res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000})
-            //secure: true -> pour https
+            //on envoie le refreshToken dans un cookie (http only)
+            res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000})
+            //secure: true -> pour https à ajouter au déploiement
 
             console.log("après le save accessToken", accessToken);
-            //on envoie l'accessToken dans le corps de la réponse
             res.json({ accessToken });
         }
     }

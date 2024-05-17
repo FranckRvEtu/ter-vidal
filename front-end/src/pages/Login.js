@@ -50,12 +50,12 @@ export default function Login(){
         console.log("Login successful");
         response.json().then((data) => {
           console.log("data:", data);
-          const accessToken = data.accessToken;
+          const accessToken = data.accessToken; //récupère le token
           console.log("accessToken:", accessToken);
-          setAuth({ email, password, accessToken})
-          setEmail("");
-          setPassword("");
-          navigate(from, { replace: true });
+          setAuth({ email, password, accessToken}) //stocke les données de connexion
+          setEmail(""); //réinitialise les champs
+          setPassword(""); //réinitialise les champs
+          navigate(from, { replace: true }); //redirige vers la page précédente
         });
       } else {
         console.log("Login failed", response.status);

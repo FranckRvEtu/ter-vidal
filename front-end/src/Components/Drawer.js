@@ -263,7 +263,7 @@ export default function PersistentDrawerLeft() {
                         color: "white", // Text color on hover to inverse the color scheme
                       },
                     }}
-                    onClick={(event) => handleListItemClick(event, item.text)}
+                    onClick={(event) => handleListItemClick(event, item.path)}
                   >
                     <ListItemIcon>
                       {/* Assure-toi d'utiliser item.iconPath pour obtenir la valeur dynamique */}
