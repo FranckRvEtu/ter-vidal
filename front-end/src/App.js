@@ -13,7 +13,6 @@ import theme from "./theme";
 import CalendarWrapper from "./Wrapper/CalendarWrapper";
 import HomeWrapper from "./Wrapper/HomeWrapper";
 import UpdatePatientWrapper from "./Wrapper/UpdatePatientWrapper";
-import Stat from "./pages/Stat";
 
 function App() {
   return (
@@ -36,7 +35,6 @@ function App() {
           />
           <Route path="/listePatient" element={<ListePatientsWrapper />} />
           <Route path="/agenda" element={<CalendarWrapper />} />
-          <Route path="/stat" element={<Stat />} />
         </Routes>
       </Router>
     </ThemeProvider>
