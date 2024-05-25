@@ -3,6 +3,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import HealingIcon from "@mui/icons-material/Healing";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import Popover from '@mui/material/Popover';
 import { fr } from "date-fns/locale";
 
 import {
@@ -18,8 +19,9 @@ import {
   Divider,
 } from "@mui/material";
 import { format } from "date-fns";
-import { useNavigate } from "react-router-dom";
-import { Grid } from "@mui/material";
+import { useState } from 'react';
+import { useNavigate,useParams } from "react-router-dom";
+import { Grid,TextField } from "@mui/material";
 
 export default function DossierPatient({
   patient,
@@ -43,6 +45,11 @@ export default function DossierPatient({
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
   };
+  const handleAddAntecedant = (id) => {
+    console.log(
+      `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
+    );
+  };
   const handleRDVClick = (id) => {
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
@@ -54,6 +61,55 @@ export default function DossierPatient({
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
   };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const [diagnostic, setDiagnostic] = useState('');
+  const { patientId } = useParams();  
+  const [inputValue, setInputValue] = useState('');
+    // État pour stocker le diagnostic
+
+    // Gère le changement dans le TextField
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
+
+    // Gère le clic sur le bouton pour stocker la valeur dans diagnostic
+    const handleButtonClick = async () => {
+      setDiagnostic(inputValue); // Cela met à jour l'état, mais n'est pas immédiatement accessible
+
+      const response = await fetch("http://localhost:11000/addAntecedant", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            diagnostic:inputValue,
+            date: new Date(),
+            description: "kk",
+            patientId:patientId
+
+          }),
+        });
+  
+      if (response.ok) {
+          const data = await response.json();
+          console.log("Antécédant ajouté avec succès avec l'ID :", data.id);
+      } else {
+          console.error("Échec de l'ajout de l'antécédant", await response.text());
+      }
+    };
+
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
   return (
     <Box
@@ -342,76 +398,105 @@ export default function DossierPatient({
           {/* Antécédants */}
 
           <Grid item xs={12} md={6}>
-            <Paper
-              sx={{
-                boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
-                position: "relative",
-                border: "1px solid #000",
-                padding: 2,
-                width: "90%",
-                margin: 2,
-                height: "40vh",
-              }}
+  <Paper
+    sx={{
+      boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+      position: "relative",
+      border: "1px solid #000",
+      padding: 2,
+      width: "90%",
+      margin: 2,
+      height: "40vh",
+    }}
+  >
+    <Grid container>
+      <Hidden only="sm">
+        <Box
+          sx={{
+            height: "5vw",
+            width: "5vw",
+            display: "flex",
+            position: "absolute",
+            zIndex: 1,
+            top: -20,
+            left: 12,
+            background: "linear-gradient(to top, #E7C9D5, #FFFFFF)",
+            borderRadius: "25%",
+            justifyContent: "center",
+            alignItems: "center",
+            border: "1px solid #000",
+          }}
+        >
+          <HealingIcon />
+        </Box>
+      </Hidden>
+
+      <Grid container justifyContent="flex-end" sx={{ padding: 0, margin: "16px 0" }}>
+        <Typography variant="h6" align="left">
+          Antécédants
+        </Typography>
+      </Grid>
+    </Grid>
+
+    <Divider sx={{ color: "#000" }} />
+
+    <List sx={{ overflow: "auto", height: "27vh" }}>
+      {antecedants && antecedants.map((antecedant) => (
+        <ListItem
+          key={antecedant._id}
+          sx={{ marginBottom: 1 }}
+          button
+        >
+          <ListItemText primary={`Antécédant : ${antecedant.diagnostic}`} />
+        </ListItem>
+      ))}
+    </List>
+
+    {/* Add Button at the bottom right */}
+    <Box
+      sx={{
+        position: "absolute",
+        right: 16,
+        bottom: 16,
+      }}
+    >
+      <Button aria-describedby={id} variant="contained" onClick={handleClick}>
+            +
+        </Button>
+        <Popover
+          id={id}
+          open={open}
+          backgroundColor='white'
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+        >
+  <Typography sx={{ p: 2 }}>
+  <TextField
+                fullWidth
+                label="Intitulé de l'antécédant"
+                variant="outlined"
+                value={inputValue}
+                onChange={handleInputChange}
+                sx={{ mb: 2 }}
+            />
+            <Button
+                variant="contained"
+                sx={{ mb: 2 }}
+                onClick={handleButtonClick}
             >
-              <Grid container>
-                <Hidden only="sm">
-                  <Box
-                    sx={{
-                      height: "5vw",
-                      width: "5vw",
-                      display: "flex",
-                      position: "absolute",
-                      zIndex: 1,
-                      top: -20,
-                      left: 12,
-                      background: "linear-gradient(to top, #E7C9D5, #FFFFFF)",
-                      borderRadius: "25%",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      border: "1px solid #000",
-                    }}
-                  >
-                    <HealingIcon />
-                  </Box>
-                </Hidden>
-
-                {/* Header information */}
-                <Grid
-                  container
-                  justifyContent="flex-end"
-                  sx={{ padding: 0, margin: "16px 0", position: "sticky" }}
-                >
-                  <Typography variant="h6" align="left">
-                    Antécédants
-                  </Typography>
-                </Grid>
-              </Grid>
-
-              <Divider sx={{ color: "#000" }} />
-
-              {/* List of antecedents */}
-              <List
-                sx={{
-                  overflow: "auto",
-                  height: "27vh",
-                }}
-              >
-                {antecedants &&
-                  antecedants.map((antecedant) => (
-                    <ListItem
-                      key={antecedant._id}
-                      sx={{ marginBottom: 1 }}
-                      button
-                      onClick={() => handleAntecedantClick(antecedant._id)}
-                    >
-                      <ListItemText
-                        primary={`Antécédant : ${antecedant.diagnostic}`}
-                      />
-                    </ListItem>
-                  ))}
-              </List>
-            </Paper>
-          </Grid>
+                Ajouter l'antécédant
+            </Button>
+          
+  </Typography>
+    </Popover>    
+      
+    </Box>
+  </Paper>
+</Grid>
 
           {/* Visites */}
           <Grid item xs={12} md={6}>
