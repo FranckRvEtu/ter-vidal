@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DossierPatientWrapper from './Wrapper/DossierPatientWrapper';
 import Ordonnance from './pages/Ordonnance';
+import Antecedant from "./pages/Antecedant";
 import Login from './pages/Login';
 import Dashboard from './Components/Dashboard';
 import AddPatient from './pages/AddPatient';
@@ -45,6 +46,7 @@ function App() {
         <Route path="/addPatient" element={<AddPatient /> }/>
         <Route path="/ordonnance/:patientId" element={<Ordonnance />} />
         <Route path="/addPatient" element={<AddPatient />} />
+        <Route path="/addAntecedant/:patientId"element={<Antecedant />} />
         <Route path="/dossierPatient/:patientId" element={<DossierPatientWrapper />} />
         <Route path="/listePatient" element={<ListePatientsWrapper />} />
         <Route path="/agenda" element={<CalendarWrapper />} />
