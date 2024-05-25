@@ -17,7 +17,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import React, { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import axios from "../../api/axios";
 
 
 export default function Login(){
@@ -27,6 +27,7 @@ export default function Login(){
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+  const controller = new AbortController();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,26 +38,26 @@ export default function Login(){
     
     try {
       console.log("bloc try");
-      const response = await fetch("http://localhost:11000/loginMedecin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ email, password })
-      });
+
+      const response = await axios.post("http://localhost:11000/loginMedecin",
+        JSON.stringify({ email, password }),
+        {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true
+        }
+      );
+
       console.log(JSON.stringify(response?.data));
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("Login successful");
-        response.json().then((data) => {
-          console.log("data:", data);
-          const accessToken = data.accessToken; //récupère le token
-          console.log("accessToken:", accessToken);
-          setAuth({ email, password, accessToken}) //stocke les données de connexion
-          setEmail(""); //réinitialise les champs
-          setPassword(""); //réinitialise les champs
-          navigate(from, { replace: true }); //redirige vers la page précédente
-        });
+        const data = response.data;
+        console.log("data:", data);
+        const accessToken = data.accessToken; //récupère le token
+        console.log("accessToken:", accessToken);
+        setAuth({ email, password, accessToken}) //stocke les données de connexion
+        setEmail(""); //réinitialise les champs
+        setPassword(""); //réinitialise les champs
+        navigate(from, { replace: true }); //redirige vers la page précédente
       } else {
         console.log("Login failed", response.status);
         alert("Login Failed", response.status);

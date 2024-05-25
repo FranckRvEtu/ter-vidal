@@ -1,18 +1,15 @@
 // WrapperComponent.js
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
 import ListePatient from "../pages/ListePatient";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const WrapperListePatients = () => {
   const [listePatients, setListePatients] = useState([]);
-  const {auth, setAuth} = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();   
-  const token = auth.accessToken;
-  console.log("TOKEN", token);
+
 
   useEffect(() => {
     let isMonted = true;
@@ -20,9 +17,6 @@ const WrapperListePatients = () => {
 
     axiosPrivate.get(
       "http://localhost:5000/allPatients", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
         signal : controller.signal
       }) // Correction ici  
       .then((response) => {
@@ -41,8 +35,7 @@ const WrapperListePatients = () => {
       })
       .catch((error) => {
         console.error(error);
-        /*navigate("/login", {state: {from: location},
-         replace: true})*/
+        navigate("/login", {state: {from: location}, replace: true})
       });
   }, []);
   console.log("LISTE PATIENTS");

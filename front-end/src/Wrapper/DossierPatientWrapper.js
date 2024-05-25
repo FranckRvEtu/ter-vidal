@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DossierPatient from "../pages/DossierPatient";
+import { useLocation, useNavigate } from "react-router-dom";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const DossierPatientWrapper = () => {
   const { patientId } = useParams();
@@ -11,13 +13,18 @@ const DossierPatientWrapper = () => {
   const [visites, setVisites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const axiosPrivate = useAxiosPrivate();   
+  const location = useLocation();
+  const navigate = useNavigate();
+  const controller = new AbortController();
 
   useEffect(() => {
     const fetchPatientData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(
-          `http://localhost:11000/getPatient/${patientId}`
+        const response = await axiosPrivate.get(
+          `http://localhost:11000/getPatient/${patientId}`,
+          { signal: controller.signal }
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -48,6 +55,7 @@ const DossierPatientWrapper = () => {
         }
       } catch (e) {
         setError(e.toString());
+        //navigate("/login", {state: {from: location}, replace: true})
       } finally {
         setLoading(false);
       }
@@ -57,7 +65,7 @@ const DossierPatientWrapper = () => {
     const fetchOrdonnances = async (ids) => {
       try {
         const promises = ids.map((id) =>
-          fetch(`http://localhost:3000/getOrdonnance/${id}`).then(
+          axiosPrivate.get(`http://localhost:3000/getOrdonnance/${id}`, {signal : controller.signal}).then(
             (response) => {
               if (!response.ok)
                 throw new Error(`Failed to fetch ordonnance with ID: ${id}`);
@@ -80,7 +88,7 @@ const DossierPatientWrapper = () => {
     const fetchRdvs = async (ids) => {
       try {
         const promises = ids.map((id) =>
-          fetch(`http://localhost:5000/getRDV/${id}`).then((response) => {
+          axiosPrivate.get(`http://localhost:4000/getRDV/${id}`, {signal : controller.signal}).then((response) => {
             if (!response.ok)
               throw new Error(`Failed to fetch RDV with ID: ${id}`);
             return response.json();
@@ -100,7 +108,7 @@ const DossierPatientWrapper = () => {
     const fetchAntecedants = async (ids) => {
       try {
         const promises = ids.map((id) =>
-          fetch(`http://localhost:11000/getAntecedant/${id}`).then(
+          axiosPrivate.get(`http://localhost:11000/getAntecedant/${id}`, {signal : controller.signal}).then(
             (response) => {
               if (!response.ok)
                 throw new Error(`Failed to fetch antecedant with ID: ${id}`);
@@ -121,7 +129,7 @@ const DossierPatientWrapper = () => {
     const fetchVisites = async (ids) => {
       try {
         const promises = ids.map((id) =>
-          fetch(`http://localhost:8000/getVisite/${id}`).then((response) => {
+          axiosPrivate.get(`http://localhost:8000/getVisite/${id}`, {signal : controller.signal}).then((response) => {
             if (!response.ok)
               throw new Error(`Failed to fetch visite with ID: ${id}`);
 
