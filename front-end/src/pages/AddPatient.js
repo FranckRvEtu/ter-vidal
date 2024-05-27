@@ -11,8 +11,11 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 export default function AddPatient() {
+  const axiosPrivate = useAxiosPrivate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -29,14 +32,12 @@ export default function AddPatient() {
       listIDrdv: [],
       listIDvisite: [],
     };
+    
+
     console.log(patient);
-    fetch("http://localhost:11000/addPatient", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ patient }),
-    })
+    axiosPrivate.post("http://localhost:11000/addPatient",
+      JSON.stringify({ patient }),
+    )
       .then((response) => {
         if (response.ok) {
           console.log("Patient bien ajouté", patient);

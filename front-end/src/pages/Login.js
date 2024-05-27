@@ -51,9 +51,8 @@ export default function Login(){
       if (response.status === 200) {
         console.log("Login successful");
         const data = response.data;
-        console.log("data:", data);
         const accessToken = data.accessToken; //récupère le token
-        console.log("accessToken:", accessToken);
+        console.log("accessToken attribué:", accessToken);
         setAuth({ email, password, accessToken}) //stocke les données de connexion
         setEmail(""); //réinitialise les champs
         setPassword(""); //réinitialise les champs

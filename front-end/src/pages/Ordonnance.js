@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import '../Style/Ordonnance.css';
 import mic from '../Assets/microphone-black-shape.png';
 import io from 'socket.io-client';
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 function Ordonnance() {
   const [isListening, setIsListening] = useState(false);
   const [prescriptions, setPrescriptions] = useState([]);
+  const axiosPrivate = useAxiosPrivate();  
+
   useEffect(() => {
     const socket = io('http://192.168.1.32:5000');
+    const controller = new AbortController();
 
     socket.on('transcribedText', (text) => {
       console.log(text);
@@ -52,19 +56,14 @@ function Ordonnance() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:3013/addPrescription', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const response = await axiosPrivate.post('http://localhost:3013/addPrescription',
+        JSON.stringify({
           Medicament: event.target.Medicament.value,
           Posologie: event.target.Posologie.value,
           Remarque: event.target.Remarque.value,
-        }),
-      });
-      if (response.ok) {
-        const data = await response.json();
+        }));
+      if (response.status === 200) {
+        const data = response.data;
         setPrescriptions([...prescriptions, data]);
         event.target.reset();
       } else {
@@ -77,18 +76,13 @@ function Ordonnance() {
 
   const handleCreateOrdo = async () => {
     try {
-      const response = await fetch('http://localhost:3014/ordonnance/addOrdonnance', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const response = await axiosPrivate.post('http://localhost:3014/ordonnance/addOrdonnance',
+        JSON.stringify({
           date: new Date(),
           idPatient: '60d6b2e4d0a3e4c4d0c7a7b7',
           prescriptions: prescriptions,
-        }),
-      });
-      if (response.ok) {
+        }));
+      if (response.status === 200) {
         // Mettez ici le code à exécuter si la requête réussit
         console.log('Ordonnance créée avec succès');
       } else {
