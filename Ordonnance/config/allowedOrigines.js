@@ -5,6 +5,7 @@ const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:3010',
     'http://localhost:3013',
+    'http://localhost:3014',
     'http://localhost:4000',
     'http://localhost:6000',
     'http://localhost:8000',
