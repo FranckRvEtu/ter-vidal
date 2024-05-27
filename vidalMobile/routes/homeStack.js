@@ -3,9 +3,11 @@ import { createAppContainer } from "react-navigation";
 import ListePatient from "../components/listePatient";
 import Ordonnance from "../screens/ordonnance";
 import Flavio from "../screens/flavio";
+import HomePage from "../screens/home";
+
 const screens = {
     Home : {
-        screen : ListePatient
+        screen : HomePage
     },
     Ordonnance : {
         screen : Ordonnance

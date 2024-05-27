@@ -13,8 +13,9 @@ export default function ListePatient({navigation}) {
 
     const fetchPatient = async () => {
       try {
-        const patient = await axios.get('http://192.168.1.7:11000/allPatients');
+        const patient = await axios.get('http://192.168.226.157:11000/allPatients');
         const data = patient.data;
+        console.log("fetch fini");
         setPatients(data);
       }catch (error) {
         console.error(error);
@@ -36,7 +37,6 @@ export default function ListePatient({navigation}) {
       <View style={styles.container}>
         <StatusBar style="auto" />
         <Header />
-        <Button title='Accéder à Flavio' onPress={()=>navigation.navigate("Juif")}/>
         <View style = {styles.content}>
             <FlatList 
                 data={patients}
