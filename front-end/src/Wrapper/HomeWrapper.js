@@ -5,7 +5,6 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { axiosPrivate } from "../../api/axios";
 
 const HomeWrapper = () => {
-  // Utilisation de useState pour initialiser l'état des RDVs
   const [rdvs, setRdvs] = useState([]);
   const axiosPrivate = useAxiosPrivate(); 
   // Utilisation du hook useAxiosPrivate pour obtenir l'instance axios avec le token d'authentification
@@ -15,7 +14,6 @@ const HomeWrapper = () => {
 
   // Utilisation de useEffect pour exécuter la requête fetch au chargement du composant
   useEffect(() => {
-    // Définition de la fonction fetchRDVs comme asynchrone
     const fetchRDVs = async () => {
       try {
         const response = await axiosPrivate("http://localhost:5000/getUpcomingRDVs", 
@@ -25,18 +23,16 @@ const HomeWrapper = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setRdvs(data); // Mise à jour de l'état avec les données récupérées
+        setRdvs(data);
         console.log("RDVs", data);
       } catch (error) {
         console.error("Error fetching RDVs:", error);
       }
     };
 
-    fetchRDVs(); // Appel de la fonction fetchRDVs
-  }, []); // Le tableau vide indique que l'effet ne dépend d'aucune valeur et ne s'exécutera qu'au montage du composant
-
-  // Passage de l'état rdvs en props au composant HomePage
-  return <HomePage RDVs={rdvs} />;
+    fetchRDVs();
+  }, []);
+  return <HomePage appointments={rdvs} />;
 };
 
 export default HomeWrapper;

@@ -1,35 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 import {
+  Card,
   Avatar,
+  CardContent,
   Button,
   Container,
   Grid,
   IconButton,
-  Paper,
   TextField,
   Typography,
   InputAdornment,
-  Menu,
-  MenuItem,
-  Checkbox,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import SortIcon from "@mui/icons-material/Sort";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import iconPeople from "../../public/Assets/anonyme.jpg";
 
 export default function ListePatient({ patientsInitiaux = [] }) {
   const navigate = useNavigate();
   const [recherche, setRecherche] = useState("");
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [triOptions, setTriOptions] = useState([
-    { label: "Nom", value: "name", checked: false },
-    { label: "Prénom", value: "firstname", checked: false },
-    { label: "ID", value: "_id", checked: false },
-  ]);
   const [patientsAffiches, setPatientsAffiches] = useState(patientsInitiaux);
 
   useEffect(() => {
@@ -45,165 +36,174 @@ export default function ListePatient({ patientsInitiaux = [] }) {
     }
 
     // Tri
-    resultats.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
     setPatientsAffiches(resultats);
-  }, [recherche, triOptions, patientsInitiaux]);
+  }, [recherche, patientsInitiaux]);
 
   const handleSearch = () => {
     console.log("Recherche en cours pour:", recherche);
   };
 
-  const handleClickSort = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleToggleTriOption = (value) => {
-    const newOptions = triOptions.map((option) => {
-      if (option.value === value) {
-        return { ...option, checked: !option.checked };
+  const handleDelete = async (id) => {
+    fetch(`http://localhost:11000/deletePatient/${id}`, {
+      method: "GET",
+    }).then((response) => {
+      if (response.ok) {
+        window.alert("Patient supprimé avec succès");
+        window.location.reload();
+      } else {
+        console.error("Erreur lors de la suppression du patient");
       }
-      return option;
     });
-    setTriOptions(newOptions);
+  };
+  const deleteRDVs = async (idPatient) => {
+    if (
+      window.confirm(
+        "Voulez-vous vraiment supprimer ce patient ? Tous les rendez-vous associés seront également supprimés."
+      )
+    ) {
+      try {
+        await fetch(`http://localhost:5000/deleteRDVFromPatient/${idPatient}`, {
+          method: "GET",
+        }).then((response) => {
+          if (response.ok) {
+            console.log("RDVs supprimés avec succès");
+            handleDelete(idPatient);
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Grid container spacing={2} alignItems="center" sx={{ mt: 8 }}>
+    <Container maxWidth="lg" sx={{}}>
+      <Grid alignItems="center" sx={{}}>
         <Grid item xs={8}>
           <TextField
-            fullWidth
+            sx={{
+              width: "80%",
+              Color: "white",
+              borderRadius: "8px",
+              ml: 4,
+              mt: 1,
+            }}
             label="Rechercher un patient"
-            variant="standard"
+            variant="outlined"
             value={recherche}
             onChange={(e) => setRecherche(e.target.value)}
             InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
+              startAdornment: (
+                <InputAdornment position="start">
                   <IconButton onClick={handleSearch}>
-                    <SearchIcon />
+                    <SearchIcon color="primary" />
                   </IconButton>
                 </InputAdornment>
               ),
             }}
           />
         </Grid>
-        <Grid item xs={2}>
-          <Button
-            startIcon={<SortIcon />}
-            variant="contained"
-            onClick={handleClickSort}
-          >
-            Trier
-          </Button>
-          <Menu
-            id="sort-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            {triOptions.map((option) => (
-              <MenuItem
-                key={option.value}
-                onClick={() => handleToggleTriOption(option.value)}
-              >
-                <Checkbox checked={option.checked} />
-                {option.label}
-              </MenuItem>
-            ))}
-          </Menu>
-        </Grid>
       </Grid>
-      <Paper
+      <Grid
         sx={{
-          minHeight: 200,
-          maxHeight: 700,
           overflow: "auto",
-          mt: 2,
+          mt: 1,
+          mb: 1,
+          maxHeight: "80vh",
           padding: 2,
-
-          "&::-webkit-scrollbar": {
-            width: "10px",
-          },
-          "&::-webkit-scrollbar-track": {
-            backgroundColor: "#f1f1f1",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#888",
-            borderRadius: "2px",
-            "&:hover": {
-              backgroundColor: "#555",
-            },
-          },
+          backgroundColor: "transparent",
+          boxShadow: "none",
+          "&::-webkit-scrollbar": { display: "none" }, // Pour les navigateurs Webkit (Chrome, Safari, etc.)
+          scrollbarWidth: "none", // Pour Firefox
+          "-ms-overflow-style": "none", // Pour Internet Explorer 10+
         }}
       >
-        <Grid container spacing={2} sx={{ mt: 0 }}>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            mt: 0,
+          }}
+        >
           {patientsAffiches.map((patient, index) => (
-            <Grid item xs={12} sm={6} md={4} key={patient._id || index}>
-              <Paper
-                elevation={3}
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              key={patient._id || index}
+              sx={{
+                mt: 0,
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                height: "auto",
+              }}
+            >
+              <Card
                 sx={{
-                  p: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  width: 300,
-                  height: 250,
-                  borderRadius: 15,
-                  mt: 2,
+                  borderRadius: "16px",
+                  width: "100%",
+                  height: "auto",
+                  transform: "scale(0.95)",
+                  transition: "transform 0.2s ease-in-out",
+                  ":hover": {
+                    transform: "scale(1.05)",
+                  },
                 }}
               >
-                <Avatar
-                  src={patient.imageUrl}
-                  sx={{ width: 50, height: 50, mb: 2 }}
-                />
-                <Typography>{`${patient.firstname} ${patient.name}`}</Typography>
-                <Grid
-                  container
-                  spacing={5}
-                  sx={{ mt: 2, justifyContent: "center" }}
+                <CardContent
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    minHeight: "20vw",
+                    background: (theme) =>
+                      `linear-gradient(90deg, ${theme.palette.primaryLight2.main} 0%, ${theme.palette.primaryDark2.main} 100%)`,
+                  }}
+                  onClick={() => navigate(`/dossierPatient/${patient._id}`)}
                 >
-                  <Grid item>
-                    <IconButton
-                      color="voir"
-                      onClick={() => navigate(`/dossierPatient/${patient._id}`)}
-                    >
-                      <VisibilityIcon />
-                    </IconButton>
+                  <Avatar
+                    sx={{ width: 100, height: 100 }}
+                    src={iconPeople}
+                  ></Avatar>
+                  <Typography
+                    gutterBottom
+                    color="white"
+                    variant="h5"
+                    component="h2"
+                    sx={{ fontWeight: "bold" }}
+                  >
+                    {`${patient.firstname} ${patient.name}`}
+                  </Typography>
+                  <Typography variant="body2" color="white">
+                    {format(new Date(patient.birthdate), "d MMMM yyyy", {
+                      locale: fr,
+                    })}
+                  </Typography>
+                  <Grid container sx={{ justifyContent: "center" }}>
+                    <Grid item sx={{ mx: 2 }}>
+                      {" "}
+                      <IconButton
+                        color="error"
+                        onClick={() => deleteRDVs(patient._id)}
+                      >
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </Grid>
                   </Grid>
-
-                  <Grid item>
-                    <IconButton
-                      color="modifier"
-                      onClick={() => console.log("Modifier", patient._id)}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  </Grid>
-                  <Grid item>
-                    <IconButton
-                      color="supprimer"
-                      onClick={() => console.log("Supprimer", patient._id)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </Paper>
+                </CardContent>
+              </Card>
             </Grid>
           ))}
         </Grid>
-      </Paper>
+      </Grid>
       <Button
         variant="contained"
         color="primary"
-        sx={{ mt: 2 }}
+        sx={{ ml: 4 }}
         onClick={() => navigate("/addPatient")}
       >
         Ajouter un Patient

@@ -1,6 +1,14 @@
 import * as React from "react";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+import HealingIcon from "@mui/icons-material/Healing";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import Popover from '@mui/material/Popover';
+import { fr } from "date-fns/locale";
+
 import {
   Button,
+  Hidden,
   Box,
   Avatar,
   Paper,
@@ -8,12 +16,12 @@ import {
   List,
   ListItem,
   ListItemText,
+  Divider,
 } from "@mui/material";
 import { format } from "date-fns";
-import { useNavigate } from "react-router-dom";
-import { ThemeProvider, GlobalStyles } from "@mui/material/";
-import { Grid } from "@mui/material";
-import { ListItemIcon } from "@mui/material";
+import { useState } from 'react';
+import { useNavigate,useParams } from "react-router-dom";
+import { Grid,TextField } from "@mui/material";
 
 export default function DossierPatient({
   patient,
@@ -23,36 +31,85 @@ export default function DossierPatient({
   visites = [],
 }) {
   const navigate = useNavigate();
+
+  /*différentes fonction de handle pour les listes*/
+
   const handleOrdonnanceClick = (id) => {
-    // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
-    // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
   };
 
   const handleVisiteClick = (id) => {
-    // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
-    // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
+  };
+  const handleAddAntecedant = (id) => {
+    console.log(
+      `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
+    );
   };
   const handleRDVClick = (id) => {
-    // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
-    // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
   };
 
   const handleAntecedantClick = (id) => {
-    // Ici, vous pouvez faire une requête à votre backend pour récupérer l'ordonnance par son ID
     console.log(
       `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
     );
-    // Exemple : fetch(`/api/ordonnances/${id}`).then(...)
   };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const [diagnostic, setDiagnostic] = useState('');
+  const { patientId } = useParams();  
+  const [inputValue, setInputValue] = useState('');
+    // État pour stocker le diagnostic
+
+    // Gère le changement dans le TextField
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
+
+    // Gère le clic sur le bouton pour stocker la valeur dans diagnostic
+    const handleButtonClick = async () => {
+      setDiagnostic(inputValue); // Cela met à jour l'état, mais n'est pas immédiatement accessible
+
+      const response = await fetch("http://localhost:11000/addAntecedant", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            diagnostic:inputValue,
+            date: new Date(),
+            description: "kk",
+            patientId:patientId
+
+          }),
+        });
+  
+      if (response.ok) {
+          const data = await response.json();
+          console.log("Antécédant ajouté avec succès avec l'ID :", data.id);
+      } else {
+          console.error("Échec de l'ajout de l'antécédant", await response.text());
+      }
+    };
+
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
   return (
     <Box
@@ -60,123 +117,259 @@ export default function DossierPatient({
         display: "flex",
         alignItems: "flex-start",
         justifyContent: "space-between",
-        mt: 10,
+        minHeight: "100vh",
       }}
     >
       <Box sx={{ display: "flex", flexDirection: "column", mr: 2 }}>
         <Button
-          variant="contained"
+          variant="outlined"
           color="primary"
-          sx={{ p: 2, ml: 5, mt: 2, mb: 2 }}
+          sx={{ p: 2, ml: 5, mt: 2.5, mb: 1 }}
           onClick={() => navigate(`/ordonnance/${patient._id}`)}
         >
-          Accéder à Ordonnance
+          Démarrer une consultation
         </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ p: 2, ml: 5, mt: 1, mb: 1 }}
+          onClick={() => navigate(`/editPatient/${patient._id}`)}
+        >
+          Modifier le patient
+        </Button>
+        {/* Information du Patient */}
         <Paper
           elevation={3}
+          color="primaryDark2"
           sx={{
-            p: 2,
-            ml: 5,
+            borderRadius: 5,
+            boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+            position: "relative",
+            border: "1px solid #000",
+            padding: 0,
+            transform: "scale(1.05)",
             mt: 2,
-            mb: 2,
+            ml: 5,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            color: "black",
+            width: "20vw",
+            height: "33.5vw",
+            overflow: "auto",
           }}
         >
           <Typography
             variant="h6"
             sx={{
               textAlign: "center",
-              textDecoration: "underline",
               width: "100%",
+              pt: 1,
+              pb: 0,
+              pr: 1,
+              pl: 1,
             }}
           >
             Informations du Patient
           </Typography>
           <Avatar
-            sx={{ width: 56, height: 56, mb: 5, mt: 5 }}
-            src="/path/to/patient-image.jpg"
+            sx={{ width: 56, height: 56, mb: 0, mt: 2, alignSelf: "center" }}
+            src={patient.image} // Base64 image string
           />
-          {/* Conteneur pour le texte avec alignement uniforme et souligné */}
-          <Box sx={{ textAlign: "left", maxWidth: "80%", mt: 1 }}>
-            <Typography sx={{ mb: 3 }}>Nom: {patient.name}</Typography>
-            <Typography sx={{ mb: 3 }}>Prénom: {patient.firstname}</Typography>
-            <Typography sx={{ mb: 3 }}>Sexe: {patient.sexe}</Typography>
-            <Typography sx={{ mb: 3 }}>Taille: {patient.height} cm</Typography>
-            <Typography sx={{ mb: 3 }}>Poids: {patient.weight} kg</Typography>
-            <Typography sx={{ mb: 3 }}>
-              Date de naissance:{" "}
-              {format(new Date(patient.birthdate), "dd/MM/yyyy")}
-            </Typography>
-            <Typography sx={{ mb: 3 }}>
-              Groupe sanguin: {patient.BloodType}
-            </Typography>
-          </Box>
+          <Typography alignSelf="center">
+            {patient.name} {patient.firstname}
+          </Typography>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              textAlign: "center",
+              maxWidth: "90%",
+              mt: 1,
+              alignItems: "center",
+            }}
+          >
+            {[
+              { label: "Sexe", value: patient.sexe },
+              { label: "Taille", value: `${patient.height} cm` },
+              { label: "Poids", value: `${patient.weight} kg` },
+              {
+                label: "Date de naissance",
+                value: format(new Date(patient.birthdate), "d MMMM yyyy", {
+                  locale: fr,
+                }),
+              },
+              { label: "Groupe sanguin", value: patient.BloodType },
+            ].map((item, index) => (
+              <Grid item xs={6} key={index}>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100px",
+                    p: 2,
+                  }}
+                >
+                  <Typography variant="h20">{item.label}</Typography>
+                  <Typography>{item.value}</Typography>
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
         </Paper>
       </Box>
 
       <Box
-        sx={{ display: "flex", flexDirection: "column", flexGrow: 1, mt: 2 }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          flexGrow: 1,
+          mt: 2,
+          color: "white",
+        }}
       >
         {/* Ligne 1 : Ordonnances et Rendez-vous */}
-        <Grid container spacing={2} alignItems="flex-start">
+        <Grid container spacing={2} alignItems="" sx={{ mt: 4 }}>
           {/* Ordonnances */}
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" component="h2">
-              Ordonnances
-            </Typography>
             <Paper
               sx={{
-                margin: 2,
+                boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+                position: "relative",
+                border: "1px solid #000",
                 padding: 2,
-                minHeight: 300,
-                maxWidth: 700,
-                maxHeight: 300,
-                overflow: "auto",
+                width: "90%",
+                margin: 2,
+
+                height: "40vh",
               }}
             >
-              <List>
+              <Grid container>
+                {/* on crée une petite icon que l'on fait resortir vers le haut pour faire jolie */}
+                <Hidden only="sm">
+                  <Box
+                    sx={{
+                      height: "5vw",
+                      width: "5vw",
+                      display: "flex",
+                      position: "absolute",
+                      zIndex: 1,
+                      top: -20,
+                      left: 12,
+                      background: "linear-gradient(to top, #BDDAD0, #FFFFFF)",
+                      borderRadius: "25%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      border: "1px solid #000",
+                    }}
+                  >
+                    <AssignmentIcon />
+                  </Box>
+                </Hidden>
+
+                {/* Header information */}
+                <Grid
+                  container
+                  justifyContent="flex-end"
+                  sx={{ padding: 0, margin: "16px 0", position: "sticky" }}
+                >
+                  <Typography variant="h6" align="left">
+                    Ordonnances
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              <Divider sx={{ color: "#000" }} />
+
+              {/* List of prescriptions */}
+              <List
+                sx={{
+                  overflow: "auto",
+                  height: "27vh",
+                }}
+              >
                 {ordonnances &&
                   ordonnances.map((ordonnance) => (
                     <ListItem
                       key={ordonnance._id}
+                      sx={{ marginBottom: 1 }}
                       button
                       onClick={() => handleOrdonnanceClick(ordonnance._id)}
                     >
-                      <ListItemIcon>
-                        {/* Utilisation d'une icône stockée localement dans public/assets */}
-                        <img
-                          src="/Assets/prescription.png"
-                          alt="Icon"
-                          style={{ width: 24, height: 24 }}
-                        />
-                      </ListItemIcon>
                       <ListItemText
-                        primary={`Date d'ordonnance : ${format(new Date(ordonnance.date), "dd/MM/yyyy")}`}
+                        primary={` ${format(
+                          new Date(ordonnance.date),
+                          "d MMMM yyyy",
+                          {
+                            locale: fr,
+                          }
+                        )}`}
                       />
                     </ListItem>
                   ))}
               </List>
             </Paper>
           </Grid>
-
           {/* Rendez-vous */}
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" component="h2">
-              Rendez-vous
-            </Typography>
             <Paper
               sx={{
-                margin: 2,
+                boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+                position: "relative",
+                border: "1px solid #000",
                 padding: 2,
-                minHeight: 300,
-                maxWidth: 700,
-                maxHeight: 300,
-                overflow: "auto",
+                width: "90%",
+                margin: 2,
+                height: "40vh",
               }}
             >
-              <List>
+              <Grid container>
+                <Hidden only="sm">
+                  <Grid
+                    sx={{
+                      height: "5vw",
+                      width: "5vw",
+                      display: "flex",
+                      position: "absolute",
+                      zIndex: 1,
+                      top: -20,
+                      left: 12,
+                      background: "linear-gradient(to top, #C7E6F4, #FFFFFF)",
+                      color: "",
+                      borderRadius: "25%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      border: "1px solid #000",
+                    }}
+                  >
+                    <CalendarTodayIcon />
+                  </Grid>
+                </Hidden>
+
+                {/* Header information */}
+                <Grid
+                  container
+                  justifyContent="flex-end"
+                  sx={{ padding: 0, margin: "16px 0", position: "sticky" }}
+                >
+                  <Typography variant="h6" align="left">
+                    Rendez vous
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              <Divider sx={{ color: "#000" }} />
+
+              {/* List of appointments */}
+              <List
+                sx={{
+                  overflow: "auto",
+                  height: "27vh",
+                }}
+              >
                 {rdvs &&
                   rdvs.map((rdv) => (
                     <ListItem
@@ -186,7 +379,11 @@ export default function DossierPatient({
                       onClick={() => handleRDVClick(rdv._id)}
                     >
                       <ListItemText
-                        primary={`Rendez-vous le ${format(new Date(rdv.date), "dd/MM/yyyy à HH:mm")}`}
+                        primary={`Rendez-vous le ${format(
+                          new Date(rdv.date),
+                          "d MMMM yyyy à HH:mm",
+                          { locale: fr }
+                        )}`}
                         secondary={`Lieu : ${rdv.lieu}`}
                       />
                     </ListItem>
@@ -199,54 +396,173 @@ export default function DossierPatient({
         {/* Ligne 2 : Antécédants et Visites */}
         <Grid container spacing={2} alignItems="flex-start">
           {/* Antécédants */}
+
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" component="h2">
-              Antécédants
-            </Typography>
-            <Paper
-              sx={{
-                margin: 2,
-                padding: 2,
-                minHeight: 300,
-                maxWidth: 700,
-                maxHeight: 300,
-                overflow: "auto",
-              }}
+  <Paper
+    sx={{
+      boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+      position: "relative",
+      border: "1px solid #000",
+      padding: 2,
+      width: "90%",
+      margin: 2,
+      height: "40vh",
+    }}
+  >
+    <Grid container>
+      <Hidden only="sm">
+        <Box
+          sx={{
+            height: "5vw",
+            width: "5vw",
+            display: "flex",
+            position: "absolute",
+            zIndex: 1,
+            top: -20,
+            left: 12,
+            background: "linear-gradient(to top, #E7C9D5, #FFFFFF)",
+            borderRadius: "25%",
+            justifyContent: "center",
+            alignItems: "center",
+            border: "1px solid #000",
+          }}
+        >
+          <HealingIcon />
+        </Box>
+      </Hidden>
+
+      <Grid container justifyContent="flex-end" sx={{ padding: 0, margin: "16px 0" }}>
+        <Typography variant="h6" align="left">
+          Antécédants
+        </Typography>
+      </Grid>
+    </Grid>
+
+    <Divider sx={{ color: "#000" }} />
+
+    <List sx={{ overflow: "auto", height: "27vh" }}>
+      {antecedants && antecedants.map((antecedant) => (
+        <ListItem
+          key={antecedant._id}
+          sx={{ marginBottom: 1 }}
+          button
+        >
+          <ListItemText primary={`Antécédant : ${antecedant.diagnostic}`} />
+        </ListItem>
+      ))}
+    </List>
+
+    {/* Add Button at the bottom right */}
+    <Box
+      sx={{
+        position: "absolute",
+        right: 16,
+        bottom: 16,
+      }}
+    >
+      <Button aria-describedby={id} variant="contained" onClick={handleClick}>
+            +
+        </Button>
+        <Popover
+          id={id}
+          open={open}
+          backgroundColor='white'
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+        >
+  <Typography sx={{ p: 2 }}>
+  <TextField
+                fullWidth
+                label="Intitulé de l'antécédant"
+                variant="outlined"
+                value={inputValue}
+                onChange={handleInputChange}
+                sx={{ mb: 2 }}
+            />
+            <Button
+                variant="contained"
+                sx={{ mb: 2 }}
+                onClick={handleButtonClick}
             >
-              <List>
-                {antecedants &&
-                  antecedants.map((antecedant) => (
-                    <ListItem
-                      key={antecedant._id}
-                      sx={{ marginBottom: 1 }}
-                      button
-                      onClick={() => handleAntecedantClick(antecedant._id)}
-                    >
-                      <ListItemText
-                        primary={`Antécédant : ${antecedant.diagnostic}`}
-                      />
-                    </ListItem>
-                  ))}
-              </List>
-            </Paper>
-          </Grid>
+                Ajouter l'antécédant
+            </Button>
+          
+  </Typography>
+    </Popover>    
+      
+    </Box>
+  </Paper>
+</Grid>
 
           {/* Visites */}
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" component="h2">
-              Visites
-            </Typography>
             <Paper
               sx={{
-                margin: 2,
+                boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+                position: "relative",
+                border: "1px solid #000",
                 padding: 2,
-                minHeight: 300,
-                maxWidth: 700,
-                maxHeight: 300,
-                overflow: "auto",
+                width: "90%",
+                margin: 2,
+                mt: 2,
+                height: "40vh",
               }}
             >
-              <List>
+              <Grid container>
+                <Hidden only="sm">
+                  <Grid
+                    sx={{
+                      height: "5vw",
+                      width: "5vw",
+                      display: "flex",
+                      position: "absolute",
+                      zIndex: 1,
+                      top: -20,
+                      left: 12,
+                      background: "linear-gradient(to top, #D7C9DD, #FFFFFF)",
+                      color: "",
+                      borderRadius: "25%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      border: "1px solid #000",
+                    }}
+                  >
+                    <MedicalServicesIcon />
+                  </Grid>
+                </Hidden>
+
+                {/* Header information */}
+                <Grid
+                  container
+                  justifyContent="flex-end"
+                  sx={{
+                    padding: 0,
+                    margin: "16px 0",
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 2,
+                    backgroundColor: "",
+                  }}
+                >
+                  <Typography variant="h6" align="left">
+                    Visites
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              <Divider sx={{ color: "#000" }} />
+
+              {/* List of visits */}
+              <List
+                sx={{
+                  overflow: "auto",
+                  height: "27vh",
+                }}
+              >
                 {visites &&
                   visites.map((visite) => (
                     <ListItem
@@ -256,7 +572,11 @@ export default function DossierPatient({
                       onClick={() => handleVisiteClick(visite._id)}
                     >
                       <ListItemText
-                        primary={`Visite le ${format(new Date(visite.date), "dd/MM/yyyy à HH:mm")}`}
+                        primary={`Visite le ${format(
+                          new Date(visite.date),
+                          "d MMMM yyyy à HH:mm",
+                          { locale: fr }
+                        )}`}
                       />
                     </ListItem>
                   ))}

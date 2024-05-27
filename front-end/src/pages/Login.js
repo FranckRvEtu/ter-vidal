@@ -78,11 +78,11 @@ export default function Login(){
             sx={{
               my: 8,
               p: 3,
-              backgroundColor: "#ff9c6d", // Arrière-plan coloré, sera partiellement visible autour de l'image
-              backgroundImage: 'url("/Assets/a.png")', // Ajoutez votre image de fond ici
+              backgroundColor: "primary.main",
+              backgroundImage: 'url("/Assets/a.png")',
               backgroundRepeat: "no-repeat",
-              backgroundPosition: "center", // Centrer l'image de fond
-              backgroundSize: "cover", // Couvrir tout l'espace disponible, ajustez selon besoin
+              backgroundPosition: "center",
+              backgroundSize: "cover",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -99,8 +99,8 @@ export default function Login(){
               variant="h3"
               sx={{
                 color: "Black",
-                marginTop: "auto", // Centrer dans le conteneur parent
-                textAlign: "center", // Alignement du texte
+                marginTop: "auto",
+                textAlign: "center",
                 fontFamily: "Open Sans, sans-serif",
               }}
             ></Typography>
@@ -120,16 +120,13 @@ export default function Login(){
               height: "80vh",
             }}
           >
-            {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
-                    </Avatar> */}
             <Paper
               sx={{
-                backgroundColor: "#ff9c6d", // Couleur de fond orange
-                padding: "8px 16px", // Espacement intérieur pour le texte
-                width: "100%", // Prend toute la largeur
-                marginTop: 0, // Supprime la marge supérieure
-                textAlign: "center", // Centrer le texte
+                backgroundColor: "primary.main",
+                padding: "8px 16px",
+                width: "100%",
+                marginTop: 0,
+                textAlign: "center",
               }}
             >
               <Typography
@@ -144,7 +141,7 @@ export default function Login(){
             <Divider sx={{ mt: 2, mb: 2 }} />
             <Avatar
               src="/Assets/steto.png"
-              sx={{ width: 50, height: 50, margin: "auto" }}
+              sx={{ width: 50, height: 50, margin: "auto", color: "fill" }}
             />
             <Box
               component="form"

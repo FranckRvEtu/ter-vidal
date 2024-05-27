@@ -1,5 +1,4 @@
 import React from "react";
-import { useRef, useEffect } from "react";
 import { Tooltip } from "bootstrap"; // Assurez-vous d'avoir installé bootstrap
 import Fullcalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -46,15 +45,15 @@ export default function Calendar({ listRDV }) {
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView={"timeGridWeek"}
         headerToolbar={{
-          start: "prev,next", // will normally be on the left. if RTL, will be on the right
+          start: "prev,next",
           center: "Liste rdv",
-          end: "timeGridWeek,timeGridDay", // will normally be on the right. if RTL, will be on the left
+          end: "timeGridWeek,timeGridDay",
         }}
         firstDay={1} // Lundi premier jour de la semaine
         slotMinTime={"08:00:00"} // Début de la plage horaire à 8h
         slotMaxTime={"20:00:00"} // Fin de la plage horaire à 20h
         height={"auto"}
-        locale="fr" // Langue et timezone française
+        locale="fr"
         allDaySlot={false} // Enlève la ligne "all day"
         events={[
           {
@@ -84,26 +83,3 @@ export default function Calendar({ listRDV }) {
     </div>
   );
 }
-/*
-[
-  {
-    title: 'RDV Francky',
-    start: '2024-03-28T10:30:00',
-    end: '2024-03-28T11:30:00',
-    extendedProps: {
-      department: 'ça code',
-    },
-    description: 'Description de l"événement'
-  },
-
-  {
-    title: 'RDV Etienne',
-    start: '2024-03-27T08:30:00',
-    end: '2024-03-27T10:30:00',
-    extendedProps: {
-      department: 'ça code',
-    },
-    description: 'Description de l"événement'
-  }
-  // more events ...
-]*/

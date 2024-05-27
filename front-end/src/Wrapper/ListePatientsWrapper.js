@@ -1,4 +1,3 @@
-// WrapperComponent.js
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ListePatient from "../pages/ListePatient";

@@ -1,5 +1,7 @@
 import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,9 +11,6 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -21,7 +20,6 @@ import MicOffIcon from "@mui/icons-material/MicOff";
 import { Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Theme from "../theme";
 
 const drawerWidth = 240;
 
@@ -46,13 +44,37 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
+  justifyContent: "space-between",
+  backgroundColor: "primary.main",
 }));
-
+const drawerTheme = createTheme({
+  palette: {
+    background: {
+      paper: "#001e3c",
+    },
+    text: {
+      primary: "white",
+    },
+  },
+  components: {
+    MuiListItemText: {
+      styleOverrides: {
+        primary: {
+          color: "white",
+        },
+      },
+    },
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          color: "white",
+        },
+      },
+    },
+  },
+});
 export default function PersistentDrawerLeft() {
-  const theme = useTheme(Theme);
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
   const [isListening, setIsListening] = useState(false);
@@ -68,28 +90,25 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+  const handleMouseEnter = () => {
+    handleDrawerOpen();
+  };
+
   useEffect(() => {
     if (window.annyang) {
-      // Définition de la langue pour la reconnaissance vocale
       window.annyang.setLanguage("fr-FR");
-      // Modification des commandes vocales pour utiliser navigate
+      // Liste des commandes vocales
       var commands = {
         dashboard: () => navigate("/"),
-        calendar: () => navigate("/calendar"),
+        agenda: () => navigate("/agenda"),
         patients: () => navigate("/ListePatient"),
         test: () => alert("test"),
-        // Ajoutez d'autres commandes vocales ici
       };
 
-      // Ajout des commandes vocales à Annyang
       window.annyang.addCommands(commands);
-
-      // Optionnel: Démarrer l'écoute au chargement du composant
-      // window.annyang.start();
     }
 
     return () => {
-      // Assurez-vous d'arrêter Annyang lorsque le composant est démonté
       if (window.annyang) window.annyang.abort();
     };
   }, [navigate]);
@@ -110,177 +129,205 @@ export default function PersistentDrawerLeft() {
         position="fixed"
         open={open}
         sx={{
-          bgcolor: "primary.main",
+          top: 0,
+          right: 0,
+          bgcolor: "white",
           zIndex: (theme) => theme.zIndex.drawer + 1,
+          width: "auto",
+          height: "auto",
+          display: "flex",
+          justifyContent: "flex-end",
+          borderBottomLeftRadius: 20,
+          boxShadow: "none",
         }}
       >
-        <Toolbar>
-          <IconButton
-            color="#FFFFFF"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h4" noWrap component="div">
-            Nom app
-          </Typography>
-          <Box sx={{ flexGrow: 1 }} />
+        <Toolbar
+          disableGutters
+          sx={{
+            backgroundColor: "primary.main",
+            minHeight: "64px",
+            justifyContent: "flex-end",
+            padding: "0 16px",
+            borderBottomLeftRadius: "20px",
+          }}
+        >
           <Avatar
             alt="Dr Kawasaki"
             src="/Assets/photoDR.jpg"
-            sx={{ width: 50, height: 50, marginLeft: "auto" }}
+            sx={{
+              width: 50,
+              height: 50,
+              marginRight: 2,
+            }}
           />
 
-          <Typography variant="h4" marginLeft="auto" noWrap component="div">
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{
+              color: "white",
+            }}
+          >
             Dr Kawasaki
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Box sx={{}}>
-          <Divider />
-          <List>
-            {[
-              { text: "Dashboard", iconPath: "/Assets/grid.png", path: "/" },
-              {
-                text: "Patients",
-                iconPath: "/Assets/iconPeople.png",
-                path: "/listePatient",
-              },
-              {
-                text: "Agenda",
-                iconPath: "/Assets/calendar.png",
-                path: "/agenda",
-              },
-            ].map(
-              (
-                item // Utilise item ici pour accéder aux propriétés de chaque objet
-              ) => (
-                <ListItem key={item.text} disablePadding>
-                  <ListItemButton
-                    sx={{
-                      borderRadius: "10px", // More rounded corners
-                      color: "black", // Initial text color
-                      padding: "6px 12px", // Adjust padding to control the size
-                      marginLeft: "10px", // Add some margin to the left
-                      marginRight: "10px", // Add some margin to the right
-                      ":hover": {
-                        backgroundColor: "primary.main", // Background color on hover
-                        color: "white", // Text color on hover to inverse the color scheme
-                      },
-                    }}
-                    onClick={(event) => handleListItemClick(event, item.path)}
-                  >
-                    <ListItemIcon>
-                      {/* Assure-toi d'utiliser item.iconPath pour obtenir la valeur dynamique */}
-                      <img
-                        src={item.iconPath}
-                        alt={item.text}
-                        style={{ maxWidth: 24, maxHeight: 24 }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText primary={item.text} />
-                  </ListItemButton>
-                </ListItem>
-              )
-            )}
-          </List>
-        </Box>
-
-        <Divider />
-        <Box
+      <ThemeProvider theme={drawerTheme}>
+        <Drawer
           sx={{
-            display: "flex",
-            justifyContent: "center", // Centre horizontalement
-            alignItems: "center", // Centre verticalement
-            height: "100%", // Prend toute la hauteur disponible
+            width: drawerWidth,
+            flexShrink: 0,
           }}
+          variant="persistent"
+          anchor="left"
+          open={open}
+          onMouseLeave={handleDrawerClose}
         >
-          <IconButton
-            onClick={toggleListening}
-            color="primary"
+          <DrawerHeader sx={{ backgroundColor: "primary.main" }}>
+            <Typography
+              variant="h4"
+              noWrap
+              component="div"
+              sx={{ color: "white" }}
+            >
+              Nom app
+            </Typography>
+          </DrawerHeader>
+          <Box sx={{}}>
+            <Divider />
+            <List>
+              {[
+                { text: "Dashboard", iconPath: "/Assets/grid.png", path: "/" },
+                {
+                  text: "Patients",
+                  iconPath: "/Assets/iconPeople.png",
+                  path: "/listePatient",
+                },
+                {
+                  text: "Agenda",
+                  iconPath: "/Assets/calendar.png",
+                  path: "/agenda",
+                },
+              ].map(
+                (
+                  item // Utilise item ici pour accéder aux propriétés de chaque objet
+                ) => (
+                  <ListItem key={item.text} disablePadding>
+                    <ListItemButton
+                      sx={{
+                        borderRadius: "10px",
+                        color: "black",
+                        padding: "6px 12px",
+                        marginLeft: "10px",
+                        marginRight: "10px",
+                        ":hover": {
+                          backgroundColor: "primary.main",
+                          color: "white",
+                        },
+                      }}
+                      onClick={(event) => handleListItemClick(event, item.path)}
+                    >
+                      <ListItemIcon>
+                        <img
+                          src={item.iconPath}
+                          alt={item.text}
+                          style={{
+                            maxWidth: 24,
+                            maxHeight: 24,
+                            filter: "brightness(0) invert(1)",
+                          }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText primary={item.text} />
+                    </ListItemButton>
+                  </ListItem>
+                )
+              )}
+            </List>
+          </Box>
+
+          <Divider />
+          <Box
             sx={{
-              backgroundColor: "primary.main", // Fond orange
-              "&:hover": {
-                backgroundColor: "primary.main", // Fond plus clair au survol
-              },
-              color: "white", // Couleur de l'icône
-              borderRadius: "20%", // Rend le fond complètement rond
-              padding: "10px", // Espace entre l'icône et le bord du bouton
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
             }}
           >
-            {isListening ? (
-              <MicIcon sx={{ fontSize: "2rem" }} /> // Icône du micro active avec une taille plus grande
-            ) : (
-              <MicOffIcon sx={{ fontSize: "2rem" }} /> // Icône du micro éteint avec une taille plus grande
-            )}
-          </IconButton>
-        </Box>
-        <Box sx={{ width: "100%", marginTop: "Auto" }}>
-          <List>
-            {[
-              { text: "Parametres", iconPath: "/Assets/setting.png" },
-              { text: "Aide", iconPath: "/Assets/help.png" },
-              { text: "Deconnexion", iconPath: "/Assets/logout.png", path: "/logout" },
-            ].map(
-              (
-                item // Utilise item ici pour accéder aux propriétés de chaque objet
-              ) => (
+            <IconButton
+              onClick={toggleListening}
+              color="primary"
+              sx={{
+                backgroundColor: "primary.main",
+                "&:hover": {
+                  backgroundColor: "primary.main",
+                },
+                color: "white",
+                borderRadius: "20%",
+                padding: "10px",
+              }}
+            >
+              {isListening ? (
+                <MicIcon sx={{ fontSize: "2rem" }} /> // Icône du micro active avec une taille plus grande
+              ) : (
+                <MicOffIcon sx={{ fontSize: "2rem" }} /> // Icône du micro éteint avec une taille plus grande
+              )}
+            </IconButton>
+          </Box>
+          <Box sx={{ width: "100%", marginTop: "Auto" }}>
+            <List>
+              {[
+                { text: "Parametres", iconPath: "/Assets/setting.png" },
+                { text: "Aide", iconPath: "/Assets/help.png" },
+                { text: "Deconnexion", iconPath: "/Assets/logout.png" },
+              ].map((item) => (
                 <ListItem key={item.text} disablePadding>
                   <ListItemButton
                     sx={{
-                      borderRadius: "10px", // More rounded corners
-                      color: "grey", // Initial text color
-                      padding: "6px 12px", // Adjust padding to control the size
-                      marginLeft: "10px", // Add some margin to the left
-                      marginRight: "10px", // Add some margin to the right
+                      borderRadius: "10px",
+                      color: "grey",
+                      padding: "6px 12px",
+                      marginLeft: "10px",
+                      marginRight: "10px",
                       ":hover": {
-                        backgroundColor: "primary.main", // Background color on hover
-                        color: "white", // Text color on hover to inverse the color scheme
+                        backgroundColor: "primary.main",
+                        color: "white",
                       },
                     }}
                     onClick={(event) => handleListItemClick(event, item.path)}
                   >
                     <ListItemIcon>
-                      {/* Assure-toi d'utiliser item.iconPath pour obtenir la valeur dynamique */}
                       <img
                         src={item.iconPath}
                         alt={item.text}
-                        style={{ maxWidth: 24, maxHeight: 24 }}
+                        style={{
+                          maxWidth: 24,
+                          maxHeight: 24,
+                          filter: "brightness(0) invert(1)",
+                        }}
                       />
                     </ListItemIcon>
                     <ListItemText primary={item.text} />
                   </ListItemButton>
                 </ListItem>
-              )
-            )}
-          </List>
-        </Box>
-      </Drawer>
+              ))}
+            </List>
+          </Box>
+        </Drawer>
+      </ThemeProvider>
+
+      <Box
+        sx={{
+          width: "160px",
+          height: "100vh",
+          position: "fixed",
+          left: 0,
+          top: 0,
+        }}
+        onMouseEnter={handleMouseEnter} // permet au drawer d'avoir une detection de souris au lieu de devoir utiliser un boutton
+      ></Box>
     </Box>
   );
 }

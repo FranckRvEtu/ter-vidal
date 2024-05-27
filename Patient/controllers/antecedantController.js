@@ -1,23 +1,41 @@
 const Antecedant= require("../models/antecedantModel.js");
 
-const addAntecedant = async (req, res) => {
+const Patient = require('../models/patientModel'); // Assurez-vous d'importer le modèle Patient
 
-    const { diagnostic, date, description } = req.body;
+const addAntecedant = async (req, res) => {
+    const { diagnostic, date, description , patientId } = req.body;
     try {
-        // Créer l'antecedant dans la base de données
-        const newAntecedant = new Antecedant({ 
-            diagnostic,
-            date,
-            description
+        // Créer un nouvel objet antécédant
+        const nouvelAntecedant = new Antecedant({
+            diagnostic: diagnostic,
+            date: date,
+            description: description
         });
 
-        await newAntecedant.save();
+        // Enregistrer l'antécédant et récupérer l'objet sauvegardé
+        const savedAntecedant = await nouvelAntecedant.save();
 
-        res.status(201).json({ id: newAntecedant.id });
+        // Rechercher le patient par son ID
+        const patient = await Patient.findById(patientId);
+        if (!patient) {
+            return res.status(404).json({ message: "Patient not found" });
+        }
+
+        // Ajouter l'ID de l'antécédant au tableau des antécédants du patient
+        await patient.antecedant.push(savedAntecedant._id);
+
+        // Sauvegarder les modifications du patient
+        await patient.save();
+        
+        res.status(201).json({ message: "Antecedant added successfully" });
     } catch (error) {
         console.error(error);
+        res.status(500).json({ message: "Internal server error" });
     }
 }
+
+
+
 
 const getAntecedant = async (req, res) => {
     try {

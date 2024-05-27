@@ -1,63 +1,115 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
-  ThemeProvider,
   Container,
   Box,
   TextField,
   Button,
-  Input,
+  Avatar,
   InputAdornment,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 export default function AddPatient() {
+  const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    firstname: "",
+    sexe: "",
+    birthdate: "",
+    BloodType: "",
+    height: "",
+    weight: "",
+    image: "",
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleDateChange = (newValue) => {
+    setFormData((prev) => ({
+      ...prev,
+      birthdate: newValue ? newValue.toISOString().substring(0, 10) : "",
+    }));
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        setFormData((prev) => ({ ...prev, image: e.target.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const patient = {
-      firstname: data.get("firstname"),
-      name: data.get("name"),
-      sexe: data.get("sex"),
-      birthdate: data.get("birthdate"),
-      BloodType: data.get("bloodtype"),
-      height: data.get("height"),
-      weight: data.get("weight"),
-      antecedant: [],
-      listIDOrdo: [],
-      listIDrdv: [],
-      listIDvisite: [],
-    };
-    
-
+    console.log("Submitting form");
+    console.log(formData);
     console.log(patient);
     axiosPrivate.post("http://localhost:11000/addPatient",
-      JSON.stringify({ patient }),
+      JSON.stringify({ patient: formData }),
     )
       .then((response) => {
-        if (response.ok) {
-          console.log("Patient bien ajouté", patient);
-        } else {
-          console.error("Erreur lors de l'envoi du patient");
+        if (response.status === 200) {
+          // Assurez-vous que la réponse indique que l'opération a réussi
+          return response.data; // Process the response data
         }
+        throw new Error("Network response was not ok."); // Throw error if response not ok
+      })
+      .then((data) => {
+        console.log("Success:", data);
+        navigate("/listePatient"); // Change this path to where you want to redirect
       })
       .catch((error) => {
-        console.error("Erreur lors de l'envoi du patient", error);
+        console.error("Error client:", error);
       });
   };
+
   return (
-    <Container component="main" maxWidth="md" sx={{ mt: 20 }}>
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+    <Container
+      component="main"
+      maxWidth="md"
+      sx={{
+        scale: 0.9,
+        mt: 0,
+        position: "fixed",
+        flexDirection: "column",
+        alignItems: "center",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%) scale(0.9)",
+        overflow: "auto",
+      }}
+    >
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        noValidate
+        sx={{ mt: 0, alignSelf: "center" }}
+      >
+        <Avatar
+          src={formData.image || "/path/to/default-avatar.jpg"}
+          sx={{ width: 100, height: 100, mb: 2 }}
+        />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="Date de naissance"
             name="birthdate"
             id="birthdate"
             views={["year", "month", "day"]}
+            value={formData.birthdate ? dayjs(formData.birthdate) : null}
+            onAccept={handleDateChange}
           />
         </LocalizationProvider>
 
@@ -71,6 +123,8 @@ export default function AddPatient() {
           name="firstname"
           autoComplete="firstname"
           autoFocus
+          color="primary"
+          onChange={handleChange}
         />
         <TextField
           variant="standard"
@@ -82,6 +136,7 @@ export default function AddPatient() {
           type="name"
           id="name"
           autoComplete="name"
+          onChange={handleChange}
         />
 
         <TextField
@@ -89,22 +144,24 @@ export default function AddPatient() {
           margin="normal"
           required
           fullWidth
-          name="sex"
-          label="Sex"
-          type="sex"
-          id="sex"
+          name="sexe"
+          label="Sexe"
+          type="sexe"
+          id="sexe"
           autoComplete="Sexe"
+          onChange={handleChange}
         />
         <TextField
           variant="standard"
           margin="normal"
           required
           fullWidth
-          name="bloodtype"
-          label="Bloodtype"
-          type="bloodtype"
-          id="bloodtype"
-          autoComplete="bloodtype"
+          name="BloodType"
+          label="BloodType"
+          type="BloodType"
+          id="BloodType"
+          autoComplete="BloodType"
+          onChange={handleChange}
         />
         <TextField
           variant="standard"
@@ -116,6 +173,7 @@ export default function AddPatient() {
           type="height"
           id="height"
           autoComplete="height"
+          onChange={handleChange}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">Cm</InputAdornment>
@@ -132,18 +190,30 @@ export default function AddPatient() {
           type="weight"
           id="weight"
           autoComplete="weight"
+          onChange={handleChange}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">Kg</InputAdornment>
             ),
           }}
         />
-
+        <input
+          accept="image/*"
+          style={{ display: "none" }}
+          id="raised-button-file"
+          type="file"
+          onChange={handleImageChange}
+        />
+        <label htmlFor="raised-button-file">
+          <Button variant="contained" component="span">
+            Upload Picture
+          </Button>
+        </label>
         <Button
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mt: 2, mb: 2 }}
         >
           Enregistrer Patient
         </Button>
