@@ -296,7 +296,7 @@ export default function PersistentDrawerLeft() {
                         color: "white",
                       },
                     }}
-                    onClick={(event) => handleListItemClick(event, item.text)}
+                    onClick={(event) => handleListItemClick(event, item.path)}
                   >
                     <ListItemIcon>
                       <img

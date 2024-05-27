@@ -1,12 +1,19 @@
 const express = require('express') 
 const cors = require('cors');
+const verifyJWT = require('../middleWare/verifyJWT')
+const credentials = require('../middleWare/credentiels.js');
+const corsOptions = require('./config/corsOptions');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 require('dotenv').config();
 require("./config/db_conn.js");
-app.use(cors());
+app.use(credentials);
+app.use(cors(corsOptions)); 
 app.use(express.json());
+app.use(cookieParser());
 
+app.use(verifyJWT);
 app.use("/", require("./routes/patientRoute.js"))
 app.use("/", require("./routes/antecedantRoute.js"))
 

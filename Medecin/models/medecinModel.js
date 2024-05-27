@@ -1,13 +1,14 @@
-import mongoose from 'mongoose';
-import antecedantSchema from './antecedantModel.js';
+const mongoose = require('mongoose');
 
-const MedecinSchema = new mongoose.Schema({
-    name : {type: String, required: true}, 
-    firstname : {type: String, required: true},
-    email : {type: Date, required: true},
-    tel : {type: String, required: true},
-    password : {type: Number, required: true},
+const medecinSchema = new mongoose.Schema({
+    nom : {type: String, required: true}, 
+    prenom : {type: String, required: true},
+    email : {type: String, required: true, unique: true},
+    tel : {type: String, required: true, unique: true},
+    password : {type: String, required: true, unique: true},
+    refreshToken : {type: String},
+
 });
 
-const Medecin = mongoose.model('Medecin', MedecinSchema);
-export default Medecin;
+const MedecinM = mongoose.model('medecin', medecinSchema);
+module.exports = MedecinM;    

@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Calendar from "../pages/Calendar";
+import { useLocation, useNavigate } from "react-router-dom";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const CalendarWrapper = () => {
-  console.log("calendarWrapper");
   const [listRDV, setListRDV] = useState([]);
+  const axiosPrivate = useAxiosPrivate();   
+  const location = useLocation();
+  const navigate = useNavigate();
+  const controller = new AbortController();
 
   const fetchPatientName = async (idPatient) => {
     let patientData;
     console.log("fetch patient est bien call");
     try {
-      const response = await fetch(
-        `http://localhost:5000/getPatient/${idPatient}`
+      const response = await axiosPrivate.get(
+        `http://localhost:5000/getPatient/${idPatient}`,
+        {signal : controller.signal}
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -24,6 +30,7 @@ const CalendarWrapper = () => {
       }
     } catch (error) {
       console.log("An error occurred:", error);
+      navigate("/login", {state: {from: location}, replace: true})
     }
 
     return patientData.name;
@@ -55,7 +62,9 @@ const CalendarWrapper = () => {
   const fetchRDV = async () => {
     console.log("fetch rdv est bien call");
     try {
-      const response = await fetch(`http://localhost:3000/getWeekRDV`);
+      const response = await axiosPrivate.get(`http://localhost:4000/getWeekRDV`, 
+      {signal : controller.signal}
+    );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -70,6 +79,7 @@ const CalendarWrapper = () => {
       }
     } catch (e) {
       console.error("Erreur lors de la récupération des RDV:", e);
+      //navigate("/login", {state: {from: location}, replace: true})
     }
   };
 

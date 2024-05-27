@@ -1,3 +1,7 @@
+import '../Style/Ordonnance.css';
+import mic from '../Assets/microphone-black-shape.png';
+import io from 'socket.io-client';
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import React, { useState, useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MicIcon from "@mui/icons-material/Mic";
@@ -28,6 +32,7 @@ function Ordonnance() {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const [isListening, setIsListening] = useState(false);
+  const axiosPrivate = useAxiosPrivate();  
   let [prescriptions, setPrescriptions] = useState([]);
   const [medicament, setMedicament] = useState("");
   const [posologie, setPosologie] = useState("");
@@ -55,14 +60,11 @@ function Ordonnance() {
   useEffect(() => {
     const getPatientData = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:11000/getPatient/${patientId}`,
-          {
-            method: "GET",
-          }
+        const response = await axiosPrivate.get(
+          `http://localhost:11000/getPatient/${patientId}`
         );
-        if (response.ok) {
-          const data = await response.json();
+        if (response.status === 200) {
+          const data = response.data;
           setPatient(data);
         }
       } catch (error) {
@@ -130,36 +132,24 @@ function Ordonnance() {
 
   const handleCreateOrdo = async () => {
     try {
-      const responsePre = await fetch(
+      const responsePre = await axiosPrivate.post(
         "http://localhost:3013/addManyPrescriptions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
+          JSON.stringify({
             prescriptions,
-          }),
-        }
-      );
-      if (responsePre.ok) {
-        const data = await responsePre.json();
+          }));
+      if (responsePre.data === 200) {
+        const data = responsePre.data;
         console.log("Prescriptions ajoutées avec succès");
         console.log("AddPresc", data);
 
-        const response = await fetch("http://localhost:3000/addOrdonnance", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
+        const response = await axiosPrivate.post("http://localhost:3000/addOrdonnance",
+          JSON.stringify({
             date: new Date(),
             idPatient: patientId,
             prescriptions: data,
-          }),
-        });
-        if (response.ok) {
-          const dataOrdo = await response.json();
+          }));
+        if (response.status === 200) {
+          const dataOrdo = response.data;
           console.log("Ordonnance créée avec succès");
           console.log("AddOrdo", dataOrdo);
           if (window.confirm("Voulez-vous télécharger l'ordonnance ?")) {

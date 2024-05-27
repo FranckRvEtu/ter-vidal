@@ -10,11 +10,13 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 
 export default function AddPatient() {
   const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -54,15 +56,14 @@ export default function AddPatient() {
     event.preventDefault();
     console.log("Submitting form");
     console.log(formData);
-    fetch("http://localhost:11000/addPatient", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ patient: formData }),
-    })
+    console.log(patient);
+    axiosPrivate.post("http://localhost:11000/addPatient",
+      JSON.stringify({ patient: formData }),
+    )
       .then((response) => {
-        if (response.ok) {
+        if (response.status === 200) {
           // Assurez-vous que la réponse indique que l'opération a réussi
-          return response.json(); // Process the response data
+          return response.data; // Process the response data
         }
         throw new Error("Network response was not ok."); // Throw error if response not ok
       })

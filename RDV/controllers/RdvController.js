@@ -37,15 +37,23 @@ const getRDV = async (req, res) => {
   }
 };
 
-const getAllRDVs = async (req, res) => {
+const getWeekRDV = async (req, res) => {
   try {
-    const rdvs = await RDV.find({});
-    res.json(rdvs);
+      const now = new Date();
+      const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+      const lastDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay() + 6));
+
+      const rdvs = await RDV.find({
+          date: {
+              $gte: firstDayOfWeek,
+              $lte: lastDayOfWeek
+          }
+      });
+
+      res.json(rdvs);
   } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la récupération des RDVs" });
+      console.error(error);
+      res.status(500).json({ message: "Erreur lors de la récupération des RDVs" });
   }
 };
 
@@ -122,7 +130,7 @@ module.exports = {
   addRDV,
   deleteRDV,
   updateRDV,
-  getAllRDVs,
+  getWeekRDV,
   getUpcomingRDVs,
   deleteRDVFromPatient,
   // Ajoutez les a

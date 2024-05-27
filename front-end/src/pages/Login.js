@@ -1,4 +1,3 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import {
   InputAdornment,
@@ -15,16 +14,59 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import React, { useState } from "react";
+import useAuth from "../hooks/useAuth";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "../../api/axios";
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      identifiant: data.get("identifiant"),
-      password: data.get("password"),
-    });
-  };
+
+export default function Login(){
+
+  const { setAuth } = useAuth();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  const controller = new AbortController();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  console.log("email", email);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      console.log("bloc try");
+
+      const response = await axios.post("http://localhost:11000/loginMedecin",
+        JSON.stringify({ email, password }),
+        {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true
+        }
+      );
+
+      console.log(JSON.stringify(response?.data));
+      if (response.status === 200) {
+        console.log("Login successful");
+        const data = response.data;
+        const accessToken = data.accessToken; //récupère le token
+        console.log("accessToken attribué:", accessToken);
+        setAuth({ email, password, accessToken}) //stocke les données de connexion
+        setEmail(""); //réinitialise les champs
+        setPassword(""); //réinitialise les champs
+        navigate(from, { replace: true }); //redirige vers la page précédente
+      } else {
+        console.log("Login failed", response.status);
+        alert("Login Failed", response.status);
+        window.location.href = "/login";
+        
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
   return (
     <Container component="main" maxWidth="md">
@@ -104,13 +146,14 @@ export default function SignIn() {
             <Box
               component="form"
               onSubmit={handleSubmit}
-              noValidate
+              noValidate  
               sx={{ mt: 1 }}
             >
               <TextField
                 sx={{ mb: 5 }}
                 variant="standard"
                 margin="normal"
+                onChange={(event) => setEmail(event.target.value)}
                 required
                 fullWidth
                 id="identifiant"
@@ -130,6 +173,7 @@ export default function SignIn() {
                 sx={{ mb: 15 }}
                 variant="standard"
                 margin="normal"
+                onChange={(event) => setPassword(event.target.value)}
                 required
                 fullWidth
                 name="password"
@@ -149,6 +193,7 @@ export default function SignIn() {
               <Button
                 type="submit"
                 fullWidth
+                onSubmit={handleSubmit}
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
@@ -168,4 +213,4 @@ export default function SignIn() {
       </Grid>
     </Container>
   );
-}
+};
