@@ -5,6 +5,7 @@ import HealingIcon from "@mui/icons-material/Healing";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import Popover from '@mui/material/Popover';
 import { fr } from "date-fns/locale";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 import {
   Button,
@@ -31,6 +32,7 @@ export default function DossierPatient({
   visites = [],
 }) {
   const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
 
   /*différentes fonction de handle pour les listes*/
 
@@ -85,25 +87,19 @@ export default function DossierPatient({
     const handleButtonClick = async () => {
       setDiagnostic(inputValue); // Cela met à jour l'état, mais n'est pas immédiatement accessible
 
-      const response = await fetch("http://localhost:11000/addAntecedant", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
+      const response = await axiosPrivate.post("http://localhost:11000/addAntecedant",
+          JSON.stringify({
             diagnostic:inputValue,
             date: new Date(),
             description: "kk",
             patientId:patientId
 
-          }),
-        });
-  
-      if (response.ok) {
-          const data = await response.json();
+          }));  
+      if (response.status === 200) {
+          const data = response.data;
           console.log("Antécédant ajouté avec succès avec l'ID :", data.id);
       } else {
-          console.error("Échec de l'ajout de l'antécédant", await response.text());
+          console.error("Échec de l'ajout de l'antécédant", await response.request.responseText);
       }
     };
 

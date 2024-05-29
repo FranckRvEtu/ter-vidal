@@ -3,13 +3,14 @@ import { useParams } from "react-router-dom";
 
 import { Container, Grid, TextField, Button, List, ListItem, ListItemText, Typography, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 function Antecedant() {
     const { patientId } = useParams();
 
   const [antecedant, setAntecedant] = useState("");
   const [antecedants, setAntecedants] = useState([]);
+  const axiosPrivate = useAxiosPrivate();
 
   const handleAddAntecedant = () => {
     if (antecedant.trim() !== "") {
@@ -30,20 +31,15 @@ function Antecedant() {
 
   
       for (let i = 0; i < antecedants.length; i++) {
-        const response = await fetch(`http://localhost:11000/addAntecedant/`, { // Ajoutez l'ID du patient à l'URL de la requête
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
+        const response = await axiosPrivate(`http://localhost:11000/addAntecedant/`,  // Ajoutez l'ID du patient à l'URL de la requête
+          JSON.stringify({
             diagnostic: antecedants[i], // Ici, j'ai utilisé le diagnostic comme nom de champ, vous pouvez ajuster si nécessaire
             date: new Date().toISOString(), // Utilise la date actuelle comme exemple, à remplacer par la date réelle si nécessaire
             description: "",
             patientId:patientId // Vous pouvez ajouter la description ici si nécessaire
-          })
-        });
-        if (response.ok) {
-          const data = await response.json();
+          }));
+        if (response.status === 200) {
+          const data = response.data;
           console.log("Antécédant ajouté avec succès avec l'ID :", data.id);
         } else {
           console.error("Échec de l'ajout de l'antécédant");

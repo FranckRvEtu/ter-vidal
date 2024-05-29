@@ -16,13 +16,13 @@ const HomeWrapper = () => {
   useEffect(() => {
     const fetchRDVs = async () => {
       try {
-        const response = await axiosPrivate("http://localhost:5000/getUpcomingRDVs", 
+        const response = await axiosPrivate.get("http://localhost:5000/getUpcomingRDVs", 
         {signal: controller.signal}
       );
-        if (!response.ok) {
+        if (!response.status === 200) {
           throw new Error("Network response was not ok");
         }
-        const data = await response.json();
+        const data = response.data;
         setRdvs(data);
         console.log("RDVs", data);
       } catch (error) {

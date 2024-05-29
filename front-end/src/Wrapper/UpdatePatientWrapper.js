@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import UpdatePatient from "../pages/UpdatePatient";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const UpdatePatientWrapper = () => {
   const [patientData, setPatientData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { patientId } = useParams();
+  const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
-    fetch(`http://localhost:11000/getPatient/${patientId}`)
+    axiosPrivate.get(`http://localhost:11000/getPatient/${patientId}`)
       .then((response) => {
-        if (!response.ok) {
+        if (!response.status === 200) {
           throw new Error("Network response was not ok");
         }
-        return response.json();
+        return response.data;
       })
       .then((data) => {
         setPatientData(data);

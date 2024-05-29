@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TextField, Button, Box, Avatar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const UpdatePatient = ({ patient }) => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ const UpdatePatient = ({ patient }) => {
     image: patient.image || "", // si le patient n'a pas d'image, on initialise à une chaîne vide
   });
   const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,13 +48,9 @@ const UpdatePatient = ({ patient }) => {
     console.log("Submitting form");
     e.preventDefault();
     if (allFieldsFilled) {
-      fetch(`http://localhost:11000/updatePatient/${patient._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
+      axiosPrivate.post(`http://localhost:11000/updatePatient/${patient._id}`,
+        JSON.stringify({formData})
+      )
         .then((response) => response.json())
         .then(() => navigate("/ListePatient")) // Redirect after update
         .catch((error) => console.error("Error pas de post:", error));

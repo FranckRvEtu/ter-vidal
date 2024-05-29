@@ -39,6 +39,23 @@
   }
 }
 
+.fc-daygrid-day-number, .fc-col-header-cell-cushion, .fc-timegrid-slot-label-cushion {
+  color: black !important;
+}
+
+.fc .fc-toolbar-chunk {
+  flex: 1 !important;
+  text-align: center;
+}
+
+.customPrevNext .fc-button {
+  margin-right: 10px;
+}
+
+.customViewButtons .fc-button {
+  margin-left: 10px;
+}
+
 .tooltip {
   border-radius: 10px; /* Bords arrondis */
   background-color: #fa7d57; /* Fond gris clair */

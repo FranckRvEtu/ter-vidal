@@ -25,7 +25,7 @@ export default function Calendar({ listRDV }) {
         "Lieu: " +
         info.event.extendedProps.department +
         " - " +
-        info.event.description,
+        info.event.title,
       placement: placement,
       trigger: "hover",
       container: "body",
@@ -45,9 +45,8 @@ export default function Calendar({ listRDV }) {
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView={"timeGridWeek"}
         headerToolbar={{
-          start: "prev,next",
-          center: "Liste rdv",
-          end: "timeGridWeek,timeGridDay",
+          start: "prev,next,timeGridWeek,timeGridDay",
+          end: "",
         }}
         firstDay={1} // Lundi premier jour de la semaine
         slotMinTime={"08:00:00"} // Début de la plage horaire à 8h
@@ -55,28 +54,7 @@ export default function Calendar({ listRDV }) {
         height={"auto"}
         locale="fr"
         allDaySlot={false} // Enlève la ligne "all day"
-        events={[
-          {
-            title: 'RDV Francky',
-            start: '2024-04-04T10:30:00',
-            end: '2024-04-04T11:30:00',
-            extendedProps: {
-              department: 'Lozère',
-            },
-            description: 'Description de l"événement'
-          },
-        
-          {
-            title: 'RDV Etienne',
-            start: '2024-04-03T08:30:00',
-            end: '2024-04-03T10:30:00',
-            extendedProps: {
-              department: 'Lozère',
-            },
-            description: 'Description de l"événement'
-          }
-          // more events ...
-        ]}
+        events={listRDV}
         eventMouseEnter={handleMouseEnter}
         eventMouseLeave={handleMouseLeave}
       />

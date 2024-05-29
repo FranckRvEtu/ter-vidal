@@ -12,25 +12,27 @@ const CalendarWrapper = () => {
 
   const fetchPatientName = async (idPatient) => {
     let patientData;
-    console.log("fetch patient est bien call");
+    console.log("fetch patient est bien call", idPatient);
     try {
       const response = await axiosPrivate.get(
-        `http://localhost:5000/getPatient/${idPatient}`,
+        `http://localhost:11000/getPatient/${idPatient}`,
         {signal : controller.signal}
       );
-      if (!response.ok) {
+      if (!response.status === 200) {
         throw new Error("Network response was not ok");
-      }
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.indexOf("application/json") !== -1) {
-        patientData = await response.json();
-        console.log("pdata", patientData.name);
-      } else {
-        console.log("not json!");
+      }else{
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          patientData = response.data;
+          console.log("pdata1", patientData);
+          console.log("pdata", patientData.name);
+        } else {
+          console.log("not json!");
+        }
       }
     } catch (error) {
       console.log("An error occurred:", error);
-      navigate("/login", {state: {from: location}, replace: true})
+      //navigate("/login", {state: {from: location}, replace: true})
     }
 
     return patientData.name;
@@ -62,15 +64,15 @@ const CalendarWrapper = () => {
   const fetchRDV = async () => {
     console.log("fetch rdv est bien call");
     try {
-      const response = await axiosPrivate.get(`http://localhost:4000/getWeekRDV`, 
+      const response = await axiosPrivate.get(`http://localhost:5000/getWeekRDV`, 
       {signal : controller.signal}
     );
-      if (!response.ok) {
+      if (!response.status === 200) {
         throw new Error("Network response was not ok");
       }
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.indexOf("application/json") !== -1) {
-        const listRDV = await response.json();
+        const listRDV = response.data;
         const newl = await convertlist(listRDV);
         console.log("LIST RDV", newl);
         setListRDV(newl);
