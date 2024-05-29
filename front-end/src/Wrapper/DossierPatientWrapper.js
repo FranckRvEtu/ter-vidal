@@ -13,7 +13,7 @@ const DossierPatientWrapper = () => {
   const [visites, setVisites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const axiosPrivate = useAxiosPrivate();   
+  const axiosPrivate = useAxiosPrivate();
   const location = useLocation();
   const navigate = useNavigate();
   const controller = new AbortController();
@@ -26,10 +26,10 @@ const DossierPatientWrapper = () => {
           `http://localhost:11000/getPatient/${patientId}`,
           { signal: controller.signal }
         );
-        if (!response.ok) {
+        if (!response.status === 200) {
           throw new Error("Network response was not ok");
         }
-        const patientData = await response.json();
+        const patientData = response.data;
         console.log("PATIENT DATA");
         console.log(patientData);
         setPatientData(patientData);
@@ -65,14 +65,16 @@ const DossierPatientWrapper = () => {
     const fetchOrdonnances = async (ids) => {
       try {
         const promises = ids.map((id) =>
-          axiosPrivate.get(`http://localhost:3000/getOrdonnance/${id}`, {signal : controller.signal}).then(
-            (response) => {
-              if (!response.ok)
+          axiosPrivate
+            .get(`http://localhost:3000/getOrdonnance/${id}`, {
+              signal: controller.signal,
+            })
+            .then((response) => {
+              if (!response.status === 200)
                 throw new Error(`Failed to fetch ordonnance with ID: ${id}`);
 
-              return response.json();
-            }
-          )
+              return response.data;
+            })
         );
         const ordonnancesData = await Promise.all(promises);
         console.log("ORDONNANCES");
@@ -88,11 +90,15 @@ const DossierPatientWrapper = () => {
     const fetchRdvs = async (ids) => {
       try {
         const promises = ids.map((id) =>
-          axiosPrivate.get(`http://localhost:4000/getRDV/${id}`, {signal : controller.signal}).then((response) => {
-            if (!response.ok)
-              throw new Error(`Failed to fetch RDV with ID: ${id}`);
-            return response.json();
-          })
+          axiosPrivate
+            .get(`http://localhost:5000/getRDV/${id}`, {
+              signal: controller.signal,
+            })
+            .then((response) => {
+              if (!response.status === 200)
+                throw new Error(`Failed to fetch RDV with ID: ${id}`);
+              return response.data;
+            })
         );
         const rdvsData = await Promise.all(promises);
         console.log("RDVS");
@@ -108,14 +114,16 @@ const DossierPatientWrapper = () => {
     const fetchAntecedants = async (ids) => {
       try {
         const promises = ids.map((id) =>
-          axiosPrivate.get(`http://localhost:11000/getAntecedant/${id}`, {signal : controller.signal}).then(
-            (response) => {
-              if (!response.ok)
+          axiosPrivate
+            .get(`http://localhost:11000/getAntecedant/${id}`, {
+              signal: controller.signal,
+            })
+            .then((response) => {
+              if (!response.status === 200)
                 throw new Error(`Failed to fetch antecedant with ID: ${id}`);
 
-              return response.json();
-            }
-          )
+              return response.data;
+            })
         );
         const antecedantsData = await Promise.all(promises);
         console.log("ANTCEDANTS");
@@ -129,12 +137,16 @@ const DossierPatientWrapper = () => {
     const fetchVisites = async (ids) => {
       try {
         const promises = ids.map((id) =>
-          axiosPrivate.get(`http://localhost:8000/getVisite/${id}`, {signal : controller.signal}).then((response) => {
-            if (!response.ok)
-              throw new Error(`Failed to fetch visite with ID: ${id}`);
+          axiosPrivate
+            .get(`http://localhost:8000/getVisite/${id}`, {
+              signal: controller.signal,
+            })
+            .then((response) => {
+              if (!response.status === 200)
+                throw new Error(`Failed to fetch visite with ID: ${id}`);
 
-            return response.json();
-          })
+              return response.data;
+            })
         );
         const visitesData = await Promise.all(promises);
         console.log("VISITES");

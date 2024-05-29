@@ -17,11 +17,13 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import iconPeople from "../../public/Assets/anonyme.jpg";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 export default function ListePatient({ patientsInitiaux = [] }) {
   const navigate = useNavigate();
   const [recherche, setRecherche] = useState("");
   const [patientsAffiches, setPatientsAffiches] = useState(patientsInitiaux);
+  const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
     let resultats = [...patientsInitiaux];
@@ -45,16 +47,16 @@ export default function ListePatient({ patientsInitiaux = [] }) {
   };
 
   const handleDelete = async (id) => {
-    fetch(`http://localhost:11000/deletePatient/${id}`, {
-      method: "GET",
-    }).then((response) => {
-      if (response.ok) {
-        window.alert("Patient supprimé avec succès");
-        window.location.reload();
-      } else {
-        console.error("Erreur lors de la suppression du patient");
-      }
-    });
+    axiosPrivate
+      .get(`http://localhost:11000/deletePatient/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          window.alert("Patient supprimé avec succès");
+          window.location.reload();
+        } else {
+          console.error("Erreur lors de la suppression du patient");
+        }
+      });
   };
   const deleteRDVs = async (idPatient) => {
     if (
@@ -63,14 +65,14 @@ export default function ListePatient({ patientsInitiaux = [] }) {
       )
     ) {
       try {
-        await fetch(`http://localhost:5000/deleteRDVFromPatient/${idPatient}`, {
-          method: "GET",
-        }).then((response) => {
-          if (response.ok) {
-            console.log("RDVs supprimés avec succès");
-            handleDelete(idPatient);
-          }
-        });
+        await axiosPrivate
+          .get(`http://localhost:5000/deleteRDVFromPatient/${idPatient}`)
+          .then((response) => {
+            if (response.status === 200) {
+              console.log("RDVs supprimés avec succès");
+              handleDelete(idPatient);
+            }
+          });
       } catch (error) {
         console.error(error);
       }
