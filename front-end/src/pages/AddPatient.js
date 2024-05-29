@@ -56,10 +56,11 @@ export default function AddPatient() {
     event.preventDefault();
     console.log("Submitting form");
     console.log(formData);
-    console.log(patient);
-    axiosPrivate.post("http://localhost:11000/addPatient",
-      JSON.stringify({ patient: formData }),
-    )
+    axiosPrivate
+      .post(
+        "http://localhost:11000/addPatient",
+        JSON.stringify({ patient: formData })
+      )
       .then((response) => {
         if (response.status === 200) {
           // Assurez-vous que la réponse indique que l'opération a réussi

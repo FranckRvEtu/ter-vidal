@@ -4,12 +4,10 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import {AuthProvider} from "./context/AuthProvider";
+import { AuthProvider } from "./context/AuthProvider";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import theme from "./theme";  
-import { Drawer } from "@mui/material";
-
+import theme from "./theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -17,13 +15,13 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-          <Router>
-            <AuthProvider>
-              <Routes>
-                  <Route path="/*" element={<App />} />
-              </Routes>
-            </AuthProvider>
-          </Router>
+      <Router>
+        <AuthProvider>
+          <Routes>
+            <Route path="/*" element={<App />} />
+          </Routes>
+        </AuthProvider>
+      </Router>
     </ThemeProvider>
   </React.StrictMode>
 );

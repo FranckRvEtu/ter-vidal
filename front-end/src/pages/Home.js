@@ -81,13 +81,6 @@ const HomePage = ({ appointments }) => {
           width: "auto",
         }}
       >
-        <Typography
-          variant="h6"
-          color="text.secondary"
-          className="card-category"
-        >
-          Medication Usage
-        </Typography>
         <Stat />
       </Box>
     </Box>

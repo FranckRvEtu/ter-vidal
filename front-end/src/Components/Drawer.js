@@ -281,7 +281,11 @@ export default function PersistentDrawerLeft() {
               {[
                 { text: "Parametres", iconPath: "/Assets/setting.png" },
                 { text: "Aide", iconPath: "/Assets/help.png" },
-                { text: "Deconnexion", iconPath: "/Assets/logout.png" },
+                {
+                  text: "Deconnexion",
+                  iconPath: "/Assets/logout.png",
+                  path: "/logout",
+                },
               ].map((item) => (
                 <ListItem key={item.text} disablePadding>
                   <ListItemButton

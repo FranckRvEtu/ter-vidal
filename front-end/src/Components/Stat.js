@@ -14,6 +14,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 // Register required Chart.js components
 ChartJS.register(
@@ -55,11 +56,14 @@ const StyledChart = styled(Chart)(({ theme }) => ({
 
 function MedicationUsageChart({ title, subheader }) {
   const [chartData, setChartData] = useState(null);
+  const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
     const fetchStats = async () => {
-      const response = await fetch("http://localhost:3013/allPrescriptions");
-      const jsonData = await response.json();
+      const response = await axiosPrivate.get(
+        "http://localhost:3013/allPrescriptions"
+      );
+      const jsonData = response.data;
       console.log("Fetched data:", jsonData);
 
       const medicationCounts = {};
@@ -139,12 +143,6 @@ function MedicationUsageChart({ title, subheader }) {
           height: "40%",
         }}
       >
-        <CardHeader>
-          <Typography variant="h5" className="card-category">
-            Medication Usage
-          </Typography>
-          <Typography variant="h2">Distribution</Typography>
-        </CardHeader>
         <CardContent>
           <div className="chart-area">
             <StyledChart

@@ -19,9 +19,7 @@ import useAuth from "../hooks/useAuth";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "../../api/axios";
 
-
-export default function Login(){
-
+export default function Login() {
   const { setAuth } = useAuth();
 
   const navigate = useNavigate();
@@ -35,15 +33,16 @@ export default function Login(){
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       console.log("bloc try");
 
-      const response = await axios.post("http://localhost:11000/loginMedecin",
+      const response = await axios.post(
+        "http://localhost:9000/loginMedecin",
         JSON.stringify({ email, password }),
         {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
         }
       );
 
@@ -53,7 +52,7 @@ export default function Login(){
         const data = response.data;
         const accessToken = data.accessToken; //récupère le token
         console.log("accessToken attribué:", accessToken);
-        setAuth({ email, password, accessToken}) //stocke les données de connexion
+        setAuth({ email, password, accessToken }); //stocke les données de connexion
         setEmail(""); //réinitialise les champs
         setPassword(""); //réinitialise les champs
         navigate(from, { replace: true }); //redirige vers la page précédente
@@ -61,12 +60,11 @@ export default function Login(){
         console.log("Login failed", response.status);
         alert("Login Failed", response.status);
         window.location.href = "/login";
-        
       }
     } catch (error) {
       console.error("Error:", error);
     }
-  }
+  };
 
   return (
     <Container component="main" maxWidth="md">
@@ -79,10 +77,10 @@ export default function Login(){
               my: 8,
               p: 3,
               backgroundColor: "primary.main",
-              backgroundImage: 'url("/Assets/a.png")',
+              backgroundImage: 'url("/Assets/doc.jpg")',
               backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-              backgroundSize: "cover",
+              backgroundPosition: "center bottom", // Aligner l'image de fond au centre en bas
+              backgroundSize: "auto 100%", // Couvrir toute la largeur et 90% de la hauteur
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -90,21 +88,9 @@ export default function Login(){
               width: "100%",
               height: "80vh",
               color: "white",
+              transform: "scale()",
             }}
-          >
-            <Typography variant="body2" color="textSecondary" align="center">
-              © 2024 Nom app. Tous droits réservés.
-            </Typography>
-            <Typography
-              variant="h3"
-              sx={{
-                color: "Black",
-                marginTop: "auto",
-                textAlign: "center",
-                fontFamily: "Open Sans, sans-serif",
-              }}
-            ></Typography>
-          </Paper>
+          ></Paper>
         </Grid>
         <Grid item xs={12} md={6}>
           <Paper
@@ -139,14 +125,11 @@ export default function Login(){
             </Paper>
 
             <Divider sx={{ mt: 2, mb: 2 }} />
-            <Avatar
-              src="/Assets/steto.png"
-              sx={{ width: 50, height: 50, margin: "auto", color: "fill" }}
-            />
+
             <Box
               component="form"
               onSubmit={handleSubmit}
-              noValidate  
+              noValidate
               sx={{ mt: 1 }}
             >
               <TextField
@@ -170,7 +153,7 @@ export default function Login(){
                 }}
               />
               <TextField
-                sx={{ mb: 15 }}
+                sx={{ mb: 3 }}
                 variant="standard"
                 margin="normal"
                 onChange={(event) => setPassword(event.target.value)}
@@ -195,7 +178,7 @@ export default function Login(){
                 fullWidth
                 onSubmit={handleSubmit}
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 1, mb: 1 }}
               >
                 Connexion
               </Button>
@@ -205,6 +188,14 @@ export default function Login(){
                   <Link href="#" variant="body2">
                     Mot de passe oublié?
                   </Link>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    align="center"
+                    sx={{ mt: 6 }}
+                  >
+                    © 2024 Nom app. Tous droits réservés.
+                  </Typography>
                 </Grid>
               </Grid>
             </Box>
@@ -213,4 +204,4 @@ export default function Login(){
       </Grid>
     </Container>
   );
-};
+}
