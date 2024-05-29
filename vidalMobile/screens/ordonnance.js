@@ -40,7 +40,7 @@ export default function Ordonnance({navigation}){
 
     const handleCreateOrdo = async () => {
         try {
-          const responsePre = await fetch("http://192.168.1.7:3013/addManyPrescriptions", {
+          const responsePre = await fetch("http://172.20.10.2:3013/addManyPrescriptions", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export default function Ordonnance({navigation}){
             console.log("Prescriptions ajoutées avec succès");
             console.log("AddPresc",data);
     
-            const response = await fetch("http://192.168.1.7:3000/addOrdonnance", {
+            const response = await fetch("http://172.20.10.2:3000/addOrdonnance", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

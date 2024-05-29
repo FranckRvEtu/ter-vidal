@@ -1,32 +1,27 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, FlatList, Button, ScrollView, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import axios from 'axios';
 import Header from '../components/header';
 import RdvItem from '../components/rdvItem';
 
-export default function HomePage(){
+const { width } = Dimensions.get('window');
+const ITEM_WIDTH = (width - 46) / 2; // Ajuster la taille en fonction de votre préférence
+
+export default function HomePage() {
     const [rdvs, setRdvs] = useState([]);
+    const [refresh, setRefresh] = useState(false);
 
     const fetchUpcomingRDVs = async () => {
         try {
-            const rdv = await axios.get('http://192.168.226.157:5000/getUpcomingRDVs');
+            const rdv = await axios.get('http://172.20.10.2:5000/getUpcomingRDVs');
             const data = rdv.data;
-            console.log("fetch fini : "+data.length);
+            console.log("fetch fini : " + data.length);
             setRdvs(data);
-            // for (const rdv of rdvs) {
-            //     const patient = await axios.get('http://192.168.226.157:11000/getPatient/'+rdv.idPatient);
-            //     const data = patient.data;
-            //     console.log("patient "+data.firstname+" "+data.name+" recup");
-            //     const obj = {id: rdv._id, data: data};
-            //     setPatients({...patients, obj});
-            // }
-        }catch(error){
+        } catch (error) {
             console.error(error);
         }
     };
-
-
 
     useEffect(() => {
         if (rdvs.length === 0) {
@@ -34,28 +29,47 @@ export default function HomePage(){
         }
     }, []);
 
+    const toggleRefresh = () => {
+        setRefresh(!refresh);
+    };
+
     return (
         <View style={styles.container}>
-            <Button title="Gros test" onPress={()=>console.log("Bouton Test : "+rdvs.length)} />
             <StatusBar style="auto" />
             <Header />
-            <FlatList 
-                data = {rdvs}
-                keyExtractor={item=>item._id}
-                renderItem={({item}) => (
-                    <RdvItem rdv={item} />
+            <FlatList
+                data={rdvs}
+                keyExtractor={item => item._id}
+                style={{ flex: 1}}
+                
+                extraData={refresh}
+                renderItem={({ item }) => (
+                    <View style={styles.itemContainer}>
+                        <RdvItem rdv={item} />
+                    </View>
                 )}
-            
+                columnWrapperStyle={styles.columnWrapperStyle}
+                numColumns={2}
             />
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    title: {
-        fontSize:30,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        margin: 20
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    itemContainer: {
+        width: ITEM_WIDTH,
+        height: ITEM_WIDTH, // Pour garder un carré
+        marginVertical: 8, // Réduire l'écart vertical
+        marginHorizontal: 9, // Ajuster la marge horizontale
+        
+        borderRadius: 0,
+        overflow: 'hidden', // Pour s'assurer que le contenu ne dépasse pas les bords arrondis
+    },
+    columnWrapperStyle: {
+        justifyContent: 'space-between',
     },
 });

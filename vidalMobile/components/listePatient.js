@@ -13,7 +13,7 @@ export default function ListePatient({navigation}) {
 
     const fetchPatient = async () => {
       try {
-        const patient = await axios.get('http://192.168.226.157:11000/allPatients');
+        const patient = await axios.get('http://172.20.10.2:11000/allPatients');
         const data = patient.data;
         console.log("fetch fini");
         setPatients(data);

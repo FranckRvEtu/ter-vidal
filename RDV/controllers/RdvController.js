@@ -91,7 +91,7 @@ const getUpcomingRDVs = async (req, res) => {
       date: { $gt: now }, // Utilise $gt pour filtrer les documents où la date est plus grande (postérieure) à maintenant
     })
       .sort("date")
-      .limit(3); // Trie les RDVs par date dans l'ordre croissant et limite à 3
+      .limit(10); // Trie les RDVs par date dans l'ordre croissant et limite à 3
 
     res.json(upcomingRDVs);
   } catch (error) {
