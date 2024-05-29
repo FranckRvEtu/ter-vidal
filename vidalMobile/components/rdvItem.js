@@ -7,7 +7,7 @@ export default function RdvItem({ rdv }) {
 
     const fetchPatient = async () => {
         try {
-            const response = await axios.get(`http://172.20.10.2:11000/getPatient/${rdv.idPatient}`);
+            const response = await axios.get(`http://192.168.88.157:11000/getPatient/${rdv.idPatient}`);
             const data = response.data;
             console.log("patient " + data.firstname + " " + data.name + " recup");
             setPatient(data);
@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
         marginBottom: 5, 
         fontWeight: 'bold', // Utilisez fontWeight pour le gras
         textAlign: 'center',// Align text to the left
-        fontFamily:'Calibri'
     },
     icon: {
         width: 20,  // Définissez la largeur de l'icône

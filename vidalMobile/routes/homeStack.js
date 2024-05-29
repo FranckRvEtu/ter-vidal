@@ -2,8 +2,9 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import ListePatient from "../components/listePatient";
 import Ordonnance from "../screens/ordonnance";
-import Flavio from "../screens/flavio";
 import HomePage from "../screens/home";
+import ListeRDV from "../screens/listeRDV";
+
 
 const screens = {
     Home : {
@@ -12,8 +13,11 @@ const screens = {
     Ordonnance : {
         screen : Ordonnance
     },
-    Juif : {
-        screen : Flavio
+    Patients : {
+        screen : ListePatient
+    },
+    RDV : {
+        screen : ListeRDV
     }
 }
 

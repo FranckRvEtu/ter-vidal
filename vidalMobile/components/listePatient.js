@@ -5,7 +5,6 @@ import axios from 'axios';
 import PatientItem from './patientItem';
 import Header from './header';
 import Ordonnance from '../screens/ordonnance';
-import Juif from '../screens/flavio';
 
 
 export default function ListePatient({navigation}) {
@@ -13,7 +12,7 @@ export default function ListePatient({navigation}) {
 
     const fetchPatient = async () => {
       try {
-        const patient = await axios.get('http://172.20.10.2:11000/allPatients');
+        const patient = await axios.get('http://192.168.88.157:11000/allPatients');
         const data = patient.data;
         console.log("fetch fini");
         setPatients(data);
