@@ -80,7 +80,7 @@ const DossierPatientWrapper = () => {
     const fetchRdvs = async (ids) => {
       try {
         const promises = ids.map((id) =>
-          fetch(`http://localhost:5000/getRDV/${id}`).then((response) => {
+          fetch(`http://localhost:5555/getRDV/${id}`).then((response) => {
             if (!response.ok)
               throw new Error(`Failed to fetch RDV with ID: ${id}`);
             return response.json();

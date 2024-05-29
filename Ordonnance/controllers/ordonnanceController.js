@@ -77,23 +77,28 @@ const updateOrdonnance = async (req, res) => {
     const ordonnance = await Ordonnance.findByIdAndUpdate(id, update, {
       new: true,
     });
+
     if (!ordonnance) {
       console.log("Ordonnance pas trouvé");
+      res.status(404).json({ message: "Ordonnance not found" });
+      return;
     }
+
+    res.json(ordonnance);
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "An error occurred while updating the Ordonnance" });
   }
 };
 
 const deleteOrdonnance = async (req, res) => {
-  const { id } = req.params;
-
   try {
+    const { id } = req.params;
     const ordonnance = await Ordonnance.findByIdAndDelete(id);
     if (!ordonnance) {
       return res.status(404).json({ message: "Ordonnance pas trouvé" });
     }
-    res.status(204).json({ message: "Ordonnance supprimé avec succès" });
+    res.status(204).json({ message: "Ordonnance supprimée avec succès" });
   } catch (error) {
     console.error(error);
     res
@@ -108,5 +113,4 @@ module.exports = {
   deleteOrdonnance,
   getAllOrdonnances,
   updateOrdonnance,
-  // Ajoutez les a
 };

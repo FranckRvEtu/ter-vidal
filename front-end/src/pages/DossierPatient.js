@@ -5,7 +5,9 @@ import HealingIcon from "@mui/icons-material/Healing";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import Popover from '@mui/material/Popover';
 import { fr } from "date-fns/locale";
-
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import { Grid } from "@mui/material";
 import {
   Button,
   Hidden,
@@ -36,8 +38,9 @@ export default function DossierPatient({
 
   const handleOrdonnanceClick = (id) => {
     console.log(
-      `Ordonnance ID: ${id} cliqué. Effectuer une requête pour récupérer les détails.`
+      `Ordonnance ID: ${id} cliqué.`
     );
+    navigate(`/getOrdonnance/${id}`);
   };
 
   const handleVisiteClick = (id) => {
@@ -292,24 +295,28 @@ export default function DossierPatient({
                 }}
               >
                 {ordonnances &&
-                  ordonnances.map((ordonnance) => (
-                    <ListItem
-                      key={ordonnance._id}
-                      sx={{ marginBottom: 1 }}
-                      button
-                      onClick={() => handleOrdonnanceClick(ordonnance._id)}
-                    >
-                      <ListItemText
-                        primary={` ${format(
-                          new Date(ordonnance.date),
-                          "d MMMM yyyy",
-                          {
-                            locale: fr,
-                          }
-                        )}`}
-                      />
-                    </ListItem>
-                  ))}
+                  ordonnances.map((ordonnance) => 
+                    ordonnance && (
+                      <div key={ordonnance._id}>
+                        <ListItem
+                          sx={{ marginBottom: 1 }}
+                          button
+                          onClick={() => handleOrdonnanceClick(ordonnance._id)}
+                        >
+                          <ListItemText
+                            primary={` ${format(
+                              new Date(ordonnance.date),
+                              "d MMMM yyyy",
+                              {
+                                locale: fr,
+                              }
+                            )}`}
+                          />
+                        </ListItem>
+                      </div>
+                    )
+                  )
+                }
               </List>
             </Paper>
           </Grid>
