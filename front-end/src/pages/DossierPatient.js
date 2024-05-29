@@ -6,8 +6,6 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import Popover from '@mui/material/Popover';
 import { fr } from "date-fns/locale";
 import { format } from "date-fns";
-import { useNavigate } from "react-router-dom";
-import { Grid } from "@mui/material";
 import {
   Button,
   Hidden,
@@ -20,7 +18,6 @@ import {
   ListItemText,
   Divider,
 } from "@mui/material";
-import { format } from "date-fns";
 import { useState } from 'react';
 import { useNavigate,useParams } from "react-router-dom";
 import { Grid,TextField } from "@mui/material";
@@ -105,6 +102,7 @@ export default function DossierPatient({
       if (response.ok) {
           const data = await response.json();
           console.log("Antécédant ajouté avec succès avec l'ID :", data.id);
+          window.location.reload();
       } else {
           console.error("Échec de l'ajout de l'antécédant", await response.text());
       }

@@ -16,6 +16,7 @@ import HomeWrapper from "./Wrapper/HomeWrapper";
 import UpdatePatientWrapper from "./Wrapper/UpdatePatientWrapper";
 import GetOrdonnance from "./pages/GetOrdonnance";
 import UpdateOrdonnance from "./pages/UpdateOrdonnance";
+import Stat from "./Components/Stat";
 
 function App() {
   return (

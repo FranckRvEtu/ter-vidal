@@ -5,7 +5,8 @@ import { fr } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import Stat from "../Components/Stat";
+//import Stat from "../Components/Stat";
+import MedicationUsageChart from '../Components/Stat';
 
 const HomePage = ({ appointments }) => {
   const navigate = useNavigate();
@@ -88,7 +89,7 @@ const HomePage = ({ appointments }) => {
         >
           Medication Usage
         </Typography>
-        <Stat />
+        <MedicationUsageChart />
       </Box>
     </Box>
   );
